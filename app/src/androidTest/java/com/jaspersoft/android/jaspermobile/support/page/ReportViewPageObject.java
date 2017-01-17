@@ -36,8 +36,6 @@ import com.jaspersoft.android.sdk.widget.base.ResourceWebView;
 
 import org.hamcrest.Matcher;
 
-import java.util.concurrent.TimeUnit;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -107,8 +105,7 @@ public class ReportViewPageObject extends PageObject {
         onView(withClassName(is(ResourceWebView.class.getName()))).
                 perform(watch(isDisplayed(), WatchPeriod.LONG));
         onWebView()
-                .withElement(findElement(Locator.CSS_SELECTOR, ".visualizejs._jr_report_container_"))
-                .withTimeout(2, TimeUnit.MINUTES)
+                .withElement(findElement(Locator.ID, "container"))
                 .check(webMatches(getText(), containsString(keyWord)));
     }
 
