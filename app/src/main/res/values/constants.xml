@@ -45,6 +45,7 @@
     <string name="ja_rvs_v" translatable="false">Report viewer screen (visualize)</string>
     <string name="ja_rvs_r" translatable="false">Report viewer screen (REST)</string>
     <string name="ja_s_hf_s" translatable="false">Saved html files screen</string>
+    <string name="ja_l_wr_s" translatable="false">Local web resources screen</string>
     <string name="ja_dvs_v" translatable="false">Dashboard viewer screen (visualize)</string>
     <string name="ja_dvs_hn" translatable="false">Dashboard viewer screen (HTTP new)</string>
     <string name="ja_dvs_ho" translatable="false">Dashboard viewer screen (HTTP old)</string>
