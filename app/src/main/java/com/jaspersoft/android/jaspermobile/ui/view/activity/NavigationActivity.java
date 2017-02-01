@@ -82,7 +82,7 @@ import javax.inject.Inject;
  * @since 1.0
  */
 @EActivity(R.layout.activity_navigation)
-public class NavigationActivity extends CastActivity implements HasComponent<NavigationActivityComponent>, NavigationContract.View {
+public class NavigationActivity extends ActionBarCastActivity implements HasComponent<NavigationActivityComponent>, NavigationContract.View {
 
     private static final int NEW_ACCOUNT = 20;
 

@@ -25,6 +25,7 @@
 package com.jaspersoft.android.jaspermobile.util.cast;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.MediaRouteControllerDialog;
 import android.view.LayoutInflater;
@@ -36,12 +37,13 @@ import android.widget.TextView;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 import com.jaspersoft.android.jaspermobile.R;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-public class ResourceCastDialog extends MediaRouteControllerDialog implements ResourcePresentationService.ResourcePresentationCallback {
-
+public class ResourceCastDialog extends MediaRouteControllerDialog implements ResourcePresentationService.ResourceCastStateCallback {
     private TextView resourceLabel;
     private ImageView resourceThumbnail;
     private ImageButton stopCastingResource;
@@ -62,7 +64,7 @@ public class ResourceCastDialog extends MediaRouteControllerDialog implements Re
         stopCastingResource.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getResourcePresentationService().closeCurrentPresentation();
+                getResourcePresentationService().stopCasting();
             }
         });
 
@@ -72,84 +74,42 @@ public class ResourceCastDialog extends MediaRouteControllerDialog implements Re
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        getResourcePresentationService().addResourcePresentationCallback(this);
-        getResourcePresentationService().fetchState(this);
+        syncReportCastState();
+        ResourcePresentationService.setResourceCastStateCallback(this);
     }
 
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        ResourcePresentationService.setResourceCastStateCallback(null);
+    }
 
-        ResourcePresentationService resourcePresentationService = getResourcePresentationService();
-        if (resourcePresentationService != null) {
-            getResourcePresentationService().removeResourcePresentationCallback(this);
+    public void syncReportCastState(){
+        ResourcePresentationService presentationService = getResourcePresentationService();
+        String currentReport = presentationService.getCurrentReportName();
+        if (currentReport == null) {
+            resourceLabel.setText(R.string.cast_ready_message);
+            stopCastingResource.setVisibility(View.GONE);
+            resourceThumbnail.setVisibility(View.GONE);
+        } else {
+            resourceLabel.setText(currentReport);
+            stopCastingResource.setVisibility(View.VISIBLE);
+            Bitmap thumbnail = presentationService.getThumbnail();
+            resourceThumbnail.setVisibility(thumbnail == null ? View.GONE : View.VISIBLE);
+            resourceThumbnail.setImageBitmap(thumbnail == null ? null : thumbnail);
         }
     }
 
-    @Override
-    public void onCastStarted() {
-        resourceLabel.setText(R.string.r_pd_initializing_msg);
-        resourceThumbnail.setVisibility(View.GONE);
-        stopCastingResource.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void onInitializationDone() {
-        resourceLabel.setText(R.string.cast_ready_message);
-        resourceThumbnail.setVisibility(View.GONE);
-        stopCastingResource.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void onLoadingStarted() {
-        resourceLabel.setText(R.string.r_pd_running_report_msg);
-        resourceThumbnail.setVisibility(View.GONE);
-        stopCastingResource.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onPresentationBegun() {
-        resourceLabel.setText(getResourcePresentationService().getCurrentResourceLabel());
-        stopCastingResource.setVisibility(View.VISIBLE);
-        resourceThumbnail.setVisibility(View.VISIBLE);
-        resourceThumbnail.setImageBitmap(getResourcePresentationService().getCurrentResourceThumbnail());
-    }
-
-    @Override
-    public void onMultiPage() {
-
-    }
-
-    @Override
-    public void onPageCountObtain(int pageCount) {
-
-    }
-
-    @Override
-    public void onPageChanged(int pageNumb, String errorMessage) {
-
-    }
-
-    @Override
-    public void onErrorOccurred(String errorMessage) {
-        resourceLabel.setText(errorMessage);
-        resourceThumbnail.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onAuthErrorOccurred() {
-        onErrorOccurred(getContext().getString(R.string.da_session_expired));
-    }
-
-    @Override
-    public void onCastStopped() {
-        dismiss();
-    }
-
+    @NotNull
     private ResourcePresentationService getResourcePresentationService() {
         CastRemoteDisplayLocalService localService = ResourcePresentationService.getInstance();
-        if (localService == null) return null;
+        if (localService == null) throw new IllegalStateException("Resource Presentation Service is null");
 
         return (ResourcePresentationService) ResourcePresentationService.getInstance();
+    }
+
+    @Override
+    public void onCastStateChanged() {
+        syncReportCastState();
     }
 }

@@ -33,7 +33,6 @@ import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -42,31 +41,17 @@ import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 import com.google.android.gms.common.api.Status;
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.ui.component.activity.ComponentCacheActivity;
 import com.jaspersoft.android.jaspermobile.util.cast.ResourceCastDialogFactory;
 import com.jaspersoft.android.jaspermobile.util.cast.ResourcePresentationService;
-import com.jaspersoft.android.sdk.service.data.server.ServerVersion;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.OptionsMenuItem;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-@EActivity
-@OptionsMenu(R.menu.cast_menu)
-public abstract class CastActivity extends ComponentCacheActivity {
-
-    @OptionsMenuItem(R.id.castReport)
-    protected MenuItem castAction;
-
+public abstract class CastActivity extends ToolbarActivity {
     private MediaRouter mMediaRouter;
     private MediaRouteSelector mMediaRouteSelector;
     private MediaRouter.Callback mMediaRouterCallback;
-    private boolean mCastAvailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,26 +62,6 @@ public abstract class CastActivity extends ComponentCacheActivity {
                 .addControlCategory(CastMediaControlIntent.categoryForCast(getString(R.string.app_cast_id)))
                 .build();
         mMediaRouterCallback = new BaseMediaRouterCallback();
-    }
-
-    @AfterViews
-    protected void init() {
-        String version = mServer.getVersion();
-        mCastAvailable = mServer.isProEdition() && ServerVersion.valueOf(version).greaterThanOrEquals(ServerVersion.v6);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        boolean result = super.onCreateOptionsMenu(menu);
-
-        if (castAction != null && mCastAvailable) {
-            MediaRouteActionProvider mediaRouteActionProvider =
-                    (MediaRouteActionProvider) MenuItemCompat.getActionProvider(castAction);
-            mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
-            mediaRouteActionProvider.setDialogFactory(new ResourceCastDialogFactory());
-            return true;
-        }
-        return result;
     }
 
     @Override
@@ -111,10 +76,14 @@ public abstract class CastActivity extends ComponentCacheActivity {
         super.onStop();
     }
 
-    protected void onCastStarted() {
+    protected void onCastServiceStarted() {
     }
 
-    protected void onCastStopped() {
+    protected void onToolbarMenuCreated(MenuItem castAction) {
+        MediaRouteActionProvider mediaRouteActionProvider =
+                (MediaRouteActionProvider) MenuItemCompat.getActionProvider(castAction);
+        mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
+        mediaRouteActionProvider.setDialogFactory(new ResourceCastDialogFactory());
     }
 
     //---------------------------------------------------------------------
@@ -137,7 +106,7 @@ public abstract class CastActivity extends ComponentCacheActivity {
         NotificationCompat.Builder castNotificationBuilder = new NotificationCompat.Builder(this);
 
         castNotificationBuilder.setSmallIcon(R.drawable.im_logo_single)
-                .setContentTitle(getString(R.string.r_pd_initializing_msg))
+                .setContentTitle(getString(R.string.cast_ready_message))
                 .setContentText(castDeviceName)
                 .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(), 0))
                 .setWhen(0);
@@ -163,9 +132,7 @@ public abstract class CastActivity extends ComponentCacheActivity {
         @Override
         public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo route) {
             super.onRouteUnselected(router, route);
-
             CastRemoteDisplayLocalService.stopService();
-            onCastStopped();
         }
     }
 
@@ -176,7 +143,7 @@ public abstract class CastActivity extends ComponentCacheActivity {
             if (castDevice != null) {
                 ((ResourcePresentationService) castRemoteDisplayLocalService).setCastDeviceName(castDevice.getFriendlyName());
             }
-            onCastStarted();
+            onCastServiceStarted();
         }
 
         @Override

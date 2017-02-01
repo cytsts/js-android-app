@@ -24,6 +24,7 @@
 
 package com.jaspersoft.android.jaspermobile.data;
 
+import com.jaspersoft.android.sdk.network.AuthorizedClient;
 import com.jaspersoft.android.sdk.service.filter.FiltersService;
 import com.jaspersoft.android.sdk.service.report.ReportService;
 import com.jaspersoft.android.sdk.service.report.schedule.ReportScheduleService;
@@ -40,6 +41,8 @@ import rx.Observable;
  * @since 2.3
  */
 public interface JasperRestClient {
+    AuthorizedClient authorizedClient();
+
     ReportService syncReportService();
 
     FiltersService syncFilterService();

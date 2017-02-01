@@ -24,6 +24,7 @@
 
 buildscript {
     repositories {
+        mavenCentral()
         maven { url "https://maven.fabric.io/public" }
     }
     dependencies {
@@ -188,6 +189,9 @@ android {
         compile 'com.google.android.gms:play-services-analytics:8.4.0'
         compile 'com.google.android.gms:play-services-cast:8.4.0'
 
+        compile 'com.jakewharton:butterknife:8.2.1'
+        apt 'com.jakewharton:butterknife-compiler:8.2.1'
+
         compile("org.androidannotations:androidannotations-api:3.2")
         apt "org.androidannotations:androidannotations:3.2"
 
@@ -216,6 +220,7 @@ android {
         compile "org.jsoup:jsoup:1.8.3"
 
         compile("com.jaspersoft.android.sdk:js-android-sdk-rx:${jasperSdkVersion}")
+        compile("com.jaspersoft.android.sdk:js-android-sdk-widget:${jasperSdkVersion}")
         compile "commons-io:commons-io:2.4"
 
         compile("io.reactivex:rxandroid:1.1.0") {

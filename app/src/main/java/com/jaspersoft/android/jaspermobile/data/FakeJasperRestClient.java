@@ -24,6 +24,7 @@
 
 package com.jaspersoft.android.jaspermobile.data;
 
+import com.jaspersoft.android.sdk.network.AuthorizedClient;
 import com.jaspersoft.android.sdk.service.filter.FiltersService;
 import com.jaspersoft.android.sdk.service.report.ReportService;
 import com.jaspersoft.android.sdk.service.report.schedule.ReportScheduleService;
@@ -42,6 +43,11 @@ import rx.Observable;
 public class FakeJasperRestClient implements JasperRestClient {
 
     public FakeJasperRestClient() {
+    }
+
+    @Override
+    public AuthorizedClient authorizedClient() {
+        return null;
     }
 
     @Override

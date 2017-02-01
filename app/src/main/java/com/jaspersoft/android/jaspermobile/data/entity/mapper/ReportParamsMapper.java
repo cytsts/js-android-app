@@ -68,8 +68,23 @@ public class ReportParamsMapper {
         return list;
     }
 
+    public List<ReportParameter> retrofittedParamsToLegacy(List<com.jaspersoft.android.sdk.network.entity.report.ReportParameter> retrofittedParameters) {
+        List<ReportParameter> list = new ArrayList<>(retrofittedParameters.size());
+        for (com.jaspersoft.android.sdk.network.entity.report.ReportParameter retrofittedParameter : retrofittedParameters) {
+            if (retrofittedParameter != null) {
+                ReportParameter parameter = retrofittedParamToLegacy(retrofittedParameter);
+                list.add(parameter);
+            }
+        }
+        return list;
+    }
+
     public com.jaspersoft.android.sdk.network.entity.report.ReportParameter legacyParamToRetrofitted(ReportParameter legacyParameter) {
         return new com.jaspersoft.android.sdk.network.entity.report.ReportParameter(legacyParameter.getName(), legacyParameter.getValues());
+    }
+
+    public ReportParameter retrofittedParamToLegacy(com.jaspersoft.android.sdk.network.entity.report.ReportParameter retrofittedParameter) {
+        return new ReportParameter(retrofittedParameter.getName(), retrofittedParameter.getValue());
     }
 
     public String legacyParamsToJson(List<ReportParameter> reportParameters) {

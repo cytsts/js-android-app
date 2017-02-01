@@ -38,7 +38,7 @@ subprojects {
     group = 'com.jaspersoft.android'
     description = 'js-android-jaspermobile'
 
-    ext.androidToolsBuildGradle = '2.1.2'
+    ext.androidToolsBuildGradle = '2.1.3'
     ext.androidApt = '1.8'
     ext.androidBuildToolsVersion = '23.0.3';
     ext.androidMinSdkVersion = 15;
@@ -46,12 +46,12 @@ subprojects {
     ext.androidTargetSdkVersion = 23;
 
     ext.jasperSdkVersion = '1.11';
-    ext.daggerVersion = '2.1';
+    ext.daggerVersion = '2.7';
     ext.autoValue = '1.2';
 
     ext.fabricToolsVersion = '1.21.2';
     ext.dexCountToolsVersion = '0.3.0';
-    ext.jasperSdkVersion = '2.5.1';
+    ext.jasperSdkVersion = '2.6-EPIC-REPORT-VIEW';
 
     ext.jacocoVersion = '0.7.6.201602180812'
 
