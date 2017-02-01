@@ -26,6 +26,7 @@ package com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.webkit.WebView;
 
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.WebViewFragment;
@@ -48,6 +49,7 @@ public class WebResourceActivity extends ToolbarActivity
 
     @Extra
     protected String resourceUrl;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,22 +68,35 @@ public class WebResourceActivity extends ToolbarActivity
 
     @Override
     public void onWebViewCreated(WebViewFragment webViewFragment) {
+        webView = webViewFragment.getWebView();
         if (resourceUrl == null) {
             // TODO: throw exception?
         }
         String url = resourceUrl;
-        if (isViewerUrl(url)) {
+        if (isResourceViewerUrl(url)) {
             // TODO: make showing this resource in native viewer (first get resource lookup)
-            url = constructUrlForViewer(url);
+            url = constructUrlForResourceViewer(url);
         }
         webViewFragment.loadUrl(url);
     }
 
-    private boolean isViewerUrl(String url) {
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    /*
+         * WebView URL Helpers
+         */
+    private boolean isResourceViewerUrl(String url) {
         return url.contains("viewer.html");
     }
 
-    private String constructUrlForViewer(String url) {
+    private String constructUrlForResourceViewer(String url) {
         String nodecoration ="sessionDecorator=no&decorate=no";
         Uri uri = Uri.parse(url);
         String scheme = uri.getScheme();

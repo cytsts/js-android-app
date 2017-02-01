@@ -150,7 +150,7 @@
 
         <activity
             android:name=".activities.viewer.html.webresource.WebResourceActivity_"
-            android:screenOrientation="portrait"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name=".activities.share.AnnotationActivity_"
