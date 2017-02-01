@@ -24,8 +24,10 @@
 
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
 import android.webkit.WebView;
 
 import com.jaspersoft.android.jaspermobile.R;
@@ -35,6 +37,8 @@ import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 
 /**
  * Activity which performs viewing of local web resources.
@@ -43,6 +47,7 @@ import org.androidannotations.annotations.Extra;
  * @since 2.6
  */
 
+@OptionsMenu(R.menu.open_in_menu)
 @EActivity
 public class WebResourceActivity extends ToolbarActivity
         implements WebViewFragment.OnWebViewCreated {
@@ -64,6 +69,12 @@ public class WebResourceActivity extends ToolbarActivity
                     .add(R.id.content, webViewFragment, WebViewFragment.TAG)
                     .commit();
         }
+    }
+
+    @OptionsItem(R.id.openInItem)
+    protected void openInAction() {
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(resourceUrl));
+        startActivity(i);
     }
 
     @Override

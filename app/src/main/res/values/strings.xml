@@ -388,6 +388,7 @@
     <string name="voice_command_undefined">Can not recognize command</string>
     <string name="voice_command_help">You can use voice commands to interact with resources. Two commands are supported: "run" and "find". For instance, you can say "run" with resource name to start report execution.</string>
     <string name="voice_command_not_show_again">Don\'t show again</string>
+    <string name="open_in">Open In</string>
 
     <!-- Casting -->
     <string name="cast_logo_presentation_message">Always on and easy to access</string>
