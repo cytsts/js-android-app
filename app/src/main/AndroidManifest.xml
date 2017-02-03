@@ -152,7 +152,7 @@
             android:label="@string/fv_opening_message"/>
 
         <activity
-            android:name=".activities.viewer.html.webresource.WebResourceActivity_"
+            android:name=".activities.viewer.html.webresource.WebResourceActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity

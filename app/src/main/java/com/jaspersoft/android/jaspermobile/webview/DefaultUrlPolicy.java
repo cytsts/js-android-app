@@ -28,11 +28,12 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity_;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity;
 
 /**
  * @author Tom Koptel
@@ -104,8 +105,8 @@ public class DefaultUrlPolicy implements UrlPolicy {
     }
 
     private void showInternalLink(Context context, String url) {
-        WebResourceActivity_.intent(context)
-                .resourceUrl(url).start();
+        Intent i = WebResourceActivity.newIntent(context, Uri.parse(url));
+        context.startActivity(i);
     }
 
     public interface SessionListener {

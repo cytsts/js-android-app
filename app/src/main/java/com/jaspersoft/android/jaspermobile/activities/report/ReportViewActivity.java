@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015 TIBCO Software, Inc. All rights reserved.
+ * Copyright ï¿½ 2015 TIBCO Software, Inc. All rights reserved.
  * http://community.jaspersoft.com/project/jaspermobile-android
  *
  * Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
@@ -29,12 +29,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.save.SaveReportActivity_;
 import com.jaspersoft.android.jaspermobile.activities.share.AnnotationActivity_;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.SimpleDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.ResourceDetailsRequest;
@@ -247,12 +249,8 @@ public class ReportViewActivity extends BaseReportActivity {
     }
 
     private void showReference(Uri externalLink) {
-        String title = getString(R.string.rv_open_link_chooser);
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, externalLink);
-        Intent chooser = Intent.createChooser(browserIntent, title);
-        if (browserIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(chooser);
-        }
+        Intent i = WebResourceActivity.newIntent(this, externalLink);
+        startActivity(i);
     }
 
     private void makeScreenShot() {
