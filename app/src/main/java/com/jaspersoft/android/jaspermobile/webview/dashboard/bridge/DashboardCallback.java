@@ -44,5 +44,7 @@ public interface DashboardCallback {
     void onWindowResizeEnd();
     void onAuthError(String message);
     void onWindowError(String errorMessage);
-    void onReferenceClick(final String type);
+    void onReferenceClick(String href);
+    void onRemotePageClick(String href, String page);
+    void onRemoteAnchorClick(String href, String anchor);
 }

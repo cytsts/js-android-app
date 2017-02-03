@@ -46,6 +46,8 @@ import com.jaspersoft.android.jaspermobile.domain.interactor.dashboard.GetDashbo
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.FlushInputControlsCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetReportMetadataCase;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
+import com.jaspersoft.android.jaspermobile.util.ResourceOpener;
+import com.jaspersoft.android.jaspermobile.util.ResourceOpener_;
 import com.jaspersoft.android.jaspermobile.webview.WebInterface;
 import com.jaspersoft.android.jaspermobile.webview.WebViewEnvironment;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.AmberTwoDashboardExecutor;
@@ -101,11 +103,15 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
         }
     };
 
+    private ResourceOpener resourceOpener;
+
     @SuppressLint("ShowToast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
+
+        resourceOpener = ResourceOpener_.getInstance_(this);
 
         mGetDashboardControlsCase.execute(resource.getUri(), new GenericSubscriber<>(new SimpleSubscriber<Boolean>() {
             @Override
@@ -310,6 +316,20 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     public void onReferenceClick(String href) {
         Intent i = WebResourceActivity.newIntent(this, Uri.parse(href));
         startActivity(i);
+    }
+
+    @UiThread
+    @Override
+    public void onRemotePageClick(final String href, final String page) {
+        // TODO: need consider 'page' while opening this resource
+        resourceOpener.showFile(href);
+    }
+
+    @UiThread
+    @Override
+    public void onRemoteAnchorClick(final String href, final String anchor) {
+        // TODO: need consider 'anchor' while opening this resource
+        resourceOpener.showFile(href);
     }
 
     @Override

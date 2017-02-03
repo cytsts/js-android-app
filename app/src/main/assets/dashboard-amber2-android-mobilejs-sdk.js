@@ -108,6 +108,8 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         this.scaler = scaler;
         this._adHocHandler = bind(this._adHocHandler, this);
         this._openRemoteLink = bind(this._openRemoteLink, this);
+        this._handleRemotePageHyperlink = bind(this._handleRemotePageHyperlink, this);
+        this._handleRemoteAnchorHyperlink = bind(this._handleRemoteAnchorHyperlink, this);
         this._startReportExecution = bind(this._startReportExecution, this);
         this._processLinkClicks = bind(this._processLinkClicks, this);
         this._processErrors = bind(this._processErrors, this);
@@ -298,6 +300,11 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
             return defaultHandler.call(this);
           case "AdHocExecution":
             return this._adHocHandler(link, defaultHandler);
+          case "RemotePage":
+            return this._handleRemotePageHyperlink(link);
+          case "RemoteAnchor":
+            return this._handleRemoteAnchorHyperlink(link);
+            break;
           default:
             return defaultHandler.call(this);
         }
@@ -333,6 +340,25 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         href = link.href;
         return this.callback.onReferenceClick(href);
       };
+
+      DashboardController.prototype._handleRemotePageHyperlink = function(link) {
+        js_mobile.log("_handleRemotePageHyperlink");
+        var href = toRestLink(link.href);
+        var page = link.pages;
+        return this.callback.onRemotePageClick(href, page);
+      };
+
+      DashboardController.prototype._handleRemoteAnchorHyperlink = function(link) {
+        js_mobile.log("_handleRemoteAnchorHyperlink");
+        var href = toRestLink(link.href);
+        var anchor = link.anchor;
+        return this.callback.onRemoteAnchorClick(href, anchor);
+      };
+
+      toRestLink = function (url) {
+        var urlWithoutAnchor = url.replace(/(#.+?)$/, '');
+        return urlWithoutAnchor.replace('fileview/fileview/','');
+      }
 
       DashboardController.prototype._adHocHandler = function(link, defaultHandler) {
         js_mobile.log("_adHocHandler");
@@ -683,6 +709,8 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         this.onMaximizeEnd = bind(this.onMaximizeEnd, this);
         this.onMaximizeStart = bind(this.onMaximizeStart, this);
         this.onReferenceClick = bind(this.onReferenceClick, this);
+        this.onRemotePageClick = bind(this.onRemotePageClick, this);
+        this.onRemoteAnchorClick = bind(this.onRemoteAnchorClick, this);
         return AndroidCallback.__super__.constructor.apply(this, arguments);
       }
 
@@ -781,6 +809,18 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       AndroidCallback.prototype.onReferenceClick = function(href) {
         this.dispatch(function() {
           return Android.onReferenceClick(href);
+        });
+      };
+
+      AndroidCallback.prototype.onRemotePageClick = function(href, page) {
+        this.dispatch(function() {
+          return Android.onRemotePageClick(href, page);
+        });
+      };
+
+      AndroidCallback.prototype.onRemoteAnchorClick = function(href, anchor) {
+        this.dispatch(function() {
+          return Android.onRemoteAnchorClick(href, anchor);
         });
       };
 

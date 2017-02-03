@@ -282,6 +282,16 @@ public class AmberDashboardActivity extends BaseDashboardActivity implements Das
         startActivity(i);
     }
 
+    @UiThread
+    @Override
+    public void onRemotePageClick(final String href, final String page) {
+    }
+
+    @UiThread
+    @Override
+    public void onRemoteAnchorClick(final String href, final String anchor) {
+    }
+
     //---------------------------------------------------------------------
     // Helper methods
     //---------------------------------------------------------------------
