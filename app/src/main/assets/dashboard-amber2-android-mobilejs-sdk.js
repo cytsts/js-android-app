@@ -313,12 +313,43 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       DashboardController.prototype._startReportExecution = function(link) {
         var data;
         js_mobile.log("_startReportExecution");
-        js_mobile.log("resource: " + link.parameters._report);
-        data = {
-          resource: link.parameters._report,
-          params: this._collectReportParams(link)
-        };
-        return this.callback.onReportExecution(data);
+
+        var runOptions = link.parameters;
+        if (!runOptions) return;
+
+         var reportParams = filterReportParams(link.parameters);
+         var hyperlink = {
+           reportUri: runOptions._report,
+           parameters: reportParams
+         };
+         if (runOptions._page || runOptions._anchor) {
+           hyperlink.destination = {
+             page: runOptions._page,
+             anchor: runOptions._anchor
+           }
+         };
+         if (runOptions._output) {
+           hyperlink.reportFormat = runOptions._output;
+         }
+
+        return this.callback.onReportExecution(hyperlink);
+      };
+
+      filterReportParams = function (params) {
+        var filters = [];
+        var blackList = ["_report", "_page", "_anchor", "_output"];
+        for (var key in params) {
+          var value = params[key];
+          var isFilter = (blackList.indexOf(key) < 0);
+          if (isFilter) {
+            var filter = {
+              name: key,
+              value: [value]
+            }
+            filters.splice(filters.length, 1, filter)
+          }
+        }
+        return filters;
       };
 
       DashboardController.prototype._collectReportParams = function(link) {
