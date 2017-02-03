@@ -26,7 +26,9 @@ package com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +37,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.util.ScrollableTitleHelper;
 import com.jaspersoft.android.jaspermobile.webview.WebInterface;
@@ -270,6 +273,13 @@ public class AmberDashboardActivity extends BaseDashboardActivity implements Das
     public void onWindowError(String errorMessage) {
         showMessage(getString(R.string.failed_load_data));
         hideLoading();
+    }
+
+    @UiThread
+    @Override
+    public void onReferenceClick(String href) {
+        Intent i = WebResourceActivity.newIntent(this, Uri.parse(href));
+        startActivity(i);
     }
 
     //---------------------------------------------------------------------

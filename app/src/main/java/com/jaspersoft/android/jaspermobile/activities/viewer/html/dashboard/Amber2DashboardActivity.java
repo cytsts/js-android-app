@@ -28,6 +28,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +39,7 @@ import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity_;
 import com.jaspersoft.android.jaspermobile.activities.report.ReportViewActivity;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.interactor.dashboard.GetDashboardControlsCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.dashboard.GetDashboardVisualizeParamsCase;
@@ -301,6 +303,13 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     public void onWindowError(String errorMessage) {
         showMessage(getString(R.string.failed_load_data));
         hideLoading();
+    }
+
+    @UiThread
+    @Override
+    public void onReferenceClick(String href) {
+        Intent i = WebResourceActivity.newIntent(this, Uri.parse(href));
+        startActivity(i);
     }
 
     @Override
