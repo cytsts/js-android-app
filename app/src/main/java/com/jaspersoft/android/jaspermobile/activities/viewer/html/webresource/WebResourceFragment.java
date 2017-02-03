@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,9 +14,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.jaspersoft.android.jaspermobile.R;
 
@@ -29,6 +32,7 @@ public class WebResourceFragment extends Fragment {
 
     private Uri mUri;
     private WebView mWebView;
+    private ProgressBar mProgressBar;
 
     public static WebResourceFragment newInstance(Uri uri) {
         Bundle args = new Bundle();
@@ -49,24 +53,10 @@ public class WebResourceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_web_resource, container, false);
+        mProgressBar = (ProgressBar) v.findViewById(R.id.fragment_web_resource_progress_bar);
+        mProgressBar.setMax(100);
         mWebView = (WebView) v.findViewById(R.id.fragment_web_resource_web_view);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setWebViewClient(new WebViewClient() {
-            public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-                Log.d("WebResourceFragment", "shouldOverrideUrlLoading: " + url);
-                return false;
-            }
-        });
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-        mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        mWebView.getSettings().setBuiltInZoomControls(true);
-        mWebView.getSettings().setDisplayZoomControls(false);
-        mWebView.getSettings().setLoadWithOverviewMode(true);
-        mWebView.getSettings().setUseWideViewPort(true);
+        setupWebView();
 
         String resourceUrl = mUri.toString();
         if (isResourceViewerUrl(resourceUrl)) {
@@ -98,6 +88,39 @@ public class WebResourceFragment extends Fragment {
     /*
      * WebView URL Helpers
      */
+    private void setupWebView() {
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+                Log.d("WebResourceFragment", "shouldOverrideUrlLoading: " + url);
+                return false;
+            }
+        });
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView webView, int newProgress) {
+                if (newProgress == 100) {
+                    mProgressBar.setVisibility(View.GONE);
+                } else {
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    mProgressBar.setProgress(newProgress);
+                }
+            }
+
+            public void onReceivedTitle(WebView webView, String title) {
+                AppCompatActivity activity = (AppCompatActivity) getActivity();
+                activity.getSupportActionBar().setSubtitle(title);
+            }
+        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        mWebView.getSettings().setBuiltInZoomControls(true);
+        mWebView.getSettings().setDisplayZoomControls(false);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        mWebView.getSettings().setUseWideViewPort(true);
+    }
+
     private boolean isResourceViewerUrl(String url) {
         return url.contains("viewer.html");
     }
