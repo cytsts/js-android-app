@@ -24,6 +24,9 @@ public class DestinationMapper {
 
     public ReportDestination toReportDestination(Destination destination) {
         if (destination == null) return null;
-        return new ReportDestination(destination.getAnchor(), destination.getPage());
+        if (destination.getPage() == null) {
+            return new ReportDestination(destination.getAnchor(), 0);
+        }
+        return new ReportDestination(null, destination.getPage());
     }
 }

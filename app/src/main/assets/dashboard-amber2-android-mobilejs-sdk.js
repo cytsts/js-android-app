@@ -315,22 +315,25 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         js_mobile.log("_startReportExecution");
 
         var runOptions = link.parameters;
-        if (!runOptions) return;
+        if (!runOptions) {
+          // TODO: come up with better solution - something like 'empty' hyperlink structure
+          return this.callback.onReportExecution({});
+        }
 
-         var reportParams = filterReportParams(link.parameters);
-         var hyperlink = {
-           reportUri: runOptions._report,
-           parameters: reportParams
-         };
-         if (runOptions._page || runOptions._anchor) {
-           hyperlink.destination = {
-             page: runOptions._page,
-             anchor: runOptions._anchor
-           }
-         };
-         if (runOptions._output) {
-           hyperlink.reportFormat = runOptions._output;
-         }
+        var reportParams = filterReportParams(link.parameters);
+        var hyperlink = {
+          reportUri: runOptions._report,
+          parameters: reportParams
+        };
+        if (runOptions._page || runOptions._anchor) {
+          hyperlink.destination = {
+            page: runOptions._page,
+            anchor: runOptions._anchor
+          }
+        };
+        if (runOptions._output) {
+          hyperlink.reportFormat = runOptions._output;
+        }
 
         return this.callback.onReportExecution(hyperlink);
       };

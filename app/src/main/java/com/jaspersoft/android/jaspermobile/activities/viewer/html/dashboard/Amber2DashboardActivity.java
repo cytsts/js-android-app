@@ -65,6 +65,7 @@ import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.JsDashboardT
 import com.jaspersoft.android.sdk.client.oxm.report.ReportDestination;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 import com.jaspersoft.android.sdk.network.entity.report.ReportParameter;
+import com.jaspersoft.android.sdk.widget.report.renderer.Destination;
 import com.jaspersoft.android.sdk.widget.report.renderer.RunOptions;
 import com.jaspersoft.android.sdk.widget.report.renderer.hyperlink.Hyperlink;
 import com.jaspersoft.android.sdk.widget.report.renderer.hyperlink.HyperlinkMapper;
@@ -303,16 +304,26 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     @UiThread
     @Override
     public void onReportExecution(String data) {
-        HyperlinkMapper hyperlinkMapper = new HyperlinkMapper();
-        Hyperlink hyperlink = hyperlinkMapper.map("ReportExecution", data);
+        // TODO: come up with better solution - something like 'empty' hyperlink structure
+        if (data.length() == 2) { // data == "{}"
+            Toast.makeText(
+                    this,
+                    "The hyperlink doesn't supported by visualize.js",
+                    Toast.LENGTH_SHORT
+            ).show();
+        } else {
+            HyperlinkMapper hyperlinkMapper = new HyperlinkMapper();
+            Hyperlink hyperlink = hyperlinkMapper.map("ReportExecution", data);
 
-        String resourceType = ResourceLookup.ResourceType.reportUnit.name();
-        String reportUri = ((ReportExecutionHyperlink) hyperlink).getRunOptions().getReportUri();
-        ResourceDetailsRequest resource = new ResourceDetailsRequest(reportUri, resourceType);
-        getResourceDetailsByTypeCase.execute(
-                resource,
-                new GetResourceDetailListener( ( (ReportExecutionHyperlink) hyperlink).getRunOptions() )
-        );
+            String resourceType = ResourceLookup.ResourceType.reportUnit.name();
+            RunOptions runOptions = ((ReportExecutionHyperlink) hyperlink).getRunOptions();
+            String reportUri = runOptions.getReportUri();
+            ResourceDetailsRequest resource = new ResourceDetailsRequest(reportUri, resourceType);
+            getResourceDetailsByTypeCase.execute(
+                    resource,
+                    new GetResourceDetailListener( runOptions )
+            );
+        }
     }
 
     @Override
