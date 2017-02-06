@@ -29,6 +29,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import com.jaspersoft.android.jaspermobile.BuildConfig;
+import com.jaspersoft.android.jaspermobile.db.migrate.ShadowApplicationImpl;
 import com.jaspersoft.android.jaspermobile.domain.JasperServer;
 
 import org.junit.Before;
@@ -39,7 +40,9 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+import org.robolectric.internal.ShadowExtractor;
 import org.robolectric.res.builder.RobolectricPackageManager;
+import org.robolectric.shadows.ShadowApplication;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -47,7 +50,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
-import static org.robolectric.Shadows.shadowOf;
 
 /**
  * @author Tom Koptel
@@ -94,9 +96,10 @@ public class FeedbackMessageTest {
     }
 
     @Test
+    @Config(constants = BuildConfig.class, sdk = 21, shadows = {ShadowApplicationImpl.class})
     public void shouldGenerateNullForAppVersionInfo() {
         Application context = RuntimeEnvironment.application;
-        RobolectricPackageManager packageManager = (RobolectricPackageManager) shadowOf(context).getPackageManager();
+        RobolectricPackageManager packageManager = (RobolectricPackageManager) ((ShadowApplication)ShadowExtractor.extract(context)).getPackageManager();
         packageManager.removePackage(context.getPackageName());
 
         String message = feedbackMessage.generateAppVersionInfo();
@@ -123,7 +126,7 @@ public class FeedbackMessageTest {
 
     private void mockPackageManager() {
         Application context = RuntimeEnvironment.application;
-        RobolectricPackageManager packageManager = (RobolectricPackageManager) shadowOf(context).getPackageManager();
+        RobolectricPackageManager packageManager = (RobolectricPackageManager) ((ShadowApplication)ShadowExtractor.extract(context)).getPackageManager();
         try {
             PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
             info.versionCode = 20100000;

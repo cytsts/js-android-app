@@ -81,7 +81,7 @@ public class RepositoryTest {
     @Test
     public void repositoryAppear() {
         repositoryPageObject.awaitCategoryList();
-        repositoryPageObject.resourceMatches(hasText("Organization"), 0);
+        repositoryPageObject.resourceMatches(hasText("root"), 0);
     }
 
     @Test
@@ -179,6 +179,7 @@ public class RepositoryTest {
 
         repositoryPageObject.changeViewType();
         Espresso.pressBack();
+        repositoryPageObject.initialDelay();
         repositoryPageObject.awaitCategoryList();
         repositoryPageObject.viewTypeMatches("List");
     }
@@ -187,9 +188,9 @@ public class RepositoryTest {
     public void emptyFolder() {
         repositoryPageObject.awaitCategoryList();
 
-        repositoryPageObject.clickOnItem("Organization");
+        repositoryPageObject.clickOnItem("root");
         repositoryPageObject.awaitCategoryList();
-        repositoryPageObject.clickOnItem("Domains");
+        repositoryPageObject.clickOnItem("Temp");
         repositoryPageObject.awaitCategoryList();
         repositoryPageObject.messageMatches(withText("No resources found"));
     }

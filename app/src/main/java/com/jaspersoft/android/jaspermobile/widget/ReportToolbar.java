@@ -155,6 +155,7 @@ public class ReportToolbar extends Toolbar implements Toolbar.OnMenuItemClickLis
 
         ss.isFiltersAvailable = filtersAction.isVisible();
         ss.isBookmarksAvailable = bookmarksAction.isVisible();
+        ss.isChartTypeAvailable = chageChartTypesAction.isVisible();
 
         return ss;
     }
@@ -171,11 +172,13 @@ public class ReportToolbar extends Toolbar implements Toolbar.OnMenuItemClickLis
 
         filtersAction.setVisible(ss.isFiltersAvailable);
         bookmarksAction.setVisible(ss.isBookmarksAvailable);
+        chageChartTypesAction.setVisible(ss.isChartTypeAvailable);
     }
 
     static class SavedState extends BaseSavedState {
         boolean isFiltersAvailable;
         boolean isBookmarksAvailable;
+        boolean isChartTypeAvailable;
 
         SavedState(Parcelable superState) {
             super(superState);
@@ -185,6 +188,7 @@ public class ReportToolbar extends Toolbar implements Toolbar.OnMenuItemClickLis
             super(source);
             this.isFiltersAvailable = source.readInt() == 1;
             this.isBookmarksAvailable = source.readInt() == 1;
+            this.isChartTypeAvailable = source.readInt() == 1;
         }
 
         @Override
@@ -192,6 +196,7 @@ public class ReportToolbar extends Toolbar implements Toolbar.OnMenuItemClickLis
             super.writeToParcel(out, flags);
             out.writeInt(isFiltersAvailable ? 1 : 0);
             out.writeInt(isBookmarksAvailable ? 1 : 0);
+            out.writeInt(isChartTypeAvailable ? 1 : 0);
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR =

@@ -24,8 +24,6 @@
 
 package com.jaspersoft.android.jaspermobile.network.cookie;
 
-import android.support.annotation.NonNull;
-
 import org.jetbrains.annotations.TestOnly;
 
 import java.net.HttpCookie;
@@ -39,16 +37,13 @@ import java.util.List;
 final class AppCookieStore implements CookieStorage {
     private final WebViewCookieStore mWebViewCookieStore;
     private final java.net.CookieStore mStore;
-    private final org.apache.http.client.CookieStore mLegacyStore;
 
     @TestOnly
     public AppCookieStore(
             WebViewCookieStore webViewCookieStore,
-            java.net.CookieStore persistentStore,
-            org.apache.http.client.CookieStore legacyStore) {
+            java.net.CookieStore persistentStore) {
         mWebViewCookieStore = webViewCookieStore;
         mStore = persistentStore;
-        mLegacyStore = legacyStore;
     }
 
     @Override
@@ -81,15 +76,8 @@ final class AppCookieStore implements CookieStorage {
 
     @Override
     public boolean removeAll() {
-        mLegacyStore.clear();
         boolean result = mStore.removeAll();
         mWebViewCookieStore.removeAllCookies();
         return result;
-    }
-
-    @NonNull
-    @Override
-    public org.apache.http.client.CookieStore getApacheCookieStore() {
-        return mLegacyStore;
     }
 }

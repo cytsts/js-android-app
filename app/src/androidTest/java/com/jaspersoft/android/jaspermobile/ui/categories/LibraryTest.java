@@ -150,6 +150,7 @@ public class LibraryTest {
 
         libraryPageObject.changeViewType();
         Espresso.pressBack();
+        libraryPageObject.initialDelay();
         libraryPageObject.awaitCategoryList();
         libraryPageObject.viewTypeMatches("List");
     }
@@ -189,7 +190,7 @@ public class LibraryTest {
     public void librarySort() {
         libraryPageObject.selectSort("Creation date");
         libraryPageObject.awaitCategoryList();
-        libraryPageObject.resourceMatches(hasText("Product Sales Trend"), 0);
+        libraryPageObject.resourceMatches(hasText("Test report label"), 0);
         libraryPageObject.selectSort("Label");
         libraryPageObject.awaitCategoryList();
         libraryPageObject.resourceMatches(hasText("01. Geographic Results"), 0);
@@ -199,7 +200,7 @@ public class LibraryTest {
     public void librarySortNotPersist() {
         libraryPageObject.selectSort("Creation date");
         libraryPageObject.awaitCategoryList();
-        libraryPageObject.resourceMatches(hasText("Product Sales Trend"), 0);
+        libraryPageObject.resourceMatches(hasText("Test report label"), 0);
 
         leftPanelPageObject.goToRepository();
         leftPanelPageObject.goToLibrary();

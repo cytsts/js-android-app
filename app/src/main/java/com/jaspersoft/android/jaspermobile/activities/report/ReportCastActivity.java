@@ -114,10 +114,12 @@ public class ReportCastActivity extends BaseReportActivity implements ResourcePr
 
     @Override
     public void onActionAvailabilityChanged(ActionType actionType, boolean isAvailable) {
-        super.onActionAvailabilityChanged(ActionType.ACTION_TYPE_ALL, isAvailable);
+        super.onActionAvailabilityChanged(actionType, isAvailable);
 
-        controlsContainer.setVisibility(isAvailable ? View.VISIBLE : View.GONE);
-        resourcePresentationService.onReportRenderStateUpdated();
+        if (actionType == ActionType.ACTION_TYPE_ALL) {
+            controlsContainer.setVisibility(isAvailable ? View.VISIBLE : View.GONE);
+            resourcePresentationService.onReportRenderStateUpdated();
+        }
     }
 
     @Override

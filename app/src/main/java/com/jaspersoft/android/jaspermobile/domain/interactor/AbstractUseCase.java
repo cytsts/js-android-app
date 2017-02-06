@@ -63,11 +63,11 @@ public abstract class AbstractUseCase<Result, Argument> implements UseCase<Resul
     @Override
     public Subscription execute(@NonNull Argument argument, @NonNull Subscriber<? super Result> useCaseSubscriber) {
         Observable<Result> command = this.buildUseCaseObservable(argument);
+        this.useCaseSubscriber = useCaseSubscriber;
         this.subscription = command
                 .subscribeOn(mPreExecutionThread.getScheduler())
                 .observeOn(mPostExecutionThread.getScheduler())
                 .subscribe(new InternalSubscriber());
-        this.useCaseSubscriber = useCaseSubscriber;
         return subscription;
     }
 

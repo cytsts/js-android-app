@@ -29,12 +29,13 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import com.jaspersoft.android.jaspermobile.activities.report.BaseReportActivity;
+import com.jaspersoft.android.jaspermobile.activities.report.ReportViewActivity;
 import com.jaspersoft.android.jaspermobile.support.page.ReportPaginationPageObject;
 import com.jaspersoft.android.jaspermobile.support.page.ReportViewPageObject;
 import com.jaspersoft.android.jaspermobile.support.rule.ActivityWithLoginRule;
 import com.jaspersoft.android.jaspermobile.support.rule.DisableAnimationsRule;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.NavigationActivity_;
-import com.jaspersoft.android.jaspermobile.ui.view.activity.ReportVisualizeActivity_;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 
 import org.junit.Before;
@@ -61,7 +62,7 @@ public class ReportPaginationTest {
     public ActivityTestRule<NavigationActivity_> init = new ActivityWithLoginRule<>(NavigationActivity_.class);
 
     @Rule
-    public ActivityTestRule<ReportVisualizeActivity_> page = new ActivityTestRule<>(ReportVisualizeActivity_.class, false, false);
+    public ActivityTestRule<ReportViewActivity> page = new ActivityTestRule<>(ReportViewActivity.class, false, false);
 
     @ClassRule
     public static DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
@@ -72,7 +73,7 @@ public class ReportPaginationTest {
         reportPaginationPageObject = new ReportPaginationPageObject();
 
         Intent startIntent = new Intent();
-        startIntent.putExtra(ReportVisualizeActivity_.RESOURCE_EXTRA, createResourceLookup());
+        startIntent.putExtra(BaseReportActivity.RESOURCE_LOOKUP_ARG, createResourceLookup());
         page.launchActivity(startIntent);
 
         reportViewPageObject.waitForReportWithKeyWord("");
@@ -119,7 +120,7 @@ public class ReportPaginationTest {
     @Test
     public void paginationDialogEnter() {
         reportPaginationPageObject.clickCurrentPage();
-        reportPaginationPageObject.selectPage(4);
+        reportPaginationPageObject.typePage(4);
         reportPaginationPageObject.dialogPositiveButtonClick();
 
         reportPaginationPageObject.currentMatches(withText("4"));
@@ -128,7 +129,7 @@ public class ReportPaginationTest {
     @Test
     public void paginationDialogCancel() {
         reportPaginationPageObject.clickCurrentPage();
-        reportPaginationPageObject.selectPage(3);
+        reportPaginationPageObject.typePage(3);
         reportPaginationPageObject.dialogNegativeButtonClick();
 
         reportPaginationPageObject.currentMatches(not(withText("3")));

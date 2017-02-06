@@ -63,6 +63,7 @@ public class PerformanceTest {
         libraryPageObject = new LibraryPageObject();
         dashboardPageObject = new DashboardPageObject();
         reportViewPageObject = new ReportViewPageObject();
+        dashboardPageObject.initialDelay();
     }
 
     @Test

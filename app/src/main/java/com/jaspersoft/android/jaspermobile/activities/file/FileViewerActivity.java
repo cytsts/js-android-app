@@ -26,7 +26,6 @@ package com.jaspersoft.android.jaspermobile.activities.file;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 
@@ -65,9 +64,10 @@ public class FileViewerActivity extends ToolbarActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onBackPressed() {
+        super.onBackPressed();
+
         mGetResourceDetailsByTypeCase.unsubscribe();
-        super.onDestroy();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class FileViewerActivity extends ToolbarActivity {
                         new DialogInterface.OnCancelListener() {
                             @Override
                             public void onCancel(DialogInterface dialog) {
-                                finish();
+                                onBackPressed();
                             }
                         }
                 )
@@ -137,13 +137,6 @@ public class FileViewerActivity extends ToolbarActivity {
         public void onError(Throwable e) {
             RequestExceptionHandler.showCommonErrorMessage(FileViewerActivity.this, e);
             hideProgressDialog();
-            // Because of late onDestroy call in case if activity was not shown some delay was added
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    finish();
-                }
-            }, 250);
         }
 
         @Override

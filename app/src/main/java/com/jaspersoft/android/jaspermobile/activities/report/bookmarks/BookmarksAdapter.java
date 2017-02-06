@@ -89,7 +89,7 @@ public class BookmarksAdapter extends BaseAdapter implements View.OnClickListene
         } else {
             convertView = layoutInflater.inflate(R.layout.item_bookmark, parent, false);
             holder = new ViewHolder(convertView);
-            holder.intoBookmarks.getDrawable().mutate().setColorFilter(convertView.getContext().getColor(R.color.js_light_gray), PorterDuff.Mode.MULTIPLY);
+            holder.intoBookmarks.getDrawable().mutate().setColorFilter(convertView.getContext().getResources().getColor(R.color.js_light_gray), PorterDuff.Mode.MULTIPLY);
 
             convertView.setTag(holder);
             convertView.setOnClickListener(this);

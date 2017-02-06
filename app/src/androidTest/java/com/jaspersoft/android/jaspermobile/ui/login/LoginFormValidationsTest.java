@@ -81,7 +81,7 @@ public class LoginFormValidationsTest {
     public void loginWithEmptyPassword() {
         loginPageObject.typeAlias("testEmptyPassword");
         loginPageObject.typeUrl("http://mobiledemo2.jaspersoft.com/jasperserver-pro");
-        loginPageObject.typeUserName("joeuser");
+        loginPageObject.typeUserName("superuser");
         loginPageObject.typePassword("");
         loginPageObject.clickLoginButton();
         loginPageObject.passwordMatches(hasErrorText("This field is required."));
@@ -91,7 +91,7 @@ public class LoginFormValidationsTest {
     public void loginWithSpacedPassword() {
         loginPageObject.typeAlias("testSpacedPassword");
         loginPageObject.typeUrl("http://mobiledemo2.jaspersoft.com/jasperserver-pro");
-        loginPageObject.typeUserName("joeuser");
+        loginPageObject.typeUserName("superuser");
         loginPageObject.typePassword("");
         loginPageObject.clickLoginButton();
         loginPageObject.passwordMatches(hasErrorText("This field is required."));

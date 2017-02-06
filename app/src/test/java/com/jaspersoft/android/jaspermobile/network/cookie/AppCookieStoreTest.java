@@ -51,15 +51,13 @@ public class AppCookieStoreTest {
     WebViewCookieStore mWebViewCookieStore;
     @Mock
     java.net.CookieStore mStore;
-    @Mock
-    org.apache.http.client.CookieStore mLegacyStore;
 
     private AppCookieStore appCookieStore;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        appCookieStore = new AppCookieStore(mWebViewCookieStore, mStore, mLegacyStore);
+        appCookieStore = new AppCookieStore(mWebViewCookieStore, mStore);
     }
 
     @Test
@@ -97,7 +95,6 @@ public class AppCookieStoreTest {
     @Test
     public void testRemoveAll() throws Exception {
         appCookieStore.removeAll();
-        verify(mLegacyStore).clear();
         verify(mStore).removeAll();
         verify(mWebViewCookieStore).removeAllCookies();
     }
