@@ -147,6 +147,7 @@ public class ResourceLookup implements Parcelable {
         dashboard,
         legacyDashboard,
         file,
+        adhocDataView,
         unknown
     }
 

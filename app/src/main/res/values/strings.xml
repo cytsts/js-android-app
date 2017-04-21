@@ -117,6 +117,7 @@
     <string name="s_fd_option_reports">Reports</string>
     <string name="s_fd_option_saved_values">Saved values</string>
     <string name="s_fd_option_dashboards">Dashboards</string>
+    <string name="s_fd_option_adhoc_data_views">AdHocs</string>
     <string name="s_fd_option_files">Files</string>
     <!--TODO Remove!-->
     <string name="s_fd_option_others">Others</string>

@@ -29,11 +29,7 @@ import com.jaspersoft.android.sdk.service.data.server.ServerVersion;
 
 import java.util.ArrayList;
 
-import static com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup.ResourceType.dashboard;
-import static com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup.ResourceType.file;
-import static com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup.ResourceType.folder;
-import static com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup.ResourceType.legacyDashboard;
-import static com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup.ResourceType.reportUnit;
+import static com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup.ResourceType.*;
 
 /**
  * @author Andrew Tivodar
@@ -62,12 +58,17 @@ public class JasperResources {
         }
     }
 
+    public static ArrayList<String> adhocDataView() {
+        return JasperFilter.ADHOC_DATA_VIEW.getAsList();
+    }
+
     private enum JasperFilter {
         FOLDER(folder),
         REPORT(reportUnit),
         DASHBOARD_PRE_AMBER(dashboard),
         DASHBOARD_AMBER(legacyDashboard, dashboard),
-        FILES(file);
+        FILES(file),
+        ADHOC_DATA_VIEW(adhocDataView);
 
         private final ArrayList<String> mTypes = new ArrayList<String>();
 

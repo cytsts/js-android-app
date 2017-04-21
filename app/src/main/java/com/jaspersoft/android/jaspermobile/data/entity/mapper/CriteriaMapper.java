@@ -88,6 +88,9 @@ public class CriteriaMapper {
             if ("file".equals(filterValue)) {
                 mask |= RepositorySearchCriteria.FILE;
             }
+            if ("adhocDataView".equals(filterValue)) {
+                mask |= RepositorySearchCriteria.ADHOC_DATA_VIEW;
+            }
         }
         return mask;
     }

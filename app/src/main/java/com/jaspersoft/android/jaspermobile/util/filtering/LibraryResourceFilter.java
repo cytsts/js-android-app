@@ -37,6 +37,7 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -59,7 +60,8 @@ public class LibraryResourceFilter extends ResourceFilter {
     private enum LibraryFilterCategory {
         all(R.string.s_fd_option_all),
         reports(R.string.s_fd_option_reports),
-        dashboards(R.string.s_fd_option_dashboards);
+        dashboards(R.string.s_fd_option_dashboards),
+        adhocdataviews(R.string.s_fd_option_adhoc_data_views);
 
         private int mTitleId = -1;
 
@@ -95,8 +97,12 @@ public class LibraryResourceFilter extends ResourceFilter {
 
         // Filtration is not available for CE servers
         if (mIsPro) {
-            availableFilters.add(getFilterReport());
-            availableFilters.add(getFilterDashboard());
+            Collections.addAll(
+                    availableFilters,
+                    getFilterReport(),
+                    getFilterDashboard(),
+                    getFilterAdhocDataView()
+            );
         }
 
         return availableFilters;
@@ -116,6 +122,7 @@ public class LibraryResourceFilter extends ResourceFilter {
         ArrayList<String> filterValues = new ArrayList<>();
         filterValues.addAll(JasperResources.report());
         filterValues.addAll(JasperResources.dashboard(mVersion));
+        filterValues.addAll(JasperResources.adhocDataView());
 
         return new Filter(LibraryFilterCategory.all.name(), filterValues);
     }
@@ -132,5 +139,12 @@ public class LibraryResourceFilter extends ResourceFilter {
         filterValues.addAll(JasperResources.dashboard(mVersion));
 
         return new Filter(LibraryFilterCategory.dashboards.name(), filterValues);
+    }
+
+    private Filter getFilterAdhocDataView() {
+        ArrayList<String> filterValues = new ArrayList<>();
+        filterValues.addAll(JasperResources.adhocDataView());
+
+        return new Filter(LibraryFilterCategory.adhocdataviews.name(), filterValues);
     }
 }
