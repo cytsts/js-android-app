@@ -54,6 +54,7 @@
     <string name="ja_aas" translatable="false">Add account screen</string>
     <string name="ja_se_s" translatable="false">Search screen</string>
     <string name="ja_fv_s" translatable="false">File viewer screen</string>
+    <string name="ja_adv_s" translatable="false">AdhocDataView viewer screen</string>
     <string name="ja_ri_s" translatable="false">Resource info screen</string>
     <string name="ja_rc_s" translatable="false">Report cast screen</string>
     <string name="ja_new_sch" translatable="false">New schedule screen</string>

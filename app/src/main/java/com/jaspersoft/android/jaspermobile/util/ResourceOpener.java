@@ -39,6 +39,7 @@ import com.jaspersoft.android.jaspermobile.activities.repository.fragment.Reposi
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositoryControllerFragment_;
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositorySearchFragment;
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositorySearchFragment_;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.AdhocDataViewActivity;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard.Amber2DashboardActivity_;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard.AmberDashboardActivity_;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard.LegacyDashboardViewerActivity_;
@@ -108,6 +109,9 @@ public class ResourceOpener {
             case file:
                 showFile(resource.getUri());
                 break;
+            case adhocDataView:
+                showAdhocDataView(resource);
+                break;
             default:
                 showUnsupported();
                 break;
@@ -136,6 +140,11 @@ public class ResourceOpener {
         Intent fileViewerIntent = new Intent(activity, FileViewerActivity.class);
         fileViewerIntent.putExtra(FileViewerActivity.RESOURCE_URI_ARG, resourceUri);
         activity.startActivity(fileViewerIntent);
+    }
+
+    public void showAdhocDataView(ResourceLookup resource) {
+        Intent i = AdhocDataViewActivity.newIntent(activity, resource);
+        activity.startActivity(i);
     }
 
     public void runReport(ResourceLookup resource, ReportDestination destination) {
