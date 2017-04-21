@@ -24,11 +24,16 @@ import com.jaspersoft.android.jaspermobile.webview.DefaultUrlPolicy;
 import com.jaspersoft.android.jaspermobile.webview.JasperWebViewClientListener;
 import com.jaspersoft.android.jaspermobile.webview.SystemWebViewClient;
 import com.jaspersoft.android.jaspermobile.webview.UrlPolicy;
+import com.jaspersoft.android.jaspermobile.webview.WebInterface;
+import com.jaspersoft.android.jaspermobile.webview.WebViewEnvironment;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.InjectionRequestInterceptor;
+import com.jaspersoft.android.jaspermobile.webview.intercept.VisualizeResourcesInterceptRule;
 import com.jaspersoft.android.jaspermobile.webview.intercept.WebResourceInterceptor;
+import com.jaspersoft.android.jaspermobile.webview.intercept.okhttp.OkHttpWebResourceInterceptor;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import com.squareup.okhttp.OkHttpClient;
 
 import org.apache.commons.io.IOUtils;
 
@@ -39,21 +44,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by aleksandrdakhno on 4/21/17.
  */
 
-public class AdhocDataViewFragment extends Fragment implements JasperWebViewClientListener, DefaultUrlPolicy.SessionListener {
+public class AdhocDataViewFragment extends Fragment implements JasperWebViewClientListener, DefaultUrlPolicy.SessionListener, AdhocDataViewCallback {
 
     static final String ARG_RESOURCE_LOOKUP = "resource_lookup";
 
     @Inject
     JasperServer mServer;
+    @Inject
+    @Named("webview_client")
+    OkHttpClient webViewResourceClient;
 
     private ResourceLookup resourceLookup;
     private WebView mWebView;
     private ProgressBar mProgressBar;
+    private WebInterface mWebInterface;
 
     public static AdhocDataViewFragment newInstance(ResourceLookup resource) {
         Bundle args = new Bundle();
@@ -103,9 +113,16 @@ public class AdhocDataViewFragment extends Fragment implements JasperWebViewClie
                 .withSessionListener(this);
         WebResourceInterceptor injectionRequestInterceptor = InjectionRequestInterceptor.getInstance();
 
+        WebResourceInterceptor.Rule reportResourcesRule = VisualizeResourcesInterceptRule.getInstance();
+        WebResourceInterceptor cacheResourceInterceptor = new OkHttpWebResourceInterceptor.Builder()
+                .withClient(webViewResourceClient)
+                .registerRule(reportResourcesRule)
+                .build();
+
         SystemWebViewClient systemWebViewClient = new SystemWebViewClient.Builder()
                 .withDelegateListener(this)
                 .registerInterceptor(injectionRequestInterceptor)
+                .registerInterceptor(cacheResourceInterceptor)
                 .registerUrlPolicy(defaultPolicy)
                 .build();
 
@@ -126,6 +143,10 @@ public class AdhocDataViewFragment extends Fragment implements JasperWebViewClie
         mWebView.getSettings().setDisplayZoomControls(false);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
+
+        mWebInterface = AdhocDataViewWebInterface.from(this);
+        WebViewEnvironment.configure(mWebView)
+                .withWebInterface(mWebInterface);
     }
 
     private void prepareEnvironment() {
@@ -200,5 +221,29 @@ public class AdhocDataViewFragment extends Fragment implements JasperWebViewClie
     public void onSessionExpired() {
         Toast.makeText(AdhocDataViewFragment.this.getContext(), R.string.da_session_expired, Toast.LENGTH_SHORT).show();
         Log.d("AdhocDataViewFragment", "onSessionExpired");
+    }
+
+    /*
+     * AdhocDataViewCallback
+     */
+
+    @Override
+    public void onScriptLoaded() {
+        Log.d("AdhocDataViewFragment", "onScriptLoaded");
+    }
+
+    @Override
+    public void onLoadStart() {
+        Log.d("AdhocDataViewFragment", "onLoadStart");
+    }
+
+    @Override
+    public void onLoadDone() {
+        Log.d("AdhocDataViewFragment", "onLoadDone");
+    }
+
+    @Override
+    public void onLoadError(String error) {
+        Log.d("AdhocDataViewFragment", "onLoadError: " + error);
     }
 }
