@@ -430,7 +430,10 @@
     <!--Dashboard activity-->
     <string name="da_session_expired">Session expired</string>
     <string name="da_session_refresh_failed">Failed to refresh session</string>
-    <string name="da_loading">Loading dashboard...</string>
+    <string name="da_loading">Loading dashboard…</string>
+
+    <!--AdhocDataView activity-->
+    <string name="adv_loading">Loading Adhoc Data View…</string>
 
     <!-- MultiSelectSpinner -->
     <string name="mss_btn_check_all">Check all</string>
