@@ -74,6 +74,12 @@ class OkResponseMapper {
 
             @Override
             public String getReasonPhrase() {
+                //TODO: find another solution for the case
+                if (reasonPhrase.isEmpty()) {
+                    if (statusCode == 200) {
+                        return "OK";
+                    }
+                }
                 return reasonPhrase;
             }
 
