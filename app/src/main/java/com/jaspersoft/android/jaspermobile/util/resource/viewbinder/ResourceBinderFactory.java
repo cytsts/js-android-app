@@ -58,5 +58,6 @@ public class ResourceBinderFactory {
             default:
                 return new UnknownResourceBinder(mContext);
         }
+        // TODO: add adhoc data view resource
     }
 }

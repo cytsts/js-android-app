@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 TIBCO Software,Inc.All rights reserved.
+ * Copyright ï¿½ 2016 TIBCO Software,Inc.All rights reserved.
  * http://community.jaspersoft.com/project/jaspermobile-android
  *
  * Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
@@ -90,6 +90,7 @@ public class JasperResourceConverter {
                 resource = new UndefinedResource(resourceLookup.getUri(), resourceLookup.getLabel(), resourceLookup.getDescription());
                 break;
         }
+        // TODO: add adhoc data view resource
         return resource;
     }
 

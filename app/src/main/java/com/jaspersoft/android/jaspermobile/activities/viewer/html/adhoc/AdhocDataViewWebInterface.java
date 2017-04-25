@@ -35,11 +35,11 @@ class AdhocDataViewWebInterface extends WebInterface implements AdhocDataViewCal
 
     @JavascriptInterface
     @Override
-    public void onScriptLoaded() {
+    public void onEnvironmentReady() {
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onScriptLoaded();
+                delegate.onEnvironmentReady();
             }
         });
     }

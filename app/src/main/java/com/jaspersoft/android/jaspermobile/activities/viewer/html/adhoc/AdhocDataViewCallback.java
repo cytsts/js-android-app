@@ -5,7 +5,7 @@ package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc;
  */
 
 public interface AdhocDataViewCallback {
-    void onScriptLoaded();
+    void onEnvironmentReady();
     void onLoadStart();
     void onLoadDone();
     void onLoadError(String error);

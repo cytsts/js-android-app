@@ -3,6 +3,7 @@ package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.GraphObject;
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.executor.AdhocDataViewExecutor;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.JasperServer;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AdhocDataViewFragmentComponent;
@@ -35,6 +37,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import com.squareup.okhttp.OkHttpClient;
 
+//import org.androidannotations.annotations.Bean;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -60,10 +63,14 @@ public class AdhocDataViewFragment extends Fragment implements JasperWebViewClie
     @Named("webview_client")
     OkHttpClient webViewResourceClient;
 
+//    @Bean
+//    protected ScrollableTitleHelper scrollableTitleHelper;
+
     private ResourceLookup resourceLookup;
     private WebView mWebView;
     private ProgressBar mProgressBar;
     private WebInterface mWebInterface;
+    private AdhocDataViewExecutor executor;
 
     public static AdhocDataViewFragment newInstance(ResourceLookup resource) {
         Bundle args = new Bundle();
@@ -78,6 +85,7 @@ public class AdhocDataViewFragment extends Fragment implements JasperWebViewClie
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         resourceLookup = getArguments().getParcelable(ARG_RESOURCE_LOOKUP);
+//        scrollableTitleHelper.injectTitle(resourceLookup.getLabel());
         Log.d("AdhocDataViewFragment", "onCreate");
     }
 
@@ -92,6 +100,8 @@ public class AdhocDataViewFragment extends Fragment implements JasperWebViewClie
         getComponent().inject(this);
         prepareWebView();
         prepareEnvironment();
+
+        executor = new AdhocDataViewExecutor(mWebView, resourceLookup.getUri());
 
         return v;
     }
@@ -189,13 +199,11 @@ public class AdhocDataViewFragment extends Fragment implements JasperWebViewClie
 
     @Override
     public void onReceivedError(int errorCode, String description, String failingUrl) {
-        hideLoading();
         Log.d("AdhocDataViewFragment", "onReceivedError url: " + failingUrl);
     }
 
     @Override
     public void onPageFinishedLoading(String onPageFinishedLoading) {
-        hideLoading();
         Log.d("AdhocDataViewFragment", "onPageFinishedLoading url: " + onPageFinishedLoading);
     }
 
@@ -228,22 +236,33 @@ public class AdhocDataViewFragment extends Fragment implements JasperWebViewClie
      */
 
     @Override
-    public void onScriptLoaded() {
-        Log.d("AdhocDataViewFragment", "onScriptLoaded");
+    public void onEnvironmentReady() {
+        Log.d("AdhocDataViewFragment", "onEnvironmentReady");
+
+        new Handler(getContext().getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                executor.run();
+            }
+        });
+
     }
 
     @Override
     public void onLoadStart() {
         Log.d("AdhocDataViewFragment", "onLoadStart");
+        showLoading();
     }
 
     @Override
     public void onLoadDone() {
         Log.d("AdhocDataViewFragment", "onLoadDone");
+        hideLoading();
     }
 
     @Override
     public void onLoadError(String error) {
         Log.d("AdhocDataViewFragment", "onLoadError: " + error);
+        hideLoading();
     }
 }
