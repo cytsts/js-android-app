@@ -1,4 +1,4 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.javascriptmessage;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,11 +9,17 @@ import com.google.gson.annotations.SerializedName;
 public class JavascriptMessage {
     private MessageType type;
     private String command;
-    private Object parameter;
+    private Object parameters;
 
-    enum MessageType {
-        @SerializedName("callback") CALLBACK,
-        @SerializedName("listener") LISTENER
+    public enum MessageType {
+        CALLBACK,
+        LISTENER
+    }
+
+    public JavascriptMessage(MessageType type, String command, Object parameters) {
+        this.type = type;
+        this.command = command;
+        this.parameters = parameters;
     }
 
     public MessageType getType() {
@@ -24,8 +30,8 @@ public class JavascriptMessage {
         return command;
     }
 
-    public Object getParameters() {
-        return parameter;
+    public Object getParameter() {
+        return parameters;
     }
 
     @Override
@@ -33,7 +39,7 @@ public class JavascriptMessage {
         return "JavascriptMessage{" +
                 "type='" + type + '\'' +
                 ", command='" + command + '\'' +
-                ", parameter=" + parameter +
+                ", parameters=" + parameters +
                 '}';
     }
 }

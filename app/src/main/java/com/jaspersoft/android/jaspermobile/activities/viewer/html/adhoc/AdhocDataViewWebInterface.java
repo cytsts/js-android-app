@@ -6,7 +6,20 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.javascriptmessage.JavascriptMessage;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.javascriptmessage.JavascriptMessage.MessageType;
 import com.jaspersoft.android.jaspermobile.webview.WebInterface;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by aleksandrdakhno on 4/21/17.
@@ -35,12 +48,51 @@ class AdhocDataViewWebInterface extends WebInterface {
      */
 
     @JavascriptInterface
-    public void postMessage(String message) {
+    public void postMessage(final String message) {
         Log.d("ADViewWebInterface", "message: " + message);
-        JavascriptMessage javascriptMessage = new Gson().fromJson(message, JavascriptMessage.class);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(JavascriptMessage.class, new JsonDeserializer<JavascriptMessage>() {
+            @Override
+            public JavascriptMessage deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                JsonObject jsonObject = json.getAsJsonObject();
+                return new JavascriptMessage(
+                        parseMessageType(jsonObject),
+                        parseCommand(jsonObject),
+                        parseParameters(jsonObject)
+                );
+            }
+
+            private MessageType parseMessageType(JsonObject jsonObject) {
+                JsonElement typeElement = jsonObject.get("type");
+                return MessageType.valueOf(typeElement.getAsString().toUpperCase());
+            }
+
+            private String parseCommand(JsonObject jsonObject) {
+                JsonElement commandElement = jsonObject.get("command");
+                return commandElement.getAsString();
+            }
+
+            private Object parseParameters(JsonObject jsonObject) {
+                JsonElement parametersElement = jsonObject.get("parameters");
+                if ( parametersElement.isJsonNull() ) {
+                    return null;
+                } else if (parametersElement.isJsonPrimitive()) {
+                    return parametersElement.getAsString();
+                } else if (parametersElement.isJsonArray()) {
+                    // TODO: implement
+                } else if (parametersElement.isJsonObject()) {
+                    String parametersAsString = parametersElement.toString();
+                    Map<String, Object> parametersAsMap = new Gson().fromJson(parametersAsString, new TypeToken<HashMap<String, Object>>() {}.getType());
+                    return parametersAsMap;
+                }
+                return null;
+            }
+        });
+
+        JavascriptMessage javascriptMessage = builder.create().fromJson(message, JavascriptMessage.class);
         switch (javascriptMessage.getType()) {
             case CALLBACK: {
-                processCallback(javascriptMessage.getCommand(), javascriptMessage.getParameters());
+                processCallback(javascriptMessage.getCommand(), javascriptMessage.getParameter());
                 break;
             }
             case LISTENER: {
@@ -49,6 +101,10 @@ class AdhocDataViewWebInterface extends WebInterface {
             }
         }
     }
+
+    /*
+     * Private Methods
+     */
 
     private void processCallback(final String command, final Object parameters) {
         handleCallback(new Runnable() {
@@ -65,8 +121,12 @@ class AdhocDataViewWebInterface extends WebInterface {
                         delegate.onLoadDone();
                         break;
                     case "onLoadError":
-                        // TODO: get error from parameters
-                        delegate.onLoadError(null);
+                        String message = null;
+                        if (parameters instanceof Map) {
+                            Map<String, Object> parametersAsMap = (Map<String, Object>) parameters;
+                            message = (String) parametersAsMap.get("message");
+                        }
+                        delegate.onLoadError(message);
                         break;
                     default:
                         throw new RuntimeException("Unsupported command");

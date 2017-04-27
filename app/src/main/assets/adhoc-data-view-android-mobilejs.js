@@ -94,7 +94,7 @@ JasperMobile.Callback = {
             {
                 "type" : "callback",
                 "command"    : command,
-                "parameter" : parameters
+                "parameters" : parameters
             }
         );
     },
@@ -103,7 +103,7 @@ JasperMobile.Callback = {
             {
                 "type" : "listener",
                 "command"    : command,
-                "parameter" : parameters
+                "parameters" : parameters
             }
         );
     }

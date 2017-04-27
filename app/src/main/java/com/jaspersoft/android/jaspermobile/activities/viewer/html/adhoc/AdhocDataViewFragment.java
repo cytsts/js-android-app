@@ -289,6 +289,8 @@ public class AdhocDataViewFragment extends Fragment implements JasperWebViewClie
     @Override
     public void onLoadError(String error) {
         Log.d("AdhocDataViewFragment", "onLoadError: " + error);
+        Toast.makeText(getContext(), error, Toast.LENGTH_LONG)
+                .show();
         hideLoading();
     }
 }
