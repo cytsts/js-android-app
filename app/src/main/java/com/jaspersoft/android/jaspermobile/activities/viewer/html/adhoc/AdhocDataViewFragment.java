@@ -1,11 +1,13 @@
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -174,6 +176,10 @@ public class AdhocDataViewFragment extends Fragment implements JasperWebViewClie
 
             Map<String, String> data = new HashMap<String, String>();
             data.put("visualize_url", endpoint.createUri());
+            float scale = calculateScale();
+            data.put("body_height_percent", "" + scale * 100);
+            data.put("body_width_percent", "" + scale * 100);
+            data.put("body_transform_scale", "" + 1 / scale);
             Template tmpl = Mustache.compiler().compile(writer.toString());
             String html = tmpl.execute(data);
 
@@ -185,6 +191,26 @@ public class AdhocDataViewFragment extends Fragment implements JasperWebViewClie
                 IOUtils.closeQuietly(stream);
             }
         }
+    }
+
+    private float calculateScale() {
+        float heightDp = convertPixelsToDp(getResources().getDisplayMetrics().heightPixels, getContext());
+        float widthDp = convertPixelsToDp(getResources().getDisplayMetrics().widthPixels, getContext());
+
+        final float S_10_1 = 962560;
+        final float S_3_2 = 153600;
+        float s = widthDp * heightDp;
+        float scale = (2 * S_10_1 - S_3_2 - s) / (S_10_1 - S_3_2);
+
+        Log.d("AdhocDataViewFragment", "scale: " + scale);
+        return scale;
+    }
+
+    private static float convertPixelsToDp(float px, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float dp = px / ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return dp;
     }
 
     /*

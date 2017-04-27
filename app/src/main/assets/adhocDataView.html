@@ -22,27 +22,38 @@
   ~ <http://www.gnu.org/licenses/lgpl>.
   -->
 
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, height=device-height, user-scalable=yes">
-    <title>TIBCO Jaspersoft</title>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, height=device-height, user-scalable=yes">
+        <title>TIBCO Jaspersoft</title>
 
-    <script type="text/javascript" src="{{visualize_url}}"></script>
-    <script src="**injection**adhoc-data-view-android-mobilejs.js"></script>
-    <script src="**injection**require.min.js"></script>
+        <script type="text/javascript" src="{{visualize_url}}"></script>
+        <script src="**injection**adhoc-data-view-android-mobilejs.js"></script>
+        <script src="**injection**require.min.js"></script>
 
-    <style type="text/css">
-        html, body, #container {
-            height: 100%;
-            width: 100%;
-            min-width: 0 !important;
-            margin: 0 auto;
-        }
-        .show_chartTypeSelector_wrapper {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-    <div id="container"></div>
-</body>
+        <style type="text/css">
+            html, #container {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                height: {{body_height_percent}}%;
+                width: {{body_width_percent}}%;
+                margin: 0;
+                padding: 0;
+                transform-origin: 0 0 0;
+	            -ms-transform-origin: 0 0 0;
+	            -webkit-transform-origin: 0 0 0;
+	            transform: scale( {{body_transform_scale}} );
+	            -ms-transform: scale( {{body_transform_scale}} );
+	            -webkit-transform: scale( {{body_transform_scale}} );
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container"></div>
+    </body>
+</html>

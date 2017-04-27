@@ -159,7 +159,9 @@
             android:name=".activities.viewer.html.webresource.WebResourceActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
-        <activity android:name=".activities.viewer.html.adhoc.AdhocDataViewActivity"/>
+        <activity
+            android:name=".activities.viewer.html.adhoc.AdhocDataViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name=".activities.share.AnnotationActivity_"

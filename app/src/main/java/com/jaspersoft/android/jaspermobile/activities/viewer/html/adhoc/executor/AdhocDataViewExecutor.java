@@ -16,6 +16,10 @@ public class AdhocDataViewExecutor {
         this.resourceUri = resourceUri;
     }
 
+    public void setScale(float scale) {
+        webView.loadUrl(stringUrlForSetScale(scale));
+    }
+
     public void run() {
         webView.loadUrl(stringUrlForRun());
     }
@@ -32,6 +36,11 @@ public class AdhocDataViewExecutor {
     /*
      * Private methods
      */
+
+    private String stringUrlForSetScale(float scale) {
+        String executeScript = String.format("javascript:Environment.setScale('%.2f')", scale);
+        return executeScript;
+    }
 
     private String stringUrlForRun() {
         // JasperMobile.VIZ.AdhocDataView.API.run()
