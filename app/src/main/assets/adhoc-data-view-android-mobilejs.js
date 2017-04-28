@@ -29,7 +29,7 @@ var JasperMobile = {
         addOnResizeListener: function() {
             window.onresize = function() {
                 JasperMobile.Logger.log("window.onresize");
-                JasperMobile.VIZ.AdhocDataView.resizeFn();
+                JasperMobile.AdhocDataView.resizeFn();
             };
         },
         removeOnResizeListener: function() {
@@ -46,9 +46,8 @@ var JasperMobile = {
         }
     },
     Callback : null,
-    VIZ : {
-        AdhocDataView: null
-    }
+    VIZ : null,
+    AdhocDataView: null
 };
 
 JasperMobile.Logger = {
@@ -56,6 +55,10 @@ JasperMobile.Logger = {
         console.log(message);
     },
     logObject: function(object) {
+        if (object == null) {
+            this.log("'null' object can't be logged");
+            return;
+        }
         this.logJson(this.jsonFromObject(object));
     },
     logJson: function(json) {
@@ -109,61 +112,104 @@ JasperMobile.Callback = {
     }
 };
 
-JasperMobile.VIZ.AdhocDataView = {
-    adhocViewInstance: null,
-    resourceUrl: null,
+JasperMobile.VIZ = {
+    instance: null,
     authFn: {
         loginFn: function(properties, request) {
             return (new jQuery.Deferred()).resolve();
         }
     },
-    successRunCallback: function() {
-        JasperMobile.Logger.log("success of loading adhoc view");
-        JasperMobile.Helper.addOnResizeListener();
-        JasperMobile.Callback.callback("onLoadDone", null);
-    },
-    errorRunCallback: function(errorObject) {
-        JasperMobile.Logger.logObject(errorObject);
-        JasperMobile.Callback.callback("onLoadError", errorObject);
-    },
-    runFn: function(resourceUrl) {
-        this.resourceUrl = resourceUrl;
-        var adhocStruct = {
-            resource: resourceUrl,
-            container: "#container",
-            success: this.successRunCallback,
-            error: this.errorRunCallback
-        };
+    prepareFn: function() {
+        JasperMobile.Logger.log("prepareFn");
         var that = this;
         return function(v) {
-            JasperMobile.Callback.callback("onLoadStart", null);
-            that.adhocViewInstance = v.adhocView(adhocStruct);
+            JasperMobile.Logger.log("inside of function with 'v'");
+            that.instance = v;
+            that.visualizeReadyCallback();
         }
     },
+    prepare: function() {
+        visualize(
+            this.authFn,
+            this.prepareFn(),
+            this.visualizeFailedCallback
+        );
+    },
+    visualizeReadyCallback: function() {
+        JasperMobile.Logger.log("successVisualizeReadyCallback");
+        JasperMobile.Callback.callback("onVisualizeReady", null);
+    },
+    visualizeFailedCallback: function(errorObject) {
+        JasperMobile.Logger.log("errorVisualizeFailedCallback");
+        JasperMobile.Logger.logObject(errorObject);
+        JasperMobile.Callback.callback("onVisualizeFailed", errorObject);
+    }
+}
+
+JasperMobile.AdhocDataView = {
+    instance: null,
+    initInstance: function(resourceUrl) {
+        JasperMobile.Logger.log("initInstance");
+        if (this.instance == null) {
+            JasperMobile.Logger.log("create a new adhoc view instance");
+            this.instance = JasperMobile.VIZ.instance.adhocView(
+                {
+                    resource: resourceUrl,
+                    container: "#container",
+                    runImmediately: false
+                }
+            );
+        } else {
+            JasperMobile.Logger.log("reuse existing adhoc view instance");
+        }
+    },
+    runFn: function(resourceUrl) {
+        JasperMobile.Logger.log("runFn");
+        JasperMobile.Logger.log("this.adhocViewInstance: " + this.adhocViewInstance);
+        this.initInstance(resourceUrl);
+        var that = this;
+        this.instance.run()
+        .done(
+            function(data) {
+                JasperMobile.Logger.log("runFn done with data: " + data);
+                JasperMobile.Helper.addOnResizeListener();
+                that.successOperationCallback();
+            }
+        )
+        .fail(
+            that.errorOperationCallback
+        );
+    },
     refreshFn: function() {
-        this.adhocViewInstance.refresh();
+        this.instance.refresh();
     },
     resizeFn: function() {
+        JasperMobile.Logger.log("resizeFn");
         JasperMobile.Helper.removeOnResizeListener();
-        this.adhocViewInstance.destroy();
-        this.API.run(this.resourceUrl);
+        this.runFn();
     },
     askAvailableTypesFn: function() {
-        var availableTypes = this.adhocViewInstance.data().query.availableTypes;
+        var availableTypes = this.instance.data().query.availableTypes;
     },
     changeCanvasTypeFn: function(newCanvasType) {
-        this.adhocViewInstance.canvas({type : newCanvasType}).run();
+        this.instance.canvas({type : newCanvasType}).run();
+    },
+    successOperationCallback: function() {
+        JasperMobile.Logger.log("successOperationCallback");
+        JasperMobile.Callback.callback("onOperationDone", null);
+    },
+    errorOperationCallback: function(errorObject) {
+        JasperMobile.Logger.log("errorOperationCallback");
+        JasperMobile.Logger.logObject(errorObject);
+        JasperMobile.Callback.callback("onOperationError", errorObject);
     }
 };
 
-JasperMobile.VIZ.AdhocDataView.API = {
+JasperMobile.AdhocDataView.API = {
     run: function(resourceUrl) {
-        visualize(
-            JasperMobile.VIZ.AdhocDataView.authFn,
-            JasperMobile.VIZ.AdhocDataView.runFn(resourceUrl)
-        );
+        JasperMobile.AdhocDataView.runFn(resourceUrl);
     },
     refresh: function() {
-        JasperMobile.VIZ.AdhocDataView.refreshFn();
+        JasperMobile.AdhocDataView.refreshFn();
     }
 };

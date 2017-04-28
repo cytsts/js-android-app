@@ -75,6 +75,7 @@ public interface ProfileComponent {
     JobsScreenComponent newJobsScreen();
 
     AdhocDataViewFragmentComponent plusAdhocDataViewPage();
+    AdhocDataViewModelComponent plusAdhocDataViewModel();
 
     JobFormScreenComponent plus(JobFormScreenModule module);
 

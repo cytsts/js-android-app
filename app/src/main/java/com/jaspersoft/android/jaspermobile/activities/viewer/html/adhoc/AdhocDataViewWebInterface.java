@@ -25,16 +25,16 @@ import java.util.Map;
  * Created by aleksandrdakhno on 4/21/17.
  */
 
-class AdhocDataViewWebInterface extends WebInterface {
+public class AdhocDataViewWebInterface extends WebInterface {
 
-    private final AdhocDataViewCallback delegate;
+    private final AdhocDataViewWebInterfaceListener listener;
 
-    private AdhocDataViewWebInterface(AdhocDataViewCallback delegate) {
-        this.delegate = delegate;
+    private AdhocDataViewWebInterface(AdhocDataViewWebInterfaceListener listener) {
+        this.listener = listener;
     }
 
-    public static WebInterface from(AdhocDataViewCallback callback) {
-        return new AdhocDataViewWebInterface(callback);
+    public static WebInterface from(AdhocDataViewWebInterfaceListener listener) {
+        return new AdhocDataViewWebInterface(listener);
     }
 
     @SuppressLint({"JavascriptInterface", "AddJavascriptInterface"})
@@ -112,22 +112,32 @@ class AdhocDataViewWebInterface extends WebInterface {
             public void run() {
                 switch (command) {
                     case "onEnvironmentReady":
-                        delegate.onEnvironmentReady();
+                        listener.onEnvironmentReady();
                         break;
-                    case "onLoadStart":
-                        delegate.onLoadStart();
+                    case "onVisualizeReady":
+                        listener.onVisualizeReady();
                         break;
-                    case "onLoadDone":
-                        delegate.onLoadDone();
-                        break;
-                    case "onLoadError":
+                    case "onVisualizeFailed": {
                         String message = null;
                         if (parameters instanceof Map) {
                             Map<String, Object> parametersAsMap = (Map<String, Object>) parameters;
                             message = (String) parametersAsMap.get("message");
                         }
-                        delegate.onLoadError(message);
+                        listener.onVisualizeFailed(message);
                         break;
+                    }
+                    case "onOperationDone":
+                        listener.onOperationDone();
+                        break;
+                    case "onOperationError": {
+                        String message = null;
+                        if (parameters instanceof Map) {
+                            Map<String, Object> parametersAsMap = (Map<String, Object>) parameters;
+                            message = (String) parametersAsMap.get("message");
+                        }
+                        listener.onOperationError(message);
+                        break;
+                    }
                     default:
                         throw new RuntimeException("Unsupported command");
                 }

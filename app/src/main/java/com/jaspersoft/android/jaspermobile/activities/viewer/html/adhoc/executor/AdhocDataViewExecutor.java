@@ -20,6 +20,10 @@ public class AdhocDataViewExecutor {
         webView.loadUrl(stringUrlForSetScale(scale));
     }
 
+    public void prepareVisualize() {
+        webView.loadUrl(stringUrlForPrepareVisualize());
+    }
+
     public void run() {
         webView.loadUrl(stringUrlForRun());
     }
@@ -43,8 +47,12 @@ public class AdhocDataViewExecutor {
     }
 
     private String stringUrlForRun() {
-        // JasperMobile.VIZ.AdhocDataView.API.run()
-        String executeScript = String.format("javascript:JasperMobile.VIZ.AdhocDataView.API.run('%s')", resourceUri);
+        String executeScript = String.format("javascript:JasperMobile.AdhocDataView.API.run('%s')", resourceUri);
+        return executeScript;
+    }
+
+    private String stringUrlForPrepareVisualize() {
+        String executeScript = String.format("javascript:JasperMobile.VIZ.prepare()", resourceUri);
         return executeScript;
     }
 
