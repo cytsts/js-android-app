@@ -62,10 +62,30 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
         getComponent().inject(this);
 
+        return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         model.subscribe(this);
         model.prepare();
+    }
 
-        return v;
+    @Override
+    public void onStop() {
+        super.onStop();
+        model.subscribe(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mWebView != null) {
+            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
+            mWebView.removeAllViews();
+            mWebView.destroy();
+        }
     }
 
     public AdhocDataViewFragmentComponent getComponent() {
