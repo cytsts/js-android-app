@@ -7,8 +7,8 @@ package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.control
 public interface AdhocDataViewModelListener {
     void onPreparingStart();
     void onPreparingEnd();
-    void onPreparingFailed();
+    void onPreparingFailed(String error);
     void onOperationStart();
     void onOperationEnd();
-    void onOperationFailed();
+    void onOperationFailed(String error);
 }

@@ -92,20 +92,20 @@ JasperMobile.Callback = {
     postMessage: function(params) {
         window.Android.postMessage(JSON.stringify(params));
     },
-    callback: function(command, parameters) {
+    callback: function(operation, parameters) {
         this.postMessage(
             {
-                "type" : "callback",
-                "command"    : command,
+                "type"       : "callback",
+                "operation"  : operation,
                 "parameters" : parameters
             }
         );
     },
-    listener: function(command, parameters) {
+    listener: function(operation, parameters) {
         this.postMessage(
             {
-                "type" : "listener",
-                "command"    : command,
+                "type"       : "listener",
+                "operation"  : operation,
                 "parameters" : parameters
             }
         );
@@ -142,7 +142,10 @@ JasperMobile.VIZ = {
     visualizeFailedCallback: function(errorObject) {
         JasperMobile.Logger.log("errorVisualizeFailedCallback");
         JasperMobile.Logger.logObject(errorObject);
-        JasperMobile.Callback.callback("onVisualizeFailed", errorObject);
+        JasperMobile.Callback.callback("onVisualizeFailed", {
+            operationType: "prepareVisualize",
+            errorObject: errorObject
+        });
     }
 }
 
@@ -173,11 +176,11 @@ JasperMobile.AdhocDataView = {
             function(data) {
                 JasperMobile.Logger.log("runFn done with data: " + data);
                 JasperMobile.Helper.addOnResizeListener();
-                that.successOperationCallback();
+                JasperMobile.AdhocDataView.Callback.success("run");
             }
         )
         .fail(
-            that.errorOperationCallback
+            JasperMobile.AdhocDataView.Callback.fail("run")
         );
     },
     refreshFn: function() {
@@ -193,17 +196,27 @@ JasperMobile.AdhocDataView = {
     },
     changeCanvasTypeFn: function(newCanvasType) {
         this.instance.canvas({type : newCanvasType}).run();
-    },
-    successOperationCallback: function() {
-        JasperMobile.Logger.log("successOperationCallback");
-        JasperMobile.Callback.callback("onOperationDone", null);
-    },
-    errorOperationCallback: function(errorObject) {
-        JasperMobile.Logger.log("errorOperationCallback");
-        JasperMobile.Logger.logObject(errorObject);
-        JasperMobile.Callback.callback("onOperationError", errorObject);
     }
 };
+
+JasperMobile.AdhocDataView.Callback = {
+    success: function(operation) {
+        JasperMobile.Logger.log("successOperationCallback");
+        JasperMobile.Callback.callback("onOperationDone", {
+            operationType: operation
+        });
+    },
+    fail: function(operation) {
+        return function(errorObject) {
+            JasperMobile.Logger.log("errorOperationCallback");
+            JasperMobile.Logger.logObject(errorObject);
+            JasperMobile.Callback.callback("onOperationError", {
+                operationType: operation,
+                errorObject: errorObject
+            });
+        }
+    }
+}
 
 JasperMobile.AdhocDataView.API = {
     run: function(resourceUrl) {

@@ -1,4 +1,4 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.webenvironment;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.webenvironment.webinterface;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -13,8 +13,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.webenvironment.javascriptmessage.JavascriptMessage;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.webenvironment.javascriptmessage.JavascriptMessage.MessageType;
 import com.jaspersoft.android.jaspermobile.webview.WebInterface;
 
 import java.lang.reflect.Type;
@@ -25,16 +23,16 @@ import java.util.Map;
  * Created by aleksandrdakhno on 4/21/17.
  */
 
-public class AdhocDataViewWebInterface extends WebInterface {
+public class VisualizeWebInterface extends WebInterface {
 
-    private final AdhocDataViewWebListener listener;
+    private final VisualizeWebInterfaceListener listener;
 
-    private AdhocDataViewWebInterface(AdhocDataViewWebListener listener) {
+    private VisualizeWebInterface(VisualizeWebInterfaceListener listener) {
         this.listener = listener;
     }
 
-    public static WebInterface from(AdhocDataViewWebListener listener) {
-        return new AdhocDataViewWebInterface(listener);
+    public static WebInterface from(VisualizeWebInterfaceListener listener) {
+        return new VisualizeWebInterface(listener);
     }
 
     @SuppressLint({"JavascriptInterface", "AddJavascriptInterface"})
@@ -51,24 +49,24 @@ public class AdhocDataViewWebInterface extends WebInterface {
     public void postMessage(final String message) {
         Log.d("ADViewWebInterface", "message: " + message);
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(JavascriptMessage.class, new JsonDeserializer<JavascriptMessage>() {
+        builder.registerTypeAdapter(JavascriptResponse.class, new JsonDeserializer<JavascriptResponse>() {
             @Override
-            public JavascriptMessage deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            public JavascriptResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                 JsonObject jsonObject = json.getAsJsonObject();
-                return new JavascriptMessage(
+                return new JavascriptResponse(
                         parseMessageType(jsonObject),
                         parseCommand(jsonObject),
                         parseParameters(jsonObject)
                 );
             }
 
-            private MessageType parseMessageType(JsonObject jsonObject) {
+            private JavascriptResponse.ResponseType parseMessageType(JsonObject jsonObject) {
                 JsonElement typeElement = jsonObject.get("type");
-                return MessageType.valueOf(typeElement.getAsString().toUpperCase());
+                return JavascriptResponse.ResponseType.valueOf(typeElement.getAsString().toUpperCase());
             }
 
             private String parseCommand(JsonObject jsonObject) {
-                JsonElement commandElement = jsonObject.get("command");
+                JsonElement commandElement = jsonObject.get("operation");
                 return commandElement.getAsString();
             }
 
@@ -89,14 +87,14 @@ public class AdhocDataViewWebInterface extends WebInterface {
             }
         });
 
-        JavascriptMessage javascriptMessage = builder.create().fromJson(message, JavascriptMessage.class);
-        switch (javascriptMessage.getType()) {
+        JavascriptResponse response = builder.create().fromJson(message, JavascriptResponse.class);
+        switch (response.getType()) {
             case CALLBACK: {
-                processCallback(javascriptMessage.getCommand(), javascriptMessage.getParameter());
+                processCallback(response.getOperation(), response.getParameter());
                 break;
             }
             case LISTENER: {
-                Log.d("ADViewWebInterface", "listener for: " + javascriptMessage.getCommand());
+                Log.d("ADViewWebInterface", "listener for: " + response.getOperation());
                 break;
             }
         }
@@ -106,11 +104,11 @@ public class AdhocDataViewWebInterface extends WebInterface {
      * Private Methods
      */
 
-    private void processCallback(final String command, final Object parameters) {
+    private void processCallback(final String operation, final Object parameters) {
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                switch (command) {
+                switch (operation) {
                     case "onEnvironmentReady":
                         listener.onEnvironmentReady();
                         break;
@@ -118,24 +116,14 @@ public class AdhocDataViewWebInterface extends WebInterface {
                         listener.onVisualizeReady();
                         break;
                     case "onVisualizeFailed": {
-                        String message = null;
-                        if (parameters instanceof Map) {
-                            Map<String, Object> parametersAsMap = (Map<String, Object>) parameters;
-                            message = (String) parametersAsMap.get("message");
-                        }
-                        listener.onVisualizeFailed(message);
+                        listener.onVisualizeFailed(failResponseFromData(parameters).getError());
                         break;
                     }
                     case "onOperationDone":
-                        listener.onOperationDone();
+                        listener.onOperationDone(successResponseFromData(parameters));
                         break;
                     case "onOperationError": {
-                        String message = null;
-                        if (parameters instanceof Map) {
-                            Map<String, Object> parametersAsMap = (Map<String, Object>) parameters;
-                            message = (String) parametersAsMap.get("message");
-                        }
-                        listener.onOperationError(message);
+                        listener.onOperationError(failResponseFromData(parameters));
                         break;
                     }
                     default:
@@ -143,5 +131,37 @@ public class AdhocDataViewWebInterface extends WebInterface {
                 }
             }
         });
+    }
+
+    private VisualizeWebResponse successResponseFromData(Object data) {
+        if (data instanceof Map) {
+            Map<String, Object> parametersAsMap = (Map<String, Object>) data;
+            String operationType = (String) parametersAsMap.get("operationType");
+            return new VisualizeWebResponse(
+                    operationType,
+                    null,
+                    null
+            );
+        } else {
+            // TODO: may be throw error?
+        }
+        return null;
+    }
+
+    private VisualizeWebResponse failResponseFromData(Object data) {
+        if (data instanceof Map) {
+            Map<String, Object> parametersAsMap = (Map<String, Object>) data;
+            String operationType = (String) parametersAsMap.get("operationType");
+            Map<String, Object> errorObject = (Map<String, Object>) parametersAsMap.get("errorObject");
+            String message = (String) errorObject.get("message");
+            return new VisualizeWebResponse(
+                    operationType,
+                    null,
+                    message
+            );
+        } else {
+            // TODO: may be throw error?
+        }
+        return null;
     }
 }

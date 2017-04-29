@@ -433,7 +433,8 @@
     <string name="da_loading">Loading dashboard…</string>
 
     <!--AdhocDataView activity-->
-    <string name="adv_loading">Loading Adhoc Data View…</string>
+    <string name="adv_preparing">Preparing Environment…</string>
+    <string name="adv_executing">Executing AdHoc Data View…</string>
 
     <!-- MultiSelectSpinner -->
     <string name="mss_btn_check_all">Check all</string>

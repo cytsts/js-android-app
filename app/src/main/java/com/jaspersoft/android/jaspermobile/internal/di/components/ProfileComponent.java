@@ -76,6 +76,7 @@ public interface ProfileComponent {
 
     AdhocDataViewFragmentComponent plusAdhocDataViewPage();
     AdhocDataViewModelComponent plusAdhocDataViewModel();
+    AdhocDataViewWebEnvironmentComponent plusAdhocDataViewWebEnvironment();
 
     JobFormScreenComponent plus(JobFormScreenModule module);
 

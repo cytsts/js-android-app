@@ -7,5 +7,6 @@ package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.control
 public interface AdhocDataViewController {
     void subscribe(AdhocDataViewModelListener listener);
     void unsubscribe(AdhocDataViewModelListener listener);
+    void prepare();
     void run();
 }

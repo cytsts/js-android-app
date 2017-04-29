@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.GraphObject;
 import com.jaspersoft.android.jaspermobile.R;
@@ -75,7 +76,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     @Override
     public void onStop() {
         super.onStop();
-        model.subscribe(this);
+        model.unsubscribe(this);
     }
 
     @Override
@@ -88,7 +89,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
         }
     }
 
-    public AdhocDataViewFragmentComponent getComponent() {
+    private AdhocDataViewFragmentComponent getComponent() {
         return GraphObject.Factory.from(getContext())
                 .getProfileComponent()
                 .plusAdhocDataViewPage();
@@ -98,9 +99,9 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
      * Loading helpers
      */
 
-    protected void showLoading() {
+    protected void showLoading(int message) {
         ProgressDialogFragment.builder(getFragmentManager())
-                .setLoadingMessage(R.string.adv_loading)
+                .setLoadingMessage(message)
                 .show();
     }
 
@@ -114,7 +115,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
     @Override
     public void onPreparingStart() {
-        showLoading();
+        showLoading(R.string.adv_preparing);
     }
 
     @Override
@@ -129,15 +130,15 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     }
 
     @Override
-    public void onPreparingFailed() {
-//        Toast.makeText(getContext(), error, Toast.LENGTH_LONG)
-//                .show();
+    public void onPreparingFailed(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_LONG)
+                .show();
         hideLoading();
     }
 
     @Override
     public void onOperationStart() {
-        showLoading();
+        showLoading(R.string.adv_executing);
     }
 
     @Override
@@ -146,9 +147,9 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     }
 
     @Override
-    public void onOperationFailed() {
-//        Toast.makeText(getContext(), error, Toast.LENGTH_LONG)
-//                .show();
+    public void onOperationFailed(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_LONG)
+                .show();
         hideLoading();
     }
 }
