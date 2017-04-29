@@ -39,7 +39,7 @@ import com.jaspersoft.android.jaspermobile.activities.repository.fragment.Reposi
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositoryControllerFragment_;
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositorySearchFragment;
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositorySearchFragment_;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.AdhocDataViewActivity;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewActivity;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard.Amber2DashboardActivity_;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard.AmberDashboardActivity_;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard.LegacyDashboardViewerActivity_;

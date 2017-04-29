@@ -1,4 +1,4 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller;
 
 import android.content.Context;
 import android.content.Intent;

@@ -1,6 +1,4 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.javascriptmessage;
-
-import com.google.gson.annotations.SerializedName;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.webenvironment.javascriptmessage;
 
 /**
  * Created by aleksandrdakhno on 4/27/17.

@@ -1,4 +1,4 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller;
 
 /**
  * Created by aleksandrdakhno on 4/28/17.

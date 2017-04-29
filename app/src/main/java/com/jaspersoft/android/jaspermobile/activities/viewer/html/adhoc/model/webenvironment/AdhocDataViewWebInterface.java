@@ -1,4 +1,4 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.webenvironment;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -13,8 +13,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.javascriptmessage.JavascriptMessage;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.javascriptmessage.JavascriptMessage.MessageType;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.webenvironment.javascriptmessage.JavascriptMessage;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.webenvironment.javascriptmessage.JavascriptMessage.MessageType;
 import com.jaspersoft.android.jaspermobile.webview.WebInterface;
 
 import java.lang.reflect.Type;
@@ -27,13 +27,13 @@ import java.util.Map;
 
 public class AdhocDataViewWebInterface extends WebInterface {
 
-    private final AdhocDataViewWebInterfaceListener listener;
+    private final AdhocDataViewWebListener listener;
 
-    private AdhocDataViewWebInterface(AdhocDataViewWebInterfaceListener listener) {
+    private AdhocDataViewWebInterface(AdhocDataViewWebListener listener) {
         this.listener = listener;
     }
 
-    public static WebInterface from(AdhocDataViewWebInterfaceListener listener) {
+    public static WebInterface from(AdhocDataViewWebListener listener) {
         return new AdhocDataViewWebInterface(listener);
     }
 

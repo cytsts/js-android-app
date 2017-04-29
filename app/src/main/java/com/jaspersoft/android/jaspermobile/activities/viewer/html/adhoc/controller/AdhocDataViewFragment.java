@@ -1,21 +1,18 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.GraphObject;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.AdhocDataViewModel;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.AdhocDataViewModelListener;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AdhocDataViewFragmentComponent;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;

@@ -1,5 +1,6 @@
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
@@ -10,10 +11,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.jaspersoft.android.jaspermobile.GraphObject;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.AdhocDataViewWebInterfaceListener;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.AdhocDataViewController;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.AdhocDataViewWebInterface;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.executor.AdhocDataViewExecutor;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewController;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModelListener;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.webenvironment.AdhocDataViewWebInterface;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.webenvironment.AdhocDataViewWebListener;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.webenvironment.executor.AdhocDataViewExecutor;
 import com.jaspersoft.android.jaspermobile.domain.JasperServer;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AdhocDataViewModelComponent;
 import com.jaspersoft.android.jaspermobile.util.VisualizeEndpoint;
@@ -47,7 +49,7 @@ import javax.inject.Named;
  * Created by aleksandrdakhno on 4/28/17.
  */
 
-public class AdhocDataViewModel implements JasperWebViewClientListener, DefaultUrlPolicy.SessionListener, AdhocDataViewWebInterfaceListener, AdhocDataViewController {
+public class AdhocDataViewModel implements JasperWebViewClientListener, DefaultUrlPolicy.SessionListener, AdhocDataViewWebListener, AdhocDataViewController {
 
     @Inject
     JasperServer mServer;
@@ -112,6 +114,7 @@ public class AdhocDataViewModel implements JasperWebViewClientListener, DefaultU
      * Private
      */
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void prepareWebView() {
         mWebView.getSettings().setJavaScriptEnabled(true);
 
@@ -208,7 +211,7 @@ public class AdhocDataViewModel implements JasperWebViewClientListener, DefaultU
     }
 
     /*
-     * AdhocDataViewWebInterfaceListener
+     * AdhocDataViewWebListener
      */
 
     @Override

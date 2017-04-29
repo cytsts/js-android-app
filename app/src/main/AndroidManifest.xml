@@ -160,7 +160,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
-            android:name=".activities.viewer.html.adhoc.AdhocDataViewActivity"
+            android:name=".activities.viewer.html.adhoc.controller.AdhocDataViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
