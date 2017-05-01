@@ -4,11 +4,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.GraphObject;
@@ -27,11 +28,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
     static final String ARG_RESOURCE_LOOKUP = "resource_lookup";
 
-//    @Bean
-//    protected ScrollableTitleHelper scrollableTitleHelper;
-
-    private WebView mWebView;
-    private ProgressBar mProgressBar;
+    private WebView webView;
     private AdhocDataViewModel model;
 
     public static AdhocDataViewFragment newInstance(ResourceLookup resource) {
@@ -52,16 +49,19 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_adhoc_data_view, container, false);
-        mProgressBar = (ProgressBar) v.findViewById(R.id.fragment_adhoc_data_view_progress_bar);
-        mProgressBar.setMax(100);
-        mWebView = (WebView) v.findViewById(R.id.fragment_adhoc_data_view_web_view);
+        webView = (WebView) v.findViewById(R.id.fragment_adhoc_data_view_web_view);
 
         ResourceLookup resourceLookup = getArguments().getParcelable(ARG_RESOURCE_LOOKUP);
-        model = new AdhocDataViewModel(this.getContext(), mWebView, resourceLookup);
+        assert resourceLookup != null;
 
-//        scrollableTitleHelper.injectTitle(resourceLookup.getLabel());
+        model = new AdhocDataViewModel(this.getContext(), webView, resourceLookup);
 
         getComponent().inject(this);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(resourceLookup.getLabel());
+        }
 
         return v;
     }
@@ -82,10 +82,10 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mWebView != null) {
-            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
-            mWebView.removeAllViews();
-            mWebView.destroy();
+        if (webView != null) {
+            ((ViewGroup) webView.getParent()).removeView(webView);
+            webView.removeAllViews();
+            webView.destroy();
         }
     }
 
