@@ -37,7 +37,8 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
     }
 
     @Override
-    public void refresh() {
+    public void refresh(Completion completion) {
+        completions.put("refresh", completion);
         executeJavascriptCode(javascriptCodeForRefresh());
     }
 
@@ -62,7 +63,7 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
     }
 
     private String javascriptCodeForRefresh() {
-        String executeScript = String.format("javascript:run('%s')", resourceUri);
+        String executeScript = String.format("javascript:JasperMobile.AdhocDataView.API.refresh()");
         return executeScript;
     }
 

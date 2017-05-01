@@ -10,6 +10,6 @@ public interface AdhocDataViewExecutorApi {
     void prepare(String baseUrl, Completion completion);
     void setScale(float scale);
     void run(Completion completion);
-    void refresh();
+    void refresh(Completion completion);
     void destroy();
 }

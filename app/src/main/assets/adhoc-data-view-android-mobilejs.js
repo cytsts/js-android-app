@@ -184,7 +184,16 @@ JasperMobile.AdhocDataView = {
         );
     },
     refreshFn: function() {
-        this.instance.refresh();
+        this.instance.refresh()
+        .done(
+            function(data) {
+                JasperMobile.Logger.log("refreshFn done with data: " + data);
+                JasperMobile.AdhocDataView.Callback.success("refresh");
+            }
+        )
+        .fail(
+            JasperMobile.AdhocDataView.Callback.fail("refresh")
+        );
     },
     resizeFn: function() {
         JasperMobile.Logger.log("resizeFn");

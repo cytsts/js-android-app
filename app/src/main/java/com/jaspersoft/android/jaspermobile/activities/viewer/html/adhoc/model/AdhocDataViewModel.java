@@ -1,6 +1,7 @@
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model;
 
 import android.content.Context;
+import android.os.Handler;
 import android.webkit.WebView;
 
 import com.jaspersoft.android.jaspermobile.GraphObject;
@@ -26,9 +27,11 @@ public class AdhocDataViewModel implements AdhocDataViewController {
 
     private AdhocDataViewExecutorApi executor;
     private AdhocDataViewModelListener listener;
+    private Context context;
 
     public AdhocDataViewModel(Context context, WebView webView, ResourceLookup resourceLookup) {
         getComponent(context).inject(this);
+        this.context = context;
         executor = new AdhocDataViewVisualizeExecutor(context, webView, resourceLookup.getUri());
     }
 
@@ -48,21 +51,29 @@ public class AdhocDataViewModel implements AdhocDataViewController {
 
     @Override
     public void prepare() {
-        if (listener != null) {
-            listener.onPreparingStart();
-        }
+        notifyListenerOnOperationStartOnUiThread();
         executor.prepare(mServer.getBaseUrl(), new VisualizeExecutor.Completion() {
             @Override
             public void success() {
                 if (listener != null) {
-                    listener.onPreparingEnd();
+                    new Handler(context.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onPreparingEnd();
+                        }
+                    });
                 }
             }
 
             @Override
-            public void failed(String error) {
+            public void failed(final String error) {
                 if (listener != null) {
-                    listener.onPreparingFailed(error);
+                    new Handler(context.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onPreparingFailed(error);
+                        }
+                    });
                 }
             }
         });
@@ -70,24 +81,14 @@ public class AdhocDataViewModel implements AdhocDataViewController {
 
     @Override
     public void run() {
-        if (listener != null) {
-            listener.onOperationStart();
-        }
-        executor.run(new VisualizeExecutor.Completion() {
-            @Override
-            public void success() {
-                if (listener != null) {
-                    listener.onOperationEnd();
-                }
-            }
+        notifyListenerOnOperationStartOnUiThread();
+        executor.run(completionForOperation());
+    }
 
-            @Override
-            public void failed(String error) {
-                if (listener != null) {
-                    listener.onOperationFailed(error);
-                }
-            }
-        });
+    @Override
+    public void refresh() {
+        notifyListenerOnOperationStartOnUiThread();
+        executor.refresh(completionForOperation());
     }
 
     @Override
@@ -105,4 +106,53 @@ public class AdhocDataViewModel implements AdhocDataViewController {
                 .plusAdhocDataViewModel();
     }
 
+    private VisualizeExecutor.Completion completionForOperation() {
+        return new VisualizeExecutor.Completion() {
+            @Override
+            public void success() {
+                notifyListenerOnOperationEndOnUiThread();
+            }
+
+            @Override
+            public void failed(String error) {
+                notifyListenerOnOperationFailedOnUiThread(error);
+            }
+        };
+    }
+
+    private void notifyListenerOnOperationStartOnUiThread() {
+        if (listener == null) {
+            return;
+        }
+        new Handler(context.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onOperationStart();
+            }
+        });
+    }
+
+    private void notifyListenerOnOperationEndOnUiThread() {
+        if (listener == null) {
+            return;
+        }
+        new Handler(context.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onOperationEnd();
+            }
+        });
+    }
+
+    private void notifyListenerOnOperationFailedOnUiThread(final String error) {
+        if (listener == null) {
+            return;
+        }
+        new Handler(context.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onOperationFailed(error);
+            }
+        });
+    }
 }

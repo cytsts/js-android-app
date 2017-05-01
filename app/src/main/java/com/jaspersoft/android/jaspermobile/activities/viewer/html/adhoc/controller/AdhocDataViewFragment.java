@@ -1,12 +1,14 @@
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -67,6 +69,24 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.adhoc_data_view_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.refreshAction: {
+                model.refresh();
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         model.subscribe(this);
@@ -117,12 +137,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     @Override
     public void onPreparingEnd() {
         hideLoading();
-        new Handler(getContext().getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                model.run();
-            }
-        });
+        model.run();
     }
 
     @Override
@@ -134,11 +149,13 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
     @Override
     public void onOperationStart() {
+        webView.setVisibility(View.INVISIBLE);
         showLoading(R.string.adv_executing);
     }
 
     @Override
     public void onOperationEnd() {
+        webView.setVisibility(View.VISIBLE);
         hideLoading();
     }
 

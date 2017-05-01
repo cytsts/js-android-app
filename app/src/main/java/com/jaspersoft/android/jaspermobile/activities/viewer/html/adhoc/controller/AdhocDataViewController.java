@@ -9,5 +9,6 @@ public interface AdhocDataViewController {
     void unsubscribe(AdhocDataViewModelListener listener);
     void prepare();
     void run();
+    void refresh();
     void destroy();
 }
