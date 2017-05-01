@@ -43,7 +43,8 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
 
     @Override
     public void destroy() {
-        executeJavascriptCode(javascriptCodeForDestroy());
+//        executeJavascriptCode(javascriptCodeForDestroy());
+        webEnvironment.destroy();
     }
 
     /*

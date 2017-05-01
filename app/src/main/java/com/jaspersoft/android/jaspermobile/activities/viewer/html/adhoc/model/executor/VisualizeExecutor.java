@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class VisualizeExecutor implements VisualizeWebEnvironment.Listener {
 
-    private VisualizeWebEnvironment webEnvironment;
+    protected VisualizeWebEnvironment webEnvironment;
     protected Map<String, Completion> completions = new HashMap<>();
 
     public interface Completion {

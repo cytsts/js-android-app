@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
@@ -83,6 +84,14 @@ public class VisualizeWebEnvironment {
     public void prepare(String baseUrl) {
         prepareWebView(baseUrl);
         prepareEnvironment(baseUrl);
+    }
+
+    public void destroy() {
+        if (webView != null) {
+            ((ViewGroup) webView.getParent()).removeView(webView);
+            webView.removeAllViews();
+            webView.destroy();
+        }
     }
 
     public void subscribe(Listener listener) {

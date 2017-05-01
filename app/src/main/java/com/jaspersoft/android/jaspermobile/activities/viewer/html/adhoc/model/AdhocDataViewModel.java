@@ -90,6 +90,11 @@ public class AdhocDataViewModel implements AdhocDataViewController {
         });
     }
 
+    @Override
+    public void destroy() {
+        executor.destroy();
+    }
+
     /*
      * Private
      */

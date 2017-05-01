@@ -82,11 +82,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (webView != null) {
-            ((ViewGroup) webView.getParent()).removeView(webView);
-            webView.removeAllViews();
-            webView.destroy();
-        }
+        model.destroy();
     }
 
     private AdhocDataViewFragmentComponent getComponent() {
