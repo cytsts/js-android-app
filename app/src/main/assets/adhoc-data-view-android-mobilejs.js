@@ -176,7 +176,7 @@ JasperMobile.AdhocDataView = {
             function(data) {
                 JasperMobile.Logger.log("runFn done with data: " + data);
                 JasperMobile.Helper.addOnResizeListener();
-                JasperMobile.AdhocDataView.Callback.success("run");
+                JasperMobile.AdhocDataView.Callback.success("run", null);
             }
         )
         .fail(
@@ -188,7 +188,7 @@ JasperMobile.AdhocDataView = {
         .done(
             function(data) {
                 JasperMobile.Logger.log("refreshFn done with data: " + data);
-                JasperMobile.AdhocDataView.Callback.success("refresh");
+                JasperMobile.AdhocDataView.Callback.success("refresh", null);
             }
         )
         .fail(
@@ -200,28 +200,56 @@ JasperMobile.AdhocDataView = {
         JasperMobile.Helper.removeOnResizeListener();
         this.runFn();
     },
-    askAvailableTypesFn: function() {
+    availableTypesFn: function() {
         var availableTypes = this.instance.data().query.availableTypes;
+        var requiredFormat = []; // [{name:"some name}, ...]; for reusing of existing code for 'ChartType'
+        for (var i = 0, len = availableTypes.length; i < len; i++) {
+            requiredFormat.push(
+                {
+                    name: availableTypes[i]
+                }
+            );
+        }
+        JasperMobile.AdhocDataView.Callback.success("availableTypes", requiredFormat);
     },
     changeCanvasTypeFn: function(newCanvasType) {
-        this.instance.canvas({type : newCanvasType}).run();
+        this.instance.canvas({type : newCanvasType}).run()
+        .done(
+            function(data) {
+                JasperMobile.Logger.log("changeCanvasTypeFn done with data: " + data);
+                JasperMobile.AdhocDataView.Callback.success("changeCanvasType", null);
+            }
+        )
+        .fail(
+            JasperMobile.AdhocDataView.Callback.fail("changeCanvasType")
+        );
     }
 };
 
 JasperMobile.AdhocDataView.Callback = {
-    success: function(operation) {
-        JasperMobile.Logger.log("successOperationCallback");
-        JasperMobile.Callback.callback("onOperationDone", {
-            operationType: operation
-        });
-    },
+    success: function(operation, data) {
+            var parameters;
+            if (data == null) {
+                parameters = {
+                    "operationType": operation
+                }
+            } else {
+                // TODO: verify that data is object
+                parameters = {
+                    "operationType": operation,
+                    "data": JSON.stringify(data)
+                }
+            }
+            JasperMobile.Logger.log("successOperationCallback");
+            JasperMobile.Callback.callback("onOperationDone", parameters);
+        },
     fail: function(operation) {
         return function(errorObject) {
             JasperMobile.Logger.log("errorOperationCallback");
             JasperMobile.Logger.logObject(errorObject);
             JasperMobile.Callback.callback("onOperationError", {
-                operationType: operation,
-                errorObject: errorObject
+                "operationType": operation,
+                "errorObject": errorObject
             });
         }
     }
@@ -233,5 +261,11 @@ JasperMobile.AdhocDataView.API = {
     },
     refresh: function() {
         JasperMobile.AdhocDataView.refreshFn();
+    },
+    availableTypes: function() {
+        JasperMobile.AdhocDataView.availableTypesFn();
+    },
+    changeCanvasType: function(canvasType) {
+        JasperMobile.AdhocDataView.changeCanvasTypeFn(canvasType);
     }
 };

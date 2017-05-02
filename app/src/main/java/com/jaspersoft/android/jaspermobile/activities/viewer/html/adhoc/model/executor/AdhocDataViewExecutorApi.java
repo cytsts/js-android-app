@@ -11,5 +11,7 @@ public interface AdhocDataViewExecutorApi {
     void setScale(float scale);
     void run(Completion completion);
     void refresh(Completion completion);
+    void askAvailableCanvasTypes(Completion completion);
+    void changeCanvasType(String canvasType, Completion completion);
     void destroy();
 }

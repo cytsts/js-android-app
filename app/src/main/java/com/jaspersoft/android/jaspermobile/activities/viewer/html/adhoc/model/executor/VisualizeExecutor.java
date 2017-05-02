@@ -19,7 +19,7 @@ public class VisualizeExecutor implements VisualizeWebEnvironment.Listener {
     protected Map<String, Completion> completions = new HashMap<>();
 
     public interface Completion {
-        void success();
+        void success(Object data);
         void failed(String error);
     }
 
@@ -51,16 +51,16 @@ public class VisualizeExecutor implements VisualizeWebEnvironment.Listener {
     public void onVisualizeReady() {
         Completion completion = completions.get("prepare");
         if (completion != null) {
-            completion.success();
+            completion.success(null);
             completions.remove("prepare");
         }
     }
 
     @Override
-    public void onSuccess(String operation) {
+    public void onSuccess(String operation, Object data) {
         Completion completion = completions.get(operation);
         if (completion != null) {
-            completion.success();
+            completion.success(data);
             completions.remove(operation);
         }
     }

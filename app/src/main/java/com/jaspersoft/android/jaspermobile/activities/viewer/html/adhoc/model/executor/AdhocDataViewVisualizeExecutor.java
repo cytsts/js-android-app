@@ -43,6 +43,18 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
     }
 
     @Override
+    public void askAvailableCanvasTypes(Completion completion) {
+        completions.put("availableTypes", completion);
+        executeJavascriptCode(javascriptCodeForAvailableChartTypes());
+    }
+
+    @Override
+    public void changeCanvasType(String chartType, Completion completion) {
+        completions.put("changeCanvasType", completion);
+        executeJavascriptCode(javascriptCodeForChangeCanvasType(chartType));
+    }
+
+    @Override
     public void destroy() {
 //        executeJavascriptCode(javascriptCodeForDestroy());
         webEnvironment.destroy();
@@ -64,6 +76,16 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
 
     private String javascriptCodeForRefresh() {
         String executeScript = String.format("javascript:JasperMobile.AdhocDataView.API.refresh()");
+        return executeScript;
+    }
+
+    private String javascriptCodeForAvailableChartTypes() {
+        String executeScript = String.format("javascript:JasperMobile.AdhocDataView.API.availableTypes()");
+        return executeScript;
+    }
+
+    private String javascriptCodeForChangeCanvasType(String canvasType) {
+        String executeScript = String.format("javascript:JasperMobile.AdhocDataView.API.changeCanvasType('%s')", canvasType);
         return executeScript;
     }
 

@@ -8,4 +8,10 @@
         android:title="@string/r_ab_refresh"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/changeCanvasTypeAction"
+        android:icon="@drawable/ic_menu_info"
+        android:title="@string/r_cm_available_canvas_types"
+        app:showAsAction="never"/>
+
 </menu>

@@ -1,5 +1,6 @@
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,10 +17,18 @@ import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.GraphObject;
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.activities.report.chartTypes.ChartTypesActivity;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewController.Operation;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.AdhocDataViewModel;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AdhocDataViewFragmentComponent;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
+import com.jaspersoft.android.sdk.widget.report.renderer.ChartType;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -29,6 +38,7 @@ import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 public class AdhocDataViewFragment extends Fragment implements AdhocDataViewModelListener {
 
     static final String ARG_RESOURCE_LOOKUP = "resource_lookup";
+    private static final int SELECTED_CANVAS_TYPE_CODE = 102;
 
     private WebView webView;
     private AdhocDataViewModel model;
@@ -81,8 +91,25 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
                 model.refresh();
                 return true;
             }
+            case R.id.changeCanvasTypeAction: {
+                model.askAvailableChartTypes();
+                return true;
+            }
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) return;
+
+        if (requestCode == SELECTED_CANVAS_TYPE_CODE) {
+            ChartType chartType = data.getExtras().getParcelable(ChartTypesActivity.SELECTED_CHART_TYPE_ARG);
+            if (chartType == null) {
+                throw new RuntimeException("Selected chartType should be provided");
+            }
+            model.changeCanvasType(chartType);
         }
     }
 
@@ -90,7 +117,6 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     public void onStart() {
         super.onStart();
         model.subscribe(this);
-        model.prepare();
     }
 
     @Override
@@ -112,6 +138,19 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     }
 
     /*
+     * Private
+     */
+
+    private void showAvailableCanvasTypes(List<ChartType> canvasTypes, ChartType currentCanvasType) {
+        Intent chartTypesIntent = new Intent(this.getContext(), ChartTypesActivity.class);
+
+        chartTypesIntent.putParcelableArrayListExtra(ChartTypesActivity.CHART_TYPES_ARG, new ArrayList<>(canvasTypes));
+        chartTypesIntent.putExtra(ChartTypesActivity.SELECTED_CHART_TYPE_ARG, currentCanvasType);
+
+        startActivityForResult(chartTypesIntent, SELECTED_CANVAS_TYPE_CODE);
+    }
+
+    /*
      * Loading helpers
      */
 
@@ -130,37 +169,33 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
      */
 
     @Override
-    public void onPreparingStart() {
-        showLoading(R.string.adv_preparing);
-    }
-
-    @Override
-    public void onPreparingEnd() {
-        hideLoading();
-        model.run();
-    }
-
-    @Override
-    public void onPreparingFailed(String error) {
-        Toast.makeText(getContext(), error, Toast.LENGTH_LONG)
-                .show();
-        hideLoading();
-    }
-
-    @Override
-    public void onOperationStart() {
+    public void onOperationStart(Operation operation) {
         webView.setVisibility(View.INVISIBLE);
-        showLoading(R.string.adv_executing);
+        switch (operation) {
+            case PREPARE:
+                showLoading(R.string.adv_preparing);
+                break;
+            default:
+                showLoading(R.string.adv_executing);
+        }
     }
 
     @Override
-    public void onOperationEnd() {
+    public void onOperationEnd(Operation operation) {
         webView.setVisibility(View.VISIBLE);
         hideLoading();
+        switch (operation) {
+            case PREPARE:
+                model.run();
+                break;
+            case ASK_AVAILABLE_CANVAS_TYPES:
+                showAvailableCanvasTypes(model.getCanvasTypes(), model.getCurrentCanvasType());
+                break;
+        }
     }
 
     @Override
-    public void onOperationFailed(String error) {
+    public void onOperationFailed(Operation operation, String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_LONG)
                 .show();
         hideLoading();

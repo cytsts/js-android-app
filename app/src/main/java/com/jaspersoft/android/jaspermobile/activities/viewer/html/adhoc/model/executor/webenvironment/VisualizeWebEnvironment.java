@@ -49,8 +49,8 @@ public class VisualizeWebEnvironment {
     public interface Listener {
         void onEnvironmentReady();
         void onVisualizeReady();
-        void onSuccess(String operation); // TODO: specify operation and parameters
-        void onFail(String operation, String error); // TODO: specify operation and specify errors
+        void onSuccess(String operation, Object data);
+        void onFail(String operation, String error);
     }
 
     @Inject
@@ -255,7 +255,7 @@ public class VisualizeWebEnvironment {
         public void onOperationDone(VisualizeWebResponse response) {
             Log.d("VisualizeWebEnvironment", "onOperationDone");
             if (listener != null) {
-                listener.onSuccess(response.getOperation());
+                listener.onSuccess(response.getOperation(), response.getParameters());
             }
         }
 

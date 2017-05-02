@@ -87,6 +87,7 @@
     <string name="r_cm_edit">Edit</string>
     <string name="r_cm_delete">Delete</string>
     <string name="r_cm_available_chart_types" translatable="false">Chart Types</string>
+    <string name="r_cm_available_canvas_types" translatable="false">Canvas Types</string>
 
     <!-- Progress Dialog -->
     <string name="r_pd_running_report_msg">Running report...</string>

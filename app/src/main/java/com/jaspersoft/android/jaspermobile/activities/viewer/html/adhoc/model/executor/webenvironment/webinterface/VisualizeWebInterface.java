@@ -133,13 +133,14 @@ public class VisualizeWebInterface extends WebInterface {
         });
     }
 
-    private VisualizeWebResponse successResponseFromData(Object data) {
-        if (data instanceof Map) {
-            Map<String, Object> parametersAsMap = (Map<String, Object>) data;
+    private VisualizeWebResponse successResponseFromData(Object objectData) {
+        if (objectData instanceof Map) {
+            Map<String, Object> parametersAsMap = (Map<String, Object>) objectData;
             String operationType = (String) parametersAsMap.get("operationType");
+            Object data = parametersAsMap.get("data");
             return new VisualizeWebResponse(
                     operationType,
-                    null,
+                    data,
                     null
             );
         } else {
