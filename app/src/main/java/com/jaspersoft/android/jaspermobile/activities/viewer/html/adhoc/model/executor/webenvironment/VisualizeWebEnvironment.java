@@ -110,7 +110,7 @@ public class VisualizeWebEnvironment {
                 .withSessionListener(new DefaultUrlPolicy.SessionListener() {
                     @Override
                     public void onSessionExpired() {
-                        Log.d("AdhocDataViewModel", "onSessionExpired");
+                        Log.d("VisualizeWebEnvironment", "onSessionExpired");
                         if (listener != null) {
                             listener.onFail(null, "Session expired");
                         }
@@ -197,7 +197,7 @@ public class VisualizeWebEnvironment {
         float s = widthDp * heightDp;
         float scale = (2 * S_10_1 - S_3_2 - s) / (S_10_1 - S_3_2);
 
-        Log.d("AdhocDataViewModel", "scale: " + scale);
+        Log.d("VisualizeWebEnvironment", "scale: " + scale);
         return scale;
     }
 

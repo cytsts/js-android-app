@@ -7,8 +7,7 @@ import android.webkit.WebView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jaspersoft.android.jaspermobile.GraphObject;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewController;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModelListener;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModel;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.AdhocDataViewExecutorApi;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.AdhocDataViewVisualizeExecutor;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.VisualizeExecutor;
@@ -25,13 +24,13 @@ import javax.inject.Inject;
  * Created by aleksandrdakhno on 4/28/17.
  */
 
-public class AdhocDataViewModel implements AdhocDataViewController {
+public class AdhocDataViewModelImpl implements AdhocDataViewModel {
 
     @Inject
     JasperServer mServer;
 
     private AdhocDataViewExecutorApi executor;
-    private AdhocDataViewModelListener listener;
+    private OperationListener listener;
     private Context context;
 
     // TODO: move to separate storage
@@ -46,18 +45,18 @@ public class AdhocDataViewModel implements AdhocDataViewController {
         void onFailed();
     }
 
-    public AdhocDataViewModel(Context context, WebView webView, ResourceLookup resourceLookup) {
+    public AdhocDataViewModelImpl(Context context, WebView webView, ResourceLookup resourceLookup) {
         getComponent(context).inject(this);
         this.context = context;
         executor = new AdhocDataViewVisualizeExecutor(context, webView, resourceLookup.getUri());
     }
 
     /*
-     * AdhocDataViewController
+     * AdhocDataViewModel
      */
 
     @Override
-    public void subscribe(AdhocDataViewModelListener listener) {
+    public void subscribe(OperationListener listener) {
         this.listener = listener;
         if (!isPrepared) {
             prepare();
@@ -65,7 +64,7 @@ public class AdhocDataViewModel implements AdhocDataViewController {
     }
 
     @Override
-    public void unsubscribe(AdhocDataViewModelListener listener) {
+    public void unsubscribe(OperationListener listener) {
         this.listener = null;
     }
 

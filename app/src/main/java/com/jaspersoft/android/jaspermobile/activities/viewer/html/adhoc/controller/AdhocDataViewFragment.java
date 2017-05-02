@@ -18,8 +18,8 @@ import android.widget.Toast;
 import com.jaspersoft.android.jaspermobile.GraphObject;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.report.chartTypes.ChartTypesActivity;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewController.Operation;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.AdhocDataViewModel;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModel.Operation;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.AdhocDataViewModelImpl;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AdhocDataViewFragmentComponent;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
@@ -35,13 +35,13 @@ import static android.app.Activity.RESULT_OK;
  * Created by aleksandrdakhno on 4/21/17.
  */
 
-public class AdhocDataViewFragment extends Fragment implements AdhocDataViewModelListener {
+public class AdhocDataViewFragment extends Fragment implements AdhocDataViewModel.OperationListener {
 
     static final String ARG_RESOURCE_LOOKUP = "resource_lookup";
     private static final int SELECTED_CANVAS_TYPE_CODE = 102;
 
     private WebView webView;
-    private AdhocDataViewModel model;
+    private AdhocDataViewModelImpl model;
 
     public static AdhocDataViewFragment newInstance(ResourceLookup resource) {
         Bundle args = new Bundle();
@@ -66,7 +66,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
         ResourceLookup resourceLookup = getArguments().getParcelable(ARG_RESOURCE_LOOKUP);
         assert resourceLookup != null;
 
-        model = new AdhocDataViewModel(this.getContext(), webView, resourceLookup);
+        model = new AdhocDataViewModelImpl(this.getContext(), webView, resourceLookup);
 
         getComponent().inject(this);
         AppCompatActivity activity = (AppCompatActivity) getActivity();

@@ -8,7 +8,7 @@ import java.util.List;
  * Created by aleksandrdakhno on 4/28/17.
  */
 
-public interface AdhocDataViewController {
+public interface AdhocDataViewModel {
     enum Operation {
         PREPARE,
         RUN,
@@ -16,8 +16,15 @@ public interface AdhocDataViewController {
         ASK_AVAILABLE_CANVAS_TYPES,
         CHANGE_CANVAS_TYPE
     }
-    void subscribe(AdhocDataViewModelListener listener);
-    void unsubscribe(AdhocDataViewModelListener listener);
+
+    interface OperationListener {
+        void onOperationStart(Operation operation);
+        void onOperationEnd(Operation operation);
+        void onOperationFailed(Operation operation, String error);
+    }
+
+    void subscribe(OperationListener listener);
+    void unsubscribe(OperationListener listener);
     void run();
     void refresh();
     void askAvailableChartTypes();
