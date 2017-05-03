@@ -181,7 +181,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
     @Override
     public void onEventReceived(Event event) {
-        switch (event) {
+        switch (event.getType()) {
             case ENVIRONMENT_PREPARING:
                 webView.setVisibility(View.INVISIBLE);
                 showLoading(R.string.adv_preparing);
@@ -190,6 +190,12 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
                 webView.setVisibility(View.VISIBLE);
                 hideLoading();
                 model.run();
+                break;
+            case ERROR:
+                webView.setVisibility(View.VISIBLE);
+                Toast.makeText(getContext(), (String)event.getData(), Toast.LENGTH_LONG)
+                        .show();
+                hideLoading();
                 break;
         }
     }

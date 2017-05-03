@@ -71,7 +71,7 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
     public void subscribeEventListener(EventListener eventListener) {
         this.eventListener = eventListener;
         if (!isPrepared) {
-            notifyListenerOnEventOnUiThread(Event.ENVIRONMENT_PREPARING);
+            notifyListenerOnEventOnUiThread(new Event(Event.EventType.ENVIRONMENT_PREPARING, null));
             executor.askIsReady(new VisualizeExecutor.Completion() {
                 @Override
                 public void success(Object data) {
@@ -81,7 +81,7 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
                         @Override
                         public void onSuccess(Object data) {
                             isPrepared = true;
-                            notifyListenerOnEventOnUiThread(Event.ENVIRONMENT_READY);
+                            notifyListenerOnEventOnUiThread(new Event(Event.EventType.ENVIRONMENT_READY, null));
                         }
                     };
                     if (!isReady) {
@@ -168,7 +168,7 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
 
             @Override
             public void failed(String error) {
-                notifyListenerOnEventOnUiThread(Event.ERROR);
+                notifyListenerOnEventOnUiThread(new Event(Event.EventType.ERROR, error));
             }
         });
     }
