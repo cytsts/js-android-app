@@ -31,8 +31,9 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
     JasperServer mServer;
 
     private AdhocDataViewExecutorApi executor;
-    private OperationListener listener;
     private Context context;
+    private OperationListener operationListener;
+    private EventListener eventListener;
 
     // TODO: move to separate storage
     private List<ChartType> canvasTypes;
@@ -57,10 +58,20 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
      */
 
     @Override
-    public void subscribe(OperationListener listener) {
-        this.listener = listener;
+    public void subscribeOperationListener(OperationListener operationListener) {
+        this.operationListener = operationListener;
+    }
+
+    @Override
+    public void unsubscribeOperationListener(OperationListener operationListener) {
+        this.operationListener = null;
+    }
+
+    @Override
+    public void subscribeEventListener(EventListener eventListener) {
+        this.eventListener = eventListener;
         if (!isPrepared) {
-            notifyListenerOnOperationStartOnUiThread(Operation.PREPARE);
+            notifyListenerOnEventOnUiThread(Event.ENVIRONMENT_PREPARING);
             executor.askIsReady(new VisualizeExecutor.Completion() {
                 @Override
                 public void success(Object data) {
@@ -70,13 +81,13 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
                         @Override
                         public void onSuccess(Object data) {
                             isPrepared = true;
+                            notifyListenerOnEventOnUiThread(Event.ENVIRONMENT_READY);
                         }
                     };
                     if (!isReady) {
                         prepare(completion);
                     } else {
                         completion.onSuccess(null);
-                        notifyListenerOnOperationEndOnUiThread(Operation.PREPARE);
                     }
                 }
 
@@ -89,8 +100,8 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
     }
 
     @Override
-    public void unsubscribe(OperationListener listener) {
-        this.listener = null;
+    public void unsubscribeEventListener(EventListener eventListener) {
+        this.eventListener = null;
     }
 
     @Override
@@ -148,8 +159,18 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
      * Private
      */
 
-    public void prepare(SuccessCompletion completion) {
-        executor.prepare(completionForOperation(Operation.PREPARE, completion));
+    public void prepare(final SuccessCompletion completion) {
+        executor.prepare(new VisualizeExecutor.Completion() {
+            @Override
+            public void success(Object data) {
+                completion.onSuccess(data);
+            }
+
+            @Override
+            public void failed(String error) {
+                notifyListenerOnEventOnUiThread(Event.ERROR);
+            }
+        });
     }
 
     private AdhocDataViewModelComponent getComponent(Context context) {
@@ -203,37 +224,53 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
     }
 
     private void notifyListenerOnOperationStartOnUiThread(final Operation operation) {
-        if (listener == null) {
+        if (operationListener == null) {
             return;
         }
         new Handler(context.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                listener.onOperationStart(operation);
+                operationListener.onOperationStart(operation);
             }
         });
     }
 
     private void notifyListenerOnOperationEndOnUiThread(final Operation operation) {
-        if (listener == null) {
+        if (operationListener == null) {
             return;
         }
         new Handler(context.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                listener.onOperationEnd(operation);
+                operationListener.onOperationEnd(operation);
             }
         });
     }
 
     private void notifyListenerOnOperationFailedOnUiThread(final Operation operation, final String error) {
-        if (listener == null) {
+        if (operationListener == null) {
             return;
         }
         new Handler(context.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                listener.onOperationFailed(operation, error);
+                operationListener.onOperationFailed(operation, error);
+            }
+        });
+    }
+
+    /*
+     * Event notifying
+     */
+
+    private void notifyListenerOnEventOnUiThread(final Event event) {
+        if (eventListener == null) {
+            return;
+        }
+        new Handler(context.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                eventListener.onEventReceived(event);
             }
         });
     }

@@ -9,9 +9,8 @@ import java.util.List;
  */
 
 public interface AdhocDataViewModel {
+    // Operations
     enum Operation {
-        ASK_IS_READY,
-        PREPARE,
         RUN,
         REFRESH,
         ASK_AVAILABLE_CANVAS_TYPES,
@@ -24,13 +23,32 @@ public interface AdhocDataViewModel {
         void onOperationFailed(Operation operation, String error);
     }
 
-    void subscribe(OperationListener listener);
-    void unsubscribe(OperationListener listener);
+    void subscribeOperationListener(OperationListener operationListener);
+    void unsubscribeOperationListener(OperationListener operationListener);
+
+    // Events
+    enum Event {
+        ENVIRONMENT_PREPARING,
+        ENVIRONMENT_READY,
+        ERROR
+
+    }
+
+    interface EventListener {
+        void onEventReceived(Event event);
+    }
+
+    void subscribeEventListener(EventListener eventListener);
+    void unsubscribeEventListener(EventListener eventListener);
+
+    // Generals operations
     void run();
     void refresh();
+    void destroy();
+
+    // Canvas operations
     void askAvailableChartTypes();
     void changeCanvasType(ChartType canvasType);
     List<ChartType> getCanvasTypes();
     ChartType getCurrentCanvasType();
-    void destroy();
 }

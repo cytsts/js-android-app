@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.jaspersoft.android.jaspermobile.GraphObject;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.report.chartTypes.ChartTypesActivity;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModel.Event;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModel.Operation;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.AdhocDataViewModelImpl;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webviewstore.WebviewStore;
@@ -37,7 +38,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by aleksandrdakhno on 4/21/17.
  */
 
-public class AdhocDataViewFragment extends Fragment implements AdhocDataViewModel.OperationListener {
+public class AdhocDataViewFragment extends Fragment implements AdhocDataViewModel.OperationListener, AdhocDataViewModel.EventListener {
 
     static final String ARG_RESOURCE_LOOKUP = "resource_lookup";
     private static final int SELECTED_CANVAS_TYPE_CODE = 102;
@@ -124,13 +125,15 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     @Override
     public void onStart() {
         super.onStart();
-        model.subscribe(this);
+        model.subscribeOperationListener(this);
+        model.subscribeEventListener(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        model.unsubscribe(this);
+        model.unsubscribeOperationListener(this);
+        model.unsubscribeEventListener(this);
     }
 
     @Override
@@ -173,19 +176,32 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     }
 
     /*
-     * AdhocDataViewModelListener interface
+     * AdhocDataViewModel.EventListener
+     */
+
+    @Override
+    public void onEventReceived(Event event) {
+        switch (event) {
+            case ENVIRONMENT_PREPARING:
+                webView.setVisibility(View.INVISIBLE);
+                showLoading(R.string.adv_preparing);
+                break;
+            case ENVIRONMENT_READY:
+                webView.setVisibility(View.VISIBLE);
+                hideLoading();
+                model.run();
+                break;
+        }
+    }
+
+    /*
+     * AdhocDataViewModel.OperationListener
      */
 
     @Override
     public void onOperationStart(Operation operation) {
         webView.setVisibility(View.INVISIBLE);
-        switch (operation) {
-            case PREPARE:
-                showLoading(R.string.adv_preparing);
-                break;
-            default:
-                showLoading(R.string.adv_executing);
-        }
+        showLoading(R.string.adv_executing);
     }
 
     @Override
@@ -193,9 +209,6 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
         webView.setVisibility(View.VISIBLE);
         hideLoading();
         switch (operation) {
-            case PREPARE:
-                model.run();
-                break;
             case ASK_AVAILABLE_CANVAS_TYPES:
                 showAvailableCanvasTypes(model.getCanvasTypes(), model.getCurrentCanvasType());
                 break;
