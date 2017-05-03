@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.webkit.WebView;
 
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.webenvironment.VisualizeWebEnvironment;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.VisualizeWebEnvironment;
 
 import java.util.HashMap;
 import java.util.Map;

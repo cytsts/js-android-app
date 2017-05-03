@@ -1,4 +1,4 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.webenvironment;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,9 +11,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.jaspersoft.android.jaspermobile.GraphObject;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.webenvironment.webinterface.VisualizeWebInterfaceListener;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.webenvironment.webinterface.VisualizeWebInterface;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.webenvironment.webinterface.VisualizeWebResponse;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webinterface.VisualizeWebInterfaceListener;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webinterface.VisualizeWebInterface;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webinterface.VisualizeWebResponse;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AdhocDataViewWebEnvironmentComponent;
 import com.jaspersoft.android.jaspermobile.util.VisualizeEndpoint;
 import com.jaspersoft.android.jaspermobile.webview.DefaultUrlPolicy;

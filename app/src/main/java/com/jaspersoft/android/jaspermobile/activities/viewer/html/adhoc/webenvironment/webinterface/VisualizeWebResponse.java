@@ -1,4 +1,4 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.webenvironment.webinterface;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webinterface;
 
 /**
  * Created by aleksandrdakhno on 4/29/17.

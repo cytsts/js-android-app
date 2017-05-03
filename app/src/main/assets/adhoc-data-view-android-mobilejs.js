@@ -232,6 +232,12 @@ JasperMobile.AdhocDataView = {
     destroyFn: function() {
         this.instance.destroy();
         this.instance = null;
+
+        // move to helpers
+        var dialogs = document.getElementsByClassName("jr-mDialog");
+        if (dialogs.length == 1) {
+            document.body.removeChild(dialogs[0]);
+        }
     }
 };
 

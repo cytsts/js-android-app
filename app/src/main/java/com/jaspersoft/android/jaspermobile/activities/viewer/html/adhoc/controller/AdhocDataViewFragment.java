@@ -21,6 +21,7 @@ import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.report.chartTypes.ChartTypesActivity;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModel.Operation;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.AdhocDataViewModelImpl;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webviewstore.WebviewStore;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AdhocDataViewFragmentComponent;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
@@ -61,15 +62,14 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        webView = WebViewHolder.sharedInstance().getWebView();
+        webView = WebviewStore.getInstance().getWebView();
         if (webView == null) {
             webView = (WebView) inflater.inflate(R.layout.item_webview, null);
-            WebViewHolder.sharedInstance().saveWebView(webView);
+            WebviewStore.getInstance().saveWebView(webView);
         }
 
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_adhoc_data_view, container, false);
         v.addView(webView, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
 
         ResourceLookup resourceLookup = getArguments().getParcelable(ARG_RESOURCE_LOOKUP);
         assert resourceLookup != null;
@@ -84,26 +84,6 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
         }
 
         return v;
-    }
-
-    private static class WebViewHolder {
-        private WebView webView;
-
-        private static WebViewHolder webViewHolder;
-        private static WebViewHolder sharedInstance() {
-            if (webViewHolder == null) {
-                webViewHolder = new WebViewHolder();
-            }
-            return webViewHolder;
-        }
-
-        private void saveWebView(WebView webView) {
-            this.webView = webView;
-        }
-
-        private WebView getWebView() {
-            return webView;
-        }
     }
 
     @Override
@@ -224,6 +204,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
     @Override
     public void onOperationFailed(Operation operation, String error) {
+        webView.setVisibility(View.VISIBLE);
         Toast.makeText(getContext(), error, Toast.LENGTH_LONG)
                 .show();
         hideLoading();

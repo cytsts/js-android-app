@@ -1,4 +1,4 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.webenvironment.webinterface;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webinterface;
 
 import android.annotation.SuppressLint;
 import android.util.Log;

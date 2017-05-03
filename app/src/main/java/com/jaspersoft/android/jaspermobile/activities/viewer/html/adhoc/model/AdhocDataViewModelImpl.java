@@ -61,25 +61,30 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
         this.listener = listener;
         if (!isPrepared) {
             notifyListenerOnOperationStartOnUiThread(Operation.PREPARE);
-            executor.askIsReady(completionForOperation(Operation.ASK_IS_READY, new SuccessCompletion() {
+            executor.askIsReady(new VisualizeExecutor.Completion() {
                 @Override
-                public void onSuccess(Object data) {
+                public void success(Object data) {
                     Map<String, Boolean> response = new Gson().fromJson((String) data, new TypeToken<Map<String, Boolean>>() {}.getType());
                     boolean isReady = response.get("isReady");
                     SuccessCompletion completion = new SuccessCompletion() {
                         @Override
                         public void onSuccess(Object data) {
                             isPrepared = true;
-                            notifyListenerOnOperationEndOnUiThread(Operation.PREPARE);
                         }
                     };
                     if (!isReady) {
                         prepare(completion);
                     } else {
                         completion.onSuccess(null);
+                        notifyListenerOnOperationEndOnUiThread(Operation.PREPARE);
                     }
                 }
-            }));
+
+                @Override
+                public void failed(String error) {
+
+                }
+            });
         }
     }
 
