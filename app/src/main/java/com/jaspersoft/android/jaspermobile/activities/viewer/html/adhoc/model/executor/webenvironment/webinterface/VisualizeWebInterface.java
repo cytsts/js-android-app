@@ -60,9 +60,9 @@ public class VisualizeWebInterface extends WebInterface {
                 );
             }
 
-            private JavascriptResponse.ResponseType parseMessageType(JsonObject jsonObject) {
+            private ResponseType parseMessageType(JsonObject jsonObject) {
                 JsonElement typeElement = jsonObject.get("type");
-                return JavascriptResponse.ResponseType.valueOf(typeElement.getAsString().toUpperCase());
+                return ResponseType.valueOf(typeElement.getAsString().toUpperCase());
             }
 
             private String parseCommand(JsonObject jsonObject) {
@@ -164,5 +164,47 @@ public class VisualizeWebInterface extends WebInterface {
             // TODO: may be throw error?
         }
         return null;
+    }
+
+    /*
+     * JavascriptResponse
+     */
+
+    private enum ResponseType {
+        CALLBACK,
+        LISTENER
+    }
+
+    private class JavascriptResponse {
+        private ResponseType type;
+        private String operation;
+        private Object parameters;
+
+        JavascriptResponse(ResponseType type, String operation, Object parameters) {
+            this.type = type;
+            this.operation = operation;
+            this.parameters = parameters;
+        }
+
+        ResponseType getType() {
+            return type;
+        }
+
+        String getOperation() {
+            return operation;
+        }
+
+        Object getParameter() {
+            return parameters;
+        }
+
+        @Override
+        public String toString() {
+            return "JavascriptResponse{" +
+                    "type='" + type + '\'' +
+                    ", operation='" + operation + '\'' +
+                    ", parameters=" + parameters +
+                    '}';
+        }
     }
 }
