@@ -17,6 +17,7 @@ import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 import com.jaspersoft.android.sdk.widget.report.renderer.ChartType;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -48,7 +49,7 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
     public AdhocDataViewModelImpl(Context context, WebView webView, ResourceLookup resourceLookup) {
         getComponent(context).inject(this);
         this.context = context;
-        executor = new AdhocDataViewVisualizeExecutor(context, webView, resourceLookup.getUri());
+        executor = new AdhocDataViewVisualizeExecutor(context, webView, mServer.getBaseUrl(), resourceLookup.getUri());
     }
 
     /*
@@ -59,7 +60,26 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
     public void subscribe(OperationListener listener) {
         this.listener = listener;
         if (!isPrepared) {
-            prepare();
+            notifyListenerOnOperationStartOnUiThread(Operation.PREPARE);
+            executor.askIsReady(completionForOperation(Operation.ASK_IS_READY, new SuccessCompletion() {
+                @Override
+                public void onSuccess(Object data) {
+                    Map<String, Boolean> response = new Gson().fromJson((String) data, new TypeToken<Map<String, Boolean>>() {}.getType());
+                    boolean isReady = response.get("isReady");
+                    SuccessCompletion completion = new SuccessCompletion() {
+                        @Override
+                        public void onSuccess(Object data) {
+                            isPrepared = true;
+                            notifyListenerOnOperationEndOnUiThread(Operation.PREPARE);
+                        }
+                    };
+                    if (!isReady) {
+                        prepare(completion);
+                    } else {
+                        completion.onSuccess(null);
+                    }
+                }
+            }));
         }
     }
 
@@ -123,14 +143,8 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
      * Private
      */
 
-    public void prepare() {
-        notifyListenerOnOperationStartOnUiThread(Operation.PREPARE);
-        executor.prepare(mServer.getBaseUrl(), completionForOperation(Operation.PREPARE, new SuccessCompletion() {
-            @Override
-            public void onSuccess(Object data) {
-                isPrepared = true;
-            }
-        }));
+    public void prepare(SuccessCompletion completion) {
+        executor.prepare(completionForOperation(Operation.PREPARE, completion));
     }
 
     private AdhocDataViewModelComponent getComponent(Context context) {

@@ -25,14 +25,16 @@ import java.util.Map;
 
 public class VisualizeWebInterface extends WebInterface {
 
-    private final VisualizeWebInterfaceListener listener;
+    private VisualizeWebInterfaceListener listener;
 
-    private VisualizeWebInterface(VisualizeWebInterfaceListener listener) {
-        this.listener = listener;
-    }
+    private static VisualizeWebInterface sharedInstance;
 
     public static WebInterface from(VisualizeWebInterfaceListener listener) {
-        return new VisualizeWebInterface(listener);
+        if (sharedInstance == null) {
+            sharedInstance = new VisualizeWebInterface();
+        }
+        sharedInstance.listener = listener;
+        return sharedInstance;
     }
 
     @SuppressLint({"JavascriptInterface", "AddJavascriptInterface"})

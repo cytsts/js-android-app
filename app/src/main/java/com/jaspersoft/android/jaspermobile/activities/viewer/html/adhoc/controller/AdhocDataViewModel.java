@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface AdhocDataViewModel {
     enum Operation {
+        ASK_IS_READY,
         PREPARE,
         RUN,
         REFRESH,

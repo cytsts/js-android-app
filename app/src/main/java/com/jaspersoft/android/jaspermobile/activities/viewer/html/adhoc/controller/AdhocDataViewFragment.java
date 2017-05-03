@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,8 +61,15 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_adhoc_data_view, container, false);
-        webView = (WebView) v.findViewById(R.id.fragment_adhoc_data_view_web_view);
+        webView = WebViewHolder.sharedInstance().getWebView();
+        if (webView == null) {
+            webView = (WebView) inflater.inflate(R.layout.item_webview, null);
+            WebViewHolder.sharedInstance().saveWebView(webView);
+        }
+
+        ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_adhoc_data_view, container, false);
+        v.addView(webView, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
 
         ResourceLookup resourceLookup = getArguments().getParcelable(ARG_RESOURCE_LOOKUP);
         assert resourceLookup != null;
@@ -76,6 +84,26 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
         }
 
         return v;
+    }
+
+    private static class WebViewHolder {
+        private WebView webView;
+
+        private static WebViewHolder webViewHolder;
+        private static WebViewHolder sharedInstance() {
+            if (webViewHolder == null) {
+                webViewHolder = new WebViewHolder();
+            }
+            return webViewHolder;
+        }
+
+        private void saveWebView(WebView webView) {
+            this.webView = webView;
+        }
+
+        private WebView getWebView() {
+            return webView;
+        }
     }
 
     @Override

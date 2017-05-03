@@ -11,8 +11,8 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
 
     private String resourceUri;
 
-    public AdhocDataViewVisualizeExecutor(Context context, WebView webView, String resourceUri) {
-        super(context, webView);
+    public AdhocDataViewVisualizeExecutor(Context context, WebView webView, String baseUrl, String resourceUri) {
+        super(context, webView, baseUrl);
         this.resourceUri = resourceUri;
     }
 
@@ -21,8 +21,14 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
      */
 
     @Override
-    public void prepare(String baseUrl, Completion completion) {
-        super.prepare(baseUrl, completion);
+    public void askIsReady(Completion completion) {
+        completions.put("askIsReady", completion);
+        executeJavascriptCode(javascriptCodeForAskIsReady());
+    }
+
+    @Override
+    public void prepare(Completion completion) {
+        super.prepare(completion);
     }
 
     @Override
@@ -56,13 +62,18 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
 
     @Override
     public void destroy() {
-//        executeJavascriptCode(javascriptCodeForDestroy());
-        webEnvironment.destroy();
+        executeJavascriptCode(javascriptCodeForDestroy());
+        super.destroy();
     }
 
     /*
      * Private
      */
+
+    private String javascriptCodeForAskIsReady() {
+        String executeScript = String.format("javascript:JasperMobile.Environment.askIsReady()");
+        return executeScript;
+    }
 
     private String javascriptCodeForSetScale(float scale) {
         String executeScript = String.format("javascript:Environment.setScale('%.2f')", scale);
@@ -90,7 +101,7 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
     }
 
     private String javascriptCodeForDestroy() {
-        String executeScript = String.format("javascript:destroy('%s')", resourceUri);
+        String executeScript = String.format("javascript:JasperMobile.AdhocDataView.API.destroy()");
         return executeScript;
     }
 }

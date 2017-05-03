@@ -7,7 +7,8 @@ import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.ex
  */
 
 public interface AdhocDataViewExecutorApi {
-    void prepare(String baseUrl, Completion completion);
+    void askIsReady(Completion completion);
+    void prepare(Completion completion);
     void setScale(float scale);
     void run(Completion completion);
     void refresh(Completion completion);

@@ -23,14 +23,19 @@ public class VisualizeExecutor implements VisualizeWebEnvironment.Listener {
         void failed(String error);
     }
 
-    protected VisualizeExecutor(Context context, WebView webView) {
-        webEnvironment = new VisualizeWebEnvironment(context, webView);
+    protected VisualizeExecutor(Context context, WebView webView, String baseUrl) {
+        webEnvironment = new VisualizeWebEnvironment(context, webView, baseUrl);
+        webEnvironment.subscribe(this);
     }
 
-    protected void prepare(String baseUrl, Completion completion) {
+    protected void prepare(Completion completion) {
         completions.put("prepare", completion);
-        webEnvironment.subscribe(this);
-        webEnvironment.prepare(baseUrl);
+        webEnvironment.prepare();
+    }
+
+    protected void destroy() {
+        webEnvironment.unsubscribe();
+        webEnvironment.destroy();
     }
 
     /*
@@ -79,7 +84,15 @@ public class VisualizeExecutor implements VisualizeWebEnvironment.Listener {
      */
 
     protected void executeJavascriptCode(String code) {
-        webEnvironment.getWebView().loadUrl(code);
+        if (code.equals("javascript:JasperMobile.Environment.askIsReady()")) {
+            if (webEnvironment.isInitialized()) {
+                webEnvironment.getWebView().loadUrl(code);
+            } else {
+                onSuccess("askIsReady", "{isReady:false}");
+            }
+        } else {
+            webEnvironment.getWebView().loadUrl(code);
+        }
     }
 
     private void prepareVisualize() {

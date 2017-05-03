@@ -38,11 +38,15 @@ var JasperMobile = {
     },
     Logger: null,
     Environment : {
+        isReady: false,
         setScale: function(scale) {
             document.body.style.transform = "scale(" + scaleValue + ")";
             document.body.style.transformOrigin = "0% 0%";
             document.body.style.width = scale * 100 + "%";
             document.body.style.height = scale * 100 + "%";
+        },
+        askIsReady: function() {
+            JasperMobile.AdhocDataView.Callback.success("askIsReady", {isReady: this.isReady});
         }
     },
     Callback : null,
@@ -138,6 +142,7 @@ JasperMobile.VIZ = {
     visualizeReadyCallback: function() {
         JasperMobile.Logger.log("successVisualizeReadyCallback");
         JasperMobile.Callback.callback("onVisualizeReady", null);
+        JasperMobile.Environment.isReady = true;
     },
     visualizeFailedCallback: function(errorObject) {
         JasperMobile.Logger.log("errorVisualizeFailedCallback");
@@ -223,6 +228,10 @@ JasperMobile.AdhocDataView = {
         .fail(
             JasperMobile.AdhocDataView.Callback.fail("changeCanvasType")
         );
+    },
+    destroyFn: function() {
+        this.instance.destroy();
+        this.instance = null;
     }
 };
 
@@ -267,5 +276,8 @@ JasperMobile.AdhocDataView.API = {
     },
     changeCanvasType: function(canvasType) {
         JasperMobile.AdhocDataView.changeCanvasTypeFn(canvasType);
+    },
+    destroy: function() {
+        JasperMobile.AdhocDataView.destroyFn();
     }
 };

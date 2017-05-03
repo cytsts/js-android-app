@@ -60,11 +60,15 @@ public class VisualizeWebEnvironment {
     private Context context;
     private WebView webView;
     private Listener listener;
+    private String baseUrl;
+    private static boolean isInitialized; // TODO: remove this hack
 
-    public VisualizeWebEnvironment(Context context, WebView webView) {
+    public VisualizeWebEnvironment(Context context, WebView webView, String baseUrl) {
         getComponent(context).inject(this);
         this.context = context;
         this.webView = webView;
+        this.baseUrl = baseUrl;
+        prepareWebView(baseUrl);
     }
 
     private AdhocDataViewWebEnvironmentComponent getComponent(Context context) {
@@ -81,30 +85,40 @@ public class VisualizeWebEnvironment {
         return webView;
     }
 
-    public void prepare(String baseUrl) {
-        prepareWebView(baseUrl);
+    public boolean isInitialized() {
+        return isInitialized;
+    }
+
+    public void prepare() {
         prepareEnvironment(baseUrl);
     }
 
     public void destroy() {
+        Log.d("VisualizeWebEnvironment", "destroy: " + this);
         if (webView != null) {
             ((ViewGroup) webView.getParent()).removeView(webView);
-            webView.removeAllViews();
-            webView.destroy();
         }
     }
 
     public void subscribe(Listener listener) {
+        Log.d("VisualizeWebEnvironment", "subscribe: " + this);
+        Log.d("VisualizeWebEnvironment", "listener: " + listener);
         this.listener = listener;
     }
 
     public void unsubscribe() {
+        Log.d("VisualizeWebEnvironment", "unsubscribe: " + this);
         this.listener = null;
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void prepareWebView(String baseUrl) {
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
 
         UrlPolicy defaultPolicy = new DefaultUrlPolicy(baseUrl)
                 .withSessionListener(new DefaultUrlPolicy.SessionListener() {
@@ -144,11 +158,6 @@ public class VisualizeWebEnvironment {
 //                }
             }
         });
-        webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setDisplayZoomControls(false);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
 
         WebViewEnvironment.configure(webView)
                 .withWebInterface(
@@ -217,6 +226,7 @@ public class VisualizeWebEnvironment {
         @Override
         public void onPageFinishedLoading(String onPageFinishedLoading) {
             Log.d("VisualizeWebEnvironment", "onPageFinishedLoading url: " + onPageFinishedLoading);
+            isInitialized = true;
         }
 
         @Override
@@ -228,7 +238,7 @@ public class VisualizeWebEnvironment {
     private class VisualizeWebInterfaceListenerImpl implements VisualizeWebInterfaceListener {
         @Override
         public void onEnvironmentReady() {
-            Log.d("VisualizeWebEnvironment", "onEnvironmentReady");
+            Log.d("WebInterfaceListenerImp", "onEnvironmentReady");
 
             if (listener != null) {
                 listener.onEnvironmentReady();
@@ -237,7 +247,7 @@ public class VisualizeWebEnvironment {
 
         @Override
         public void onVisualizeReady() {
-            Log.d("VisualizeWebEnvironment", "onVisualizeReady");
+            Log.d("WebInterfaceListenerImp", "onVisualizeReady");
             if (listener != null) {
                 listener.onVisualizeReady();
             }
@@ -245,7 +255,7 @@ public class VisualizeWebEnvironment {
 
         @Override
         public void onVisualizeFailed(String error) {
-            Log.d("VisualizeWebEnvironment", "onVisualizeFailed: " + error);
+            Log.d("WebInterfaceListenerImp", "onVisualizeFailed: " + error);
             if (listener != null) {
                 listener.onFail(null, error);
             }
@@ -253,7 +263,7 @@ public class VisualizeWebEnvironment {
 
         @Override
         public void onOperationDone(VisualizeWebResponse response) {
-            Log.d("VisualizeWebEnvironment", "onOperationDone");
+            Log.d("WebInterfaceListenerImp", "onOperationDone");
             if (listener != null) {
                 listener.onSuccess(response.getOperation(), response.getParameters());
             }
@@ -261,7 +271,7 @@ public class VisualizeWebEnvironment {
 
         @Override
         public void onOperationError(VisualizeWebResponse response) {
-            Log.d("VisualizeWebEnvironment", "onOperationError with error: " + response.getError());
+            Log.d("WebInterfaceListenerImp", "onOperationError with error: " + response.getError());
             if (listener != null) {
                 listener.onFail(response.getOperation(), response.getError());
             }
