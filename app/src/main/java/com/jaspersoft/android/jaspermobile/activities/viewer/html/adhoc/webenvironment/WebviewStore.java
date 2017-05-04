@@ -1,4 +1,4 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webviewstore;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment;
 
 import android.webkit.WebView;
 

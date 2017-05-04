@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +21,7 @@ import com.jaspersoft.android.jaspermobile.activities.report.chartTypes.ChartTyp
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModel.Event;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModel.Operation;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.AdhocDataViewModelImpl;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webviewstore.WebviewStore;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.WebviewStore;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AdhocDataViewFragmentComponent;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;

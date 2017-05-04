@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //        JasperMobile.Callback.log("send body: " + body);
         this.reallySend(body);
     };
-    JasperMobile.Callback.callback("onEnvironmentReady", null);
+    JasperMobile.Listener.event("onEnvironmentReady", null);
     JasperMobile.Logger.log("inside of 'DOMContentLoaded'");
 }, false);
 
@@ -91,12 +91,16 @@ JasperMobile.Logger = {
     }
 };
 
-JasperMobile.Callback = {
+JasperMobile.Listener = {
     logEnable: true, // For now changes by hands
     postMessage: function(params) {
-        window.Android.postMessage(JSON.stringify(params));
+        try {
+            window.Android.postMessage(JSON.stringify(params));
+        } catch(error) {
+            console.log(error);
+        }
     },
-    callback: function(operation, parameters) {
+    operation: function(operation, parameters) {
         this.postMessage(
             {
                 "type"       : "callback",
@@ -105,10 +109,10 @@ JasperMobile.Callback = {
             }
         );
     },
-    listener: function(operation, parameters) {
+    event: function(operation, parameters) {
         this.postMessage(
             {
-                "type"       : "listener",
+                "type"       : "event",
                 "operation"  : operation,
                 "parameters" : parameters
             }
@@ -124,10 +128,8 @@ JasperMobile.VIZ = {
         }
     },
     prepareFn: function() {
-        JasperMobile.Logger.log("prepareFn");
         var that = this;
         return function(v) {
-            JasperMobile.Logger.log("inside of function with 'v'");
             that.instance = v;
             that.visualizeReadyCallback();
         }
@@ -140,14 +142,11 @@ JasperMobile.VIZ = {
         );
     },
     visualizeReadyCallback: function() {
-        JasperMobile.Logger.log("successVisualizeReadyCallback");
-        JasperMobile.Callback.callback("onVisualizeReady", null);
+        JasperMobile.Listener.event("onVisualizeReady", null);
         JasperMobile.Environment.isReady = true;
     },
     visualizeFailedCallback: function(errorObject) {
-        JasperMobile.Logger.log("errorVisualizeFailedCallback");
-        JasperMobile.Logger.logObject(errorObject);
-        JasperMobile.Callback.callback("onVisualizeFailed", {
+        JasperMobile.Listener.event("onVisualizeFailed", {
             operationType: "prepareVisualize",
             errorObject: errorObject
         });
@@ -252,17 +251,14 @@ JasperMobile.AdhocDataView.Callback = {
                 // TODO: verify that data is object
                 parameters = {
                     "operationType": operation,
-                    "data": JSON.stringify(data)
+                    "dataObject": JSON.stringify(data)
                 }
             }
-            JasperMobile.Logger.log("successOperationCallback");
-            JasperMobile.Callback.callback("onOperationDone", parameters);
+            JasperMobile.Listener.operation("onOperationDone", parameters);
         },
     fail: function(operation) {
         return function(errorObject) {
-            JasperMobile.Logger.log("errorOperationCallback");
-            JasperMobile.Logger.logObject(errorObject);
-            JasperMobile.Callback.callback("onOperationError", {
+            JasperMobile.Listener.operation("onOperationDone", {
                 "operationType": operation,
                 "errorObject": errorObject
             });

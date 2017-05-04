@@ -1,4 +1,4 @@
-package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webinterface;
+package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -23,17 +23,15 @@ import java.util.Map;
  * Created by aleksandrdakhno on 4/21/17.
  */
 
-public class VisualizeWebInterface extends WebInterface {
+class VisualizeWebInterface extends WebInterface {
 
-    private VisualizeWebInterfaceListener listener;
+    private VisualizeWebEnvironment.Listener listener;
 
     private static VisualizeWebInterface sharedInstance;
-
-    public static WebInterface from(VisualizeWebInterfaceListener listener) {
+    public static VisualizeWebInterface getInstance() {
         if (sharedInstance == null) {
             sharedInstance = new VisualizeWebInterface();
         }
-        sharedInstance.listener = listener;
         return sharedInstance;
     }
 
@@ -43,13 +41,21 @@ public class VisualizeWebInterface extends WebInterface {
         webView.addJavascriptInterface(this, "Android");
     }
 
+    void addListener(VisualizeWebEnvironment.Listener listener) {
+        sharedInstance.listener = listener;
+    }
+
+    void removeListener(VisualizeWebEnvironment.Listener listener) {
+        sharedInstance.listener = null;
+    }
+
     /*
      * Adhoc Callback Interface
      */
 
     @JavascriptInterface
     public void postMessage(final String message) {
-        Log.d("ADViewWebInterface", "message: " + message);
+        Log.d("VisualizeWebInterface", "message: " + message);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(JavascriptResponse.class, new JsonDeserializer<JavascriptResponse>() {
             @Override
@@ -95,15 +101,51 @@ public class VisualizeWebInterface extends WebInterface {
                 processCallback(response.getOperation(), response.getParameter());
                 break;
             }
-            case LISTENER: {
-                Log.d("ADViewWebInterface", "listener for: " + response.getOperation());
+            case EVENT: {
+                processEvent(response.getOperation(), response.getParameter());
                 break;
             }
         }
     }
 
     /*
-     * Private Methods
+     * Events Methods
+     */
+
+    private void processEvent(final String event, final Object parameters) {
+        handleCallback(new Runnable() {
+            @Override
+            public void run() {
+                if (listener != null) {
+                    listener.onEventReceived(responseFromDataForEvent(event, parameters));
+                }
+            }
+        });
+    }
+
+    private VisualizeWebResponse responseFromDataForEvent(String event, Object objectData) {
+        if (objectData instanceof Map) {
+            Map<String, Object> parametersAsMap = (Map<String, Object>) objectData;
+            Object dataObject = parametersAsMap.get("dataObject");
+            Object errorObject = parametersAsMap.get("errorObject");
+            return new VisualizeWebResponse(
+                    VisualizeWebResponse.Type.Operation,
+                    event,
+                    dataObject,
+                    errorObject
+            );
+        } else {
+            return new VisualizeWebResponse(
+                    VisualizeWebResponse.Type.Operation,
+                    event,
+                    null,
+                    null
+            );
+        }
+    }
+
+    /*
+     * Callbacks Methods
      */
 
     private void processCallback(final String operation, final Object parameters) {
@@ -111,23 +153,11 @@ public class VisualizeWebInterface extends WebInterface {
             @Override
             public void run() {
                 switch (operation) {
-                    case "onEnvironmentReady":
-                        listener.onEnvironmentReady();
-                        break;
-                    case "onVisualizeReady":
-                        listener.onVisualizeReady();
-                        break;
-                    case "onVisualizeFailed": {
-                        listener.onVisualizeFailed(failResponseFromData(parameters).getError());
-                        break;
-                    }
                     case "onOperationDone":
-                        listener.onOperationDone(successResponseFromData(parameters));
+                        if (listener != null) {
+                            listener.onOperationDone(responseFromDataForOperation(parameters));
+                        }
                         break;
-                    case "onOperationError": {
-                        listener.onOperationError(failResponseFromData(parameters));
-                        break;
-                    }
                     default:
                         throw new RuntimeException("Unsupported command");
                 }
@@ -135,32 +165,17 @@ public class VisualizeWebInterface extends WebInterface {
         });
     }
 
-    private VisualizeWebResponse successResponseFromData(Object objectData) {
+    private VisualizeWebResponse responseFromDataForOperation(Object objectData) {
         if (objectData instanceof Map) {
             Map<String, Object> parametersAsMap = (Map<String, Object>) objectData;
             String operationType = (String) parametersAsMap.get("operationType");
-            Object data = parametersAsMap.get("data");
+            Object dataObject = parametersAsMap.get("dataObject");
+            Object errorObject = parametersAsMap.get("errorObject");
             return new VisualizeWebResponse(
+                    VisualizeWebResponse.Type.Operation,
                     operationType,
-                    data,
-                    null
-            );
-        } else {
-            // TODO: may be throw error?
-        }
-        return null;
-    }
-
-    private VisualizeWebResponse failResponseFromData(Object data) {
-        if (data instanceof Map) {
-            Map<String, Object> parametersAsMap = (Map<String, Object>) data;
-            String operationType = (String) parametersAsMap.get("operationType");
-            Map<String, Object> errorObject = (Map<String, Object>) parametersAsMap.get("errorObject");
-            String message = (String) errorObject.get("message");
-            return new VisualizeWebResponse(
-                    operationType,
-                    null,
-                    message
+                    dataObject,
+                    errorObject
             );
         } else {
             // TODO: may be throw error?
@@ -174,7 +189,7 @@ public class VisualizeWebInterface extends WebInterface {
 
     private enum ResponseType {
         CALLBACK,
-        LISTENER
+        EVENT
     }
 
     private class JavascriptResponse {

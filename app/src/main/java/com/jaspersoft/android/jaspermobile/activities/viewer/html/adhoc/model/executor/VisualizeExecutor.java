@@ -2,9 +2,11 @@ package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.e
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.webkit.WebView;
 
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.VisualizeWebEnvironment;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.VisualizeWebResponse;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +36,7 @@ public class VisualizeExecutor implements VisualizeWebEnvironment.Listener {
     }
 
     protected void destroy() {
-        webEnvironment.unsubscribe();
+        webEnvironment.unsubscribe(this);
         webEnvironment.destroy();
     }
 
@@ -43,39 +45,42 @@ public class VisualizeExecutor implements VisualizeWebEnvironment.Listener {
      */
 
     @Override
-    public void onEnvironmentReady() {
-        new Handler(webEnvironment.getContext().getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                prepareVisualize();
+    public void onEventReceived(VisualizeWebResponse response) {
+        switch (response.getOperation()) {
+            case "onEnvironmentReady":
+                new Handler(webEnvironment.getContext().getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        prepareVisualize();
+                    }
+                });
+                break;
+            case "onVisualizeReady":
+                Completion completion = completions.get("prepare");
+                if (completion != null) {
+                    completion.success(null);
+                    completions.remove("prepare");
+                }
+                break;
+            case "onVisualizeFailed": {
+                String message = ((Map<String, String>) response.getErrorParameters()).get("message");
+                Log.d("VisualizeExecutor", "onVisualizeFailed: " + message);
+                break;
             }
-        });
-    }
-
-    @Override
-    public void onVisualizeReady() {
-        Completion completion = completions.get("prepare");
-        if (completion != null) {
-            completion.success(null);
-            completions.remove("prepare");
         }
     }
 
     @Override
-    public void onSuccess(String operation, Object data) {
-        Completion completion = completions.get(operation);
+    public void onOperationDone(VisualizeWebResponse response) {
+        Completion completion = completions.get(response.getOperation());
         if (completion != null) {
-            completion.success(data);
-            completions.remove(operation);
-        }
-    }
-
-    @Override
-    public void onFail(String operation, String error) {
-        Completion completion = completions.get(operation);
-        if (completion != null) {
-            completion.failed(error);
-            completions.remove(operation);
+            if (response.getErrorParameters() != null) {
+                String message = ((Map<String, String>) response.getErrorParameters()).get("message");
+                completion.failed(message);
+            } else {
+                completion.success(response.getDataParameters());
+            }
+            completions.remove(response.getOperation());
         }
     }
 
@@ -88,7 +93,14 @@ public class VisualizeExecutor implements VisualizeWebEnvironment.Listener {
             if (webEnvironment.isInitialized()) {
                 webEnvironment.getWebView().loadUrl(code);
             } else {
-                onSuccess("askIsReady", "{isReady:false}");
+                onOperationDone(
+                        new VisualizeWebResponse(
+                                VisualizeWebResponse.Type.Operation,
+                                "askIsReady",
+                                "{isReady:false}",
+                                null
+                        )
+                );
             }
         } else {
             webEnvironment.getWebView().loadUrl(code);

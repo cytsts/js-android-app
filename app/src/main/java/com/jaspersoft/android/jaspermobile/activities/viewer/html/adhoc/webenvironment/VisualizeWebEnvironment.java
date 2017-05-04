@@ -11,9 +11,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.jaspersoft.android.jaspermobile.GraphObject;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webinterface.VisualizeWebInterfaceListener;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webinterface.VisualizeWebInterface;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.webinterface.VisualizeWebResponse;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AdhocDataViewWebEnvironmentComponent;
 import com.jaspersoft.android.jaspermobile.util.VisualizeEndpoint;
 import com.jaspersoft.android.jaspermobile.webview.DefaultUrlPolicy;
@@ -47,10 +44,8 @@ import javax.inject.Named;
 public class VisualizeWebEnvironment {
 
     public interface Listener {
-        void onEnvironmentReady();
-        void onVisualizeReady();
-        void onSuccess(String operation, Object data);
-        void onFail(String operation, String error);
+        void onEventReceived(VisualizeWebResponse response);
+        void onOperationDone(VisualizeWebResponse response);
     }
 
     @Inject
@@ -59,7 +54,6 @@ public class VisualizeWebEnvironment {
 
     private Context context;
     private WebView webView;
-    private Listener listener;
     private String baseUrl;
     private static boolean isInitialized; // TODO: remove this hack
 
@@ -94,21 +88,20 @@ public class VisualizeWebEnvironment {
     }
 
     public void destroy() {
-        Log.d("VisualizeWebEnvironment", "destroy: " + this);
         if (webView != null) {
             ((ViewGroup) webView.getParent()).removeView(webView);
         }
     }
 
     public void subscribe(Listener listener) {
-        Log.d("VisualizeWebEnvironment", "subscribe: " + this);
-        Log.d("VisualizeWebEnvironment", "listener: " + listener);
-        this.listener = listener;
+        VisualizeWebInterface webInterface = VisualizeWebInterface.getInstance();
+        webInterface.addListener(listener);
+        WebViewEnvironment.configure(webView)
+                .withWebInterface(webInterface);
     }
 
-    public void unsubscribe() {
-        Log.d("VisualizeWebEnvironment", "unsubscribe: " + this);
-        this.listener = null;
+    public void unsubscribe(Listener listener) {
+        VisualizeWebInterface.getInstance().removeListener(listener);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -125,9 +118,19 @@ public class VisualizeWebEnvironment {
                     @Override
                     public void onSessionExpired() {
                         Log.d("VisualizeWebEnvironment", "onSessionExpired");
-                        if (listener != null) {
-                            listener.onFail(null, "Session expired");
-                        }
+                        // TODO: come up with this
+//                        if (listener != null) {
+//                            Map<String, String> error = new HashMap<>();
+//                            error.put("message", "Session expired");
+//                            listener.onEventReceived(
+//                                    new VisualizeWebResponse(
+//                                            VisualizeWebResponse.Type.Event,
+//                                            "session_expired",
+//                                            null,
+//                                            error
+//                                    )
+//                            );
+//                        }
                     }
                 });
 
@@ -158,11 +161,6 @@ public class VisualizeWebEnvironment {
 //                }
             }
         });
-
-        WebViewEnvironment.configure(webView)
-                .withWebInterface(
-                        VisualizeWebInterface.from(new VisualizeWebInterfaceListenerImpl())
-                );
     }
 
     private void prepareEnvironment(String baseUrl) {
@@ -234,48 +232,4 @@ public class VisualizeWebEnvironment {
             Log.d("VisualizeWebEnvironment", "onReceivedError url: " + failingUrl);
         }
     }
-
-    private class VisualizeWebInterfaceListenerImpl implements VisualizeWebInterfaceListener {
-        @Override
-        public void onEnvironmentReady() {
-            Log.d("WebInterfaceListenerImp", "onEnvironmentReady");
-
-            if (listener != null) {
-                listener.onEnvironmentReady();
-            }
-        }
-
-        @Override
-        public void onVisualizeReady() {
-            Log.d("WebInterfaceListenerImp", "onVisualizeReady");
-            if (listener != null) {
-                listener.onVisualizeReady();
-            }
-        }
-
-        @Override
-        public void onVisualizeFailed(String error) {
-            Log.d("WebInterfaceListenerImp", "onVisualizeFailed: " + error);
-            if (listener != null) {
-                listener.onFail(null, error);
-            }
-        }
-
-        @Override
-        public void onOperationDone(VisualizeWebResponse response) {
-            Log.d("WebInterfaceListenerImp", "onOperationDone");
-            if (listener != null) {
-                listener.onSuccess(response.getOperation(), response.getParameters());
-            }
-        }
-
-        @Override
-        public void onOperationError(VisualizeWebResponse response) {
-            Log.d("WebInterfaceListenerImp", "onOperationError with error: " + response.getError());
-            if (listener != null) {
-                listener.onFail(response.getOperation(), response.getError());
-            }
-        }
-    }
-
 }

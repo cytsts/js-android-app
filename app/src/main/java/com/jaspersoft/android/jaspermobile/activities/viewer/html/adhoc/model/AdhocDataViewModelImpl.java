@@ -223,6 +223,26 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
         };
     }
 
+    /*
+     * Event notifying
+     */
+
+    private void notifyListenerOnEventOnUiThread(final Event event) {
+        if (eventListener == null) {
+            return;
+        }
+        new Handler(context.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                eventListener.onEventReceived(event);
+            }
+        });
+    }
+
+    /*
+     * Operation notifying
+     */
+
     private void notifyListenerOnOperationStartOnUiThread(final Operation operation) {
         if (operationListener == null) {
             return;
@@ -255,22 +275,6 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
             @Override
             public void run() {
                 operationListener.onOperationFailed(operation, error);
-            }
-        });
-    }
-
-    /*
-     * Event notifying
-     */
-
-    private void notifyListenerOnEventOnUiThread(final Event event) {
-        if (eventListener == null) {
-            return;
-        }
-        new Handler(context.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                eventListener.onEventReceived(event);
             }
         });
     }
