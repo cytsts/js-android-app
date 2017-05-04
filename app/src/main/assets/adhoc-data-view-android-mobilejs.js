@@ -63,7 +63,12 @@ JasperMobile.Logger = {
             this.log("'null' object can't be logged");
             return;
         }
-        this.logJson(this.jsonFromObject(object));
+        try {
+            var json = this.jsonFromObject(object);
+            this.logJson(json);
+        } catch(error) {
+            this.log("exception (" + error + ") while logging object: " + object);
+        }
     },
     logJson: function(json) {
         this.log(JSON.stringify(json));
@@ -154,6 +159,7 @@ JasperMobile.VIZ = {
 }
 
 JasperMobile.AdhocDataView = {
+    elemToLinkPairs: null,
     instance: null,
     initInstance: function(resourceUrl) {
         JasperMobile.Logger.log("initInstance");
@@ -163,7 +169,23 @@ JasperMobile.AdhocDataView = {
                 {
                     resource: resourceUrl,
                     container: "#container",
-                    runImmediately: false
+                    runImmediately: false,
+                    linkOptions: {
+                        events: {
+                            "click" : function(ev, data, defaultHadlder, extendedData) {
+                                JasperMobile.Logger.log("events (click), ev: " + ev);
+                                JasperMobile.Logger.log("events (click), data: " + data);
+                                JasperMobile.Logger.logObject(data);
+                                JasperMobile.Logger.log("events (click), defaultHadlder: " + defaultHadlder);
+                                JasperMobile.Logger.log("events (click), extendedData: " + extendedData);
+                                JasperMobile.Logger.logObject(extendedData);
+                            }
+                        },
+                        beforeRender: function(elemToLinkPairs) {
+                            JasperMobile.Logger.log("beforeRender elemToLinkPairs: " + elemToLinkPairs);
+                            JasperMobile.AdhocDataView.elemToLinkPairs = elemToLinkPairs;
+                        }
+                    }
                 }
             );
         } else {
@@ -268,7 +290,12 @@ JasperMobile.AdhocDataView.Callback = {
 
 JasperMobile.AdhocDataView.API = {
     run: function(resourceUrl) {
-        JasperMobile.AdhocDataView.runFn(resourceUrl);
+        try {
+            JasperMobile.AdhocDataView.runFn(resourceUrl);
+        } catch(error) {
+            JasperMobile.Logger.log("exception of run: " + error);
+//            JasperMobile.Logger.logObject(error);
+        }
     },
     refresh: function() {
         JasperMobile.AdhocDataView.refreshFn();
