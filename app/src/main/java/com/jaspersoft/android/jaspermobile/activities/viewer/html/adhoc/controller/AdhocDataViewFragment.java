@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.GraphObject;
@@ -21,14 +20,17 @@ import com.jaspersoft.android.jaspermobile.activities.report.chartTypes.ChartTyp
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModel.Event;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModel.Operation;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.AdhocDataViewModelImpl;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.WebviewStore;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.VisualizeWebEnvironment;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
+import com.jaspersoft.android.jaspermobile.domain.JasperServer;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AdhocDataViewFragmentComponent;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 import com.jaspersoft.android.sdk.widget.report.renderer.ChartType;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -39,11 +41,14 @@ import static android.app.Activity.RESULT_OK;
 
 public class AdhocDataViewFragment extends Fragment implements AdhocDataViewModel.OperationListener, AdhocDataViewModel.EventListener {
 
+    @Inject
+    JasperServer mServer;
+
     static final String ARG_RESOURCE_LOOKUP = "resource_lookup";
     private static final int SELECTED_CANVAS_TYPE_CODE = 102;
 
-    private WebView webView;
     private AdhocDataViewModelImpl model;
+    VisualizeWebEnvironment webEnvironment;
 
     public static AdhocDataViewFragment newInstance(ResourceLookup resource) {
         Bundle args = new Bundle();
@@ -57,26 +62,21 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        getComponent().inject(this);
+        webEnvironment = new VisualizeWebEnvironment(getContext().getApplicationContext(), mServer.getBaseUrl());
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        webView = WebviewStore.getInstance().getWebView();
-        if (webView == null) {
-            webView = new WebView(getContext().getApplicationContext());
-            WebviewStore.getInstance().saveWebView(webView);
-        }
-
-        ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_adhoc_data_view, container, false);
-        v.addView(webView, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         ResourceLookup resourceLookup = getArguments().getParcelable(ARG_RESOURCE_LOOKUP);
         assert resourceLookup != null;
+        model = new AdhocDataViewModelImpl(webEnvironment, resourceLookup);
 
-        model = new AdhocDataViewModelImpl(this.getContext(), webView, resourceLookup);
+        ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_adhoc_data_view, container, false);
+        v.addView(webEnvironment.getWebView(), 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        getComponent().inject(this);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         ActionBar actionBar = activity.getSupportActionBar();
         if (actionBar != null) {
@@ -182,16 +182,16 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     public void onEventReceived(Event event) {
         switch (event.getType()) {
             case ENVIRONMENT_PREPARING:
-                webView.setVisibility(View.INVISIBLE);
+                webEnvironment.getWebView().setVisibility(View.INVISIBLE);
                 showLoading(R.string.adv_preparing);
                 break;
             case ENVIRONMENT_READY:
-                webView.setVisibility(View.VISIBLE);
+                webEnvironment.getWebView().setVisibility(View.VISIBLE);
                 hideLoading();
                 model.run();
                 break;
             case ERROR:
-                webView.setVisibility(View.VISIBLE);
+                webEnvironment.getWebView().setVisibility(View.VISIBLE);
                 Toast.makeText(getContext(), (String)event.getData(), Toast.LENGTH_LONG)
                         .show();
                 hideLoading();
@@ -205,13 +205,13 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
     @Override
     public void onOperationStart(Operation operation) {
-        webView.setVisibility(View.INVISIBLE);
+        webEnvironment.getWebView().setVisibility(View.INVISIBLE);
         showLoading(R.string.adv_executing);
     }
 
     @Override
     public void onOperationEnd(Operation operation) {
-        webView.setVisibility(View.VISIBLE);
+        webEnvironment.getWebView().setVisibility(View.VISIBLE);
         hideLoading();
         switch (operation) {
             case ASK_AVAILABLE_CANVAS_TYPES:
@@ -222,7 +222,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
     @Override
     public void onOperationFailed(Operation operation, String error) {
-        webView.setVisibility(View.VISIBLE);
+        webEnvironment.getWebView().setVisibility(View.VISIBLE);
         Toast.makeText(getContext(), error, Toast.LENGTH_LONG)
                 .show();
         hideLoading();

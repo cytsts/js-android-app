@@ -1,6 +1,7 @@
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
@@ -53,14 +54,12 @@ public class VisualizeWebEnvironment {
     OkHttpClient webViewResourceClient;
 
     private Context context;
-    private WebView webView;
     private String baseUrl;
     private static boolean isInitialized; // TODO: remove this hack
 
-    public VisualizeWebEnvironment(Context context, WebView webView, String baseUrl) {
+    public VisualizeWebEnvironment(Context context, String baseUrl) {
         getComponent(context).inject(this);
         this.context = context;
-        this.webView = webView;
         this.baseUrl = baseUrl;
         prepareWebView(baseUrl);
     }
@@ -76,6 +75,11 @@ public class VisualizeWebEnvironment {
     }
 
     public WebView getWebView() {
+        WebView webView = WebviewStore.getInstance().getWebView();
+        if (webView == null) {
+            webView = new WebView(context);
+            WebviewStore.getInstance().saveWebView(webView);
+        }
         return webView;
     }
 
@@ -88,15 +92,13 @@ public class VisualizeWebEnvironment {
     }
 
     public void destroy() {
-        if (webView != null) {
-            ((ViewGroup) webView.getParent()).removeView(webView);
-        }
+        ((ViewGroup) getWebView().getParent()).removeView(getWebView());
     }
 
     public void subscribe(Listener listener) {
         VisualizeWebInterface webInterface = VisualizeWebInterface.getInstance();
         webInterface.addListener(listener);
-        WebViewEnvironment.configure(webView)
+        WebViewEnvironment.configure(getWebView())
                 .withWebInterface(webInterface);
     }
 
@@ -106,12 +108,12 @@ public class VisualizeWebEnvironment {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void prepareWebView(String baseUrl) {
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setDisplayZoomControls(false);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
+        getWebView().getSettings().setJavaScriptEnabled(true);
+        getWebView().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        getWebView().getSettings().setBuiltInZoomControls(true);
+        getWebView().getSettings().setDisplayZoomControls(false);
+        getWebView().getSettings().setLoadWithOverviewMode(true);
+        getWebView().getSettings().setUseWideViewPort(true);
 
         UrlPolicy defaultPolicy = new DefaultUrlPolicy(baseUrl)
                 .withSessionListener(new DefaultUrlPolicy.SessionListener() {
@@ -149,23 +151,11 @@ public class VisualizeWebEnvironment {
                 .registerUrlPolicy(defaultPolicy)
                 .build();
 
-        webView.setWebViewClient(systemWebViewClient);
-
-        webView.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView webView, int newProgress) {
-//                if (newProgress == 100) {
-//                    mProgressBar.setVisibility(View.GONE);
-//                } else {
-//                    mProgressBar.setVisibility(View.VISIBLE);
-//                    mProgressBar.setProgress(newProgress);
-//                }
-            }
-        });
+        getWebView().setWebViewClient(systemWebViewClient);
     }
 
     private void prepareEnvironment(String baseUrl) {
         InputStream stream = null;
-        Context context = webView.getContext();
 
         try {
             stream = context.getAssets().open("adhocDataView.html");
@@ -185,7 +175,7 @@ public class VisualizeWebEnvironment {
             Template tmpl = Mustache.compiler().compile(writer.toString());
             String html = tmpl.execute(data);
 
-            webView.loadDataWithBaseURL(baseUrl, html, "text/html", "utf-8", null);
+            getWebView().loadDataWithBaseURL(baseUrl, html, "text/html", "utf-8", null);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {

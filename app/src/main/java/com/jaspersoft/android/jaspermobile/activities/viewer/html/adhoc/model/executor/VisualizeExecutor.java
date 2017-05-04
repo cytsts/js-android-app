@@ -21,13 +21,14 @@ public class VisualizeExecutor implements VisualizeWebEnvironment.Listener {
     protected Map<String, Completion> completions = new HashMap<>();
 
     public interface Completion {
+        void before();
         void success(Object data);
         void failed(String error);
     }
 
-    protected VisualizeExecutor(Context context, WebView webView, String baseUrl) {
-        webEnvironment = new VisualizeWebEnvironment(context, webView, baseUrl);
-        webEnvironment.subscribe(this);
+    protected VisualizeExecutor(VisualizeWebEnvironment webEnvironment) {
+        this.webEnvironment = webEnvironment;
+        this.webEnvironment.subscribe(this);
     }
 
     protected void prepare(Completion completion) {

@@ -1,7 +1,6 @@
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor;
 
-import android.content.Context;
-import android.webkit.WebView;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.VisualizeWebEnvironment;
 
 /**
  * Created by aleksandrdakhno on 4/29/17.
@@ -11,8 +10,8 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
 
     private String resourceUri;
 
-    public AdhocDataViewVisualizeExecutor(Context context, WebView webView, String baseUrl, String resourceUri) {
-        super(context, webView, baseUrl);
+    public AdhocDataViewVisualizeExecutor(VisualizeWebEnvironment webEnvironment, String resourceUri) {
+        super(webEnvironment);
         this.resourceUri = resourceUri;
     }
 
@@ -23,11 +22,13 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
     @Override
     public void askIsReady(Completion completion) {
         completions.put("askIsReady", completion);
+        completion.before();
         executeJavascriptCode(javascriptCodeForAskIsReady());
     }
 
     @Override
     public void prepare(Completion completion) {
+        completion.before();
         super.prepare(completion);
     }
 
@@ -39,24 +40,28 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
     @Override
     public void run(Completion completion) {
         completions.put("run", completion);
+        completion.before();
         executeJavascriptCode(javascriptCodeForRun());
     }
 
     @Override
     public void refresh(Completion completion) {
         completions.put("refresh", completion);
+        completion.before();
         executeJavascriptCode(javascriptCodeForRefresh());
     }
 
     @Override
     public void askAvailableCanvasTypes(Completion completion) {
         completions.put("availableTypes", completion);
+        completion.before();
         executeJavascriptCode(javascriptCodeForAvailableChartTypes());
     }
 
     @Override
     public void changeCanvasType(String chartType, Completion completion) {
         completions.put("changeCanvasType", completion);
+        completion.before();
         executeJavascriptCode(javascriptCodeForChangeCanvasType(chartType));
     }
 
