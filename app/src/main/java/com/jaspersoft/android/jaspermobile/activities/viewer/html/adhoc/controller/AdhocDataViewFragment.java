@@ -65,7 +65,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         webView = WebviewStore.getInstance().getWebView();
         if (webView == null) {
-            webView = (WebView) inflater.inflate(R.layout.item_webview, null);
+            webView = new WebView(getContext().getApplicationContext());
             WebviewStore.getInstance().saveWebView(webView);
         }
 
