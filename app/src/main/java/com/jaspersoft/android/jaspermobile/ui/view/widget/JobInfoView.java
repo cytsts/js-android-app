@@ -158,7 +158,9 @@ public class JobInfoView extends LinearLayout implements JobInfoContract.View, T
         jobState.setText(parseJobState(resource.getState()));
 
         jobLastRun.setText(resource.getPreviousFireDate() == null ? empty : mRunDateFormat.format(resource.getPreviousFireDate()));
-        jobNextRun.setText(resource.getFireDate() == null ? empty : mRunDateFormat.format(resource.getFireDate()));
+        int state = resource.getState();
+        boolean isDisabled = state != JobResource.NORMAL && state != JobResource.EXECUTING;
+        jobNextRun.setText(resource.getFireDate() == null || isDisabled  ? empty : mRunDateFormat.format(resource.getFireDate()));
 
         toolbar.setTitle(resource.getLabel());
     }

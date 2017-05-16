@@ -26,7 +26,6 @@ package com.jaspersoft.android.jaspermobile.ui.view.viewholder;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -89,7 +88,7 @@ public class JobResourceViewHolder extends ResourceViewHolder implements JobReso
     }
 
     @Override
-    public void showSubTitle(Date nextFireDate) {
+    public void showNextFireDate(Date nextFireDate) {
         String runDateString;
 
         if (nextFireDate != null) {
@@ -100,6 +99,11 @@ public class JobResourceViewHolder extends ResourceViewHolder implements JobReso
         }
 
         tvDescription.setText(mContext.getString(R.string.sch_next_run_label, runDateString));
+    }
+
+    @Override
+    public void showDisabledNextFireDate() {
+        tvDescription.setText(mContext.getString(R.string.sch_disabled));
     }
 
     @Override

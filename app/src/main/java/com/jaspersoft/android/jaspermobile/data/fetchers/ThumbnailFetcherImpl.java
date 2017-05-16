@@ -25,17 +25,13 @@
 package com.jaspersoft.android.jaspermobile.data.fetchers;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
 
 import com.jaspersoft.android.jaspermobile.Analytics;
 import com.jaspersoft.android.jaspermobile.data.ThumbNailGenerator;
 import com.jaspersoft.android.jaspermobile.data.utils.ResourceThumbnailPreProcessor;
 import com.jaspersoft.android.jaspermobile.domain.entity.ResourceIcon;
 import com.jaspersoft.android.jaspermobile.domain.fetchers.ThumbnailFetcher;
-import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
-import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
-import com.jaspersoft.android.sdk.service.data.repository.Resource;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -50,17 +46,19 @@ public class ThumbnailFetcherImpl implements ThumbnailFetcher {
 
     private final ThumbNailGenerator mThumbNailGenerator;
     private final Analytics mAnalytics;
+    private final ImageLoader imageLoader;
 
     @Inject
     public ThumbnailFetcherImpl(ThumbNailGenerator thumbNailGenerator, Analytics analytics) {
         mThumbNailGenerator = thumbNailGenerator;
         mAnalytics = analytics;
+        imageLoader = ImageLoader.getInstance();
     }
 
     @Override
-    public ResourceIcon fetchIcon(String resourceUri) {
+    public synchronized ResourceIcon fetchIcon(String resourceUri) {
         String thumbnailUri = mThumbNailGenerator.generate(resourceUri);
-        Bitmap thumbnail = ImageLoader.getInstance().loadImageSync(thumbnailUri, getDisplayImageOptions());
+        Bitmap thumbnail = imageLoader.loadImageSync(thumbnailUri, getDisplayImageOptions());
         if (thumbnail == null) return null;
 
         mAnalytics.setThumbnailsExist();

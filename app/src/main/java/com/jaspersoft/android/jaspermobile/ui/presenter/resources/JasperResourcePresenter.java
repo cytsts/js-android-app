@@ -50,7 +50,7 @@ public class JasperResourcePresenter extends ResourcePresenter<JasperResourceCon
         getView().showImage();
         getView().showSubTitle(getEntity().getDescription());
 
-        ResourceIcon resourceIcon = getModel().getResourceIcon(getEntity().getId());
+        ResourceIcon resourceIcon = getModel().getResourceIcon(getEntity().getUri());
         if (resourceIcon == null) {
             getModel().requestThumbnail(getEntity().getId(), getEntity().getUri());
         } else {

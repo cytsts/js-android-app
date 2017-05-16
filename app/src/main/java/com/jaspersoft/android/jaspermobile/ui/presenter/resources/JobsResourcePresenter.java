@@ -47,14 +47,19 @@ public class JobsResourcePresenter extends ResourcePresenter<JobResourceContract
     protected void onBindView(JobResourceContract.View view) {
         super.onBindView(view);
 
-        getView().showImage();
-        getView().showSubTitle(getEntity().getFireDate());
-
         int state = getEntity().getState();
-        getView().showEnabled(state == JobResource.NORMAL || state == JobResource.EXECUTING);
+        boolean isEnabled = state == JobResource.NORMAL || state == JobResource.EXECUTING;
+
+        if (isEnabled) {
+            getView().showNextFireDate(getEntity().getFireDate());
+        } else {
+            getView().showDisabledNextFireDate();
+        }
+        getView().showImage();
+        getView().showEnabled(isEnabled);
         getView().showProgress(!getModel().isInAction(getEntity().getId()));
 
-        ResourceIcon resourceIcon = getModel().getResourceIcon(getEntity().getId());
+        ResourceIcon resourceIcon = getModel().getResourceIcon(getEntity().getJobTarget().getReportUri());
         if (resourceIcon == null) {
             getModel().requestThumbnail(getEntity().getId(), getEntity().getJobTarget().getReportUri());
         } else {

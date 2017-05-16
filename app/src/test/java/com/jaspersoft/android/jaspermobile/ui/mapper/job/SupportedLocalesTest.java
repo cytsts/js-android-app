@@ -42,8 +42,15 @@ import static org.hamcrest.core.Is.is;
 @RunWith(JUnitParamsRunner.class)
 public class SupportedLocalesTest {
     @Test
-    public void should_return_english_locale_if_current_not_supported() throws Exception {
-        Locale.setDefault(Locale.KOREAN);
+    @Parameters({
+            "zh-TW",
+            "pt-PT",
+            "pt",
+            "ko"
+    })
+    public void should_return_english_locale_if_current_not_supported(String languageTag) throws Exception {
+        Locale locale = Locale.forLanguageTag(languageTag);
+        Locale.setDefault(locale);
         Locale currentLocale = SupportedLocales.INSTANCE.getCurrentLocale();
         assertThat(currentLocale, is(Locale.ENGLISH));
     }
@@ -58,6 +65,8 @@ public class SupportedLocalesTest {
             "it",
             "ja",
             "pt-BR",
+            "en-CA",
+            "fr-FR"
     })
     public void should_return_supported_locale(String languageTag) throws Exception {
         Locale locale = Locale.forLanguageTag(languageTag);

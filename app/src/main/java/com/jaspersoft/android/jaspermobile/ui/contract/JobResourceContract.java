@@ -35,7 +35,8 @@ import java.util.Date;
 public interface JobResourceContract extends ResourceContract {
 
     interface View extends ResourceContract.View{
-        void showSubTitle(Date nextFireDate);
+        void showNextFireDate(Date nextFireDate);
+        void showDisabledNextFireDate();
         void showProgress(boolean enabled);
         void showEnabled(boolean enabled);
         void showImage();

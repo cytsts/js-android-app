@@ -158,6 +158,7 @@
     <string name="ro_show">Saved values</string>
 
     <!-- Resource Info Activity -->
+    <string name="ri_report_type" translatable="false">Report</string>
     <string name="ri_schedule">Schedule</string>
     <string name="ri_type_title">Type:</string>
     <string name="ri_label_title">Label:</string>
@@ -180,14 +181,14 @@
     <string name="rp_execute_only">Execute only</string>
 
     <!-- Schedule -->
-    <string name="sch_new">New schedule</string>
-    <string name="sch_edit">Edit schedule</string>
+    <string name="sch_new">New Schedule</string>
+    <string name="sch_edit">Edit Schedule</string>
     <string name="sch_job_name">Scheduled Job Name</string>
-    <string name="sch_file_name">Output file name</string>
-    <string name="sch_run_immediately">Run immediately</string>
-    <string name="sch_start_date">Schedule start date</string>
-    <string name="sch_end_date">Schedule end date</string>
-    <string name="sch_destination">Output destination path</string>
+    <string name="sch_file_name">Output File Name</string>
+    <string name="sch_run_immediately">Run Immediately</string>
+    <string name="sch_start_date">Schedule Start Date</string>
+    <string name="sch_end_date">Schedule End Date</string>
+    <string name="sch_destination">Output Destination Path</string>
     <string name="sch_created">Job scheduled</string>
     <string name="sch_updated">Job updated</string>
     <string name="sch_deleted">Schedule deleted</string>
@@ -213,6 +214,7 @@
     <string name="sch_state">State</string>
     <string name="sch_lass_run">Last run</string>
     <string name="sch_next_run">Next run</string>
+    <string name="sch_disabled" translatable="false">Disabled</string>
 
     <!-- Report Viewer Activity -->
     <string name="rv_ab_bookmarks" translatable="false">Bookmarks</string>
@@ -248,8 +250,8 @@
 
     <!-- Save Report Activity -->
     <string name="sr_ab_title" translatable="false">Save Resource</string>
-    <string name="sr_report_name">File name</string>
-    <string name="sr_output_format">Output format</string>
+    <string name="sr_report_name">File Name</string>
+    <string name="sr_output_format">Output Format</string>
     <string name="sr_recurrence_type">Recurrence</string>
     <string name="sr_recurrence_none">None</string>
     <string name="sr_recurrence_simple">Simple</string>
@@ -258,10 +260,10 @@
     <string name="sr_recurrence_simple_unit_day">Days</string>
     <string name="sr_recurrence_simple_unit_week">Weeks</string>
     <string name="sr_recurrence_calendar">Calendar</string>
-    <string name="sr_repeat_every">Repeat every (required)</string>
-    <string name="sr_schedule_end">Schedule end</string>
+    <string name="sr_repeat_every">Repeat Every (required)</string>
+    <string name="sr_schedule_end">Schedule End</string>
     <string name="sr_run_number_of_times">Run a set number of times</string>
-    <string name="sr_number_of_runs">Number of runs</string>
+    <string name="sr_number_of_runs">Number of Runs</string>
     <string name="sr_run_until">Run until a specified date</string>
     <string name="sr_run_indefinitely">Run indefinitely</string>
     <string name="sr_months">Months</string>
@@ -274,8 +276,8 @@
     <string name="sr_selected_days">Selected days:</string>
     <string name="sr_dates_in_month">Dates in month:</string>
     <string name="sr_dates_in_month_hint" translatable="false">Enter dates (9, 12, 15) or date ranges (9&#8211;12, 1&#8211;17)</string>
-    <string name="sr_from">From page</string>
-    <string name="sr_to">To page</string>
+    <string name="sr_from">From Page</string>
+    <string name="sr_to">To Page</string>
     <string name="sr_failed_to_create_local_repo">Failed to create local file storage.</string>
     <string name="sr_failed_to_execute_report">Failed to execute report</string>
 

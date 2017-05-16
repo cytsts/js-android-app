@@ -33,7 +33,7 @@ import java.net.URI;
  * @since 2.3
  */
 public interface JasperResourceModel extends ResourceModel {
-    ResourceIcon getResourceIcon(int id);
+    ResourceIcon getResourceIcon(URI resourceUri);
     void requestThumbnail(int id, URI resourceUri);
     void invalidateThumbnails();
 }

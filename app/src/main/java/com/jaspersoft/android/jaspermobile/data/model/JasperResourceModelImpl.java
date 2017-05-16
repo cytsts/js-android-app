@@ -26,11 +26,9 @@ package com.jaspersoft.android.jaspermobile.data.model;
 
 import com.jaspersoft.android.jaspermobile.data.utils.UniqueCompositeSubscription;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
-import com.jaspersoft.android.jaspermobile.domain.entity.JasperResource;
 import com.jaspersoft.android.jaspermobile.domain.entity.ResourceIcon;
 import com.jaspersoft.android.jaspermobile.domain.fetchers.ThumbnailFetcher;
 import com.jaspersoft.android.jaspermobile.domain.model.JasperResourceModel;
-import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
 import com.jaspersoft.android.jaspermobile.util.rx.RxTransformer;
 
@@ -45,7 +43,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Func0;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author Andrew Tivodar
@@ -57,7 +54,7 @@ public class JasperResourceModelImpl implements JasperResourceModel {
     private final ThumbnailFetcher mThumbnailFetcher;
     private UniqueCompositeSubscription mThumbnailSubscriptions;
     private Subscriber<Integer> mSubscriber;
-    private Map<Integer, ResourceIcon> mThumbnails;
+    private Map<URI, ResourceIcon> mThumbnails;
 
     @Inject
     public JasperResourceModelImpl(ThumbnailFetcher thumbnailFetcher) {
@@ -67,8 +64,8 @@ public class JasperResourceModelImpl implements JasperResourceModel {
     }
 
     @Override
-    public ResourceIcon getResourceIcon(int id) {
-        return mThumbnails.get(id);
+    public ResourceIcon getResourceIcon(URI resourceUri) {
+        return mThumbnails.get(resourceUri);
     }
 
     @Override
@@ -89,7 +86,7 @@ public class JasperResourceModelImpl implements JasperResourceModel {
                 .subscribe(new SimpleSubscriber<ResourceIcon>() {
                     @Override
                     public void onNext(ResourceIcon item) {
-                        mThumbnails.put(id, item);
+                        mThumbnails.put(resourceUri, item);
                         mSubscriber.onNext(id);
                     }
                 });

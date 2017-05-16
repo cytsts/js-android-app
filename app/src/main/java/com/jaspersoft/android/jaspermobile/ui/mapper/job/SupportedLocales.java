@@ -42,7 +42,7 @@ enum SupportedLocales {
         SUPPORTED_LOCALES.add(Locale.GERMAN);
         SUPPORTED_LOCALES.add(new Locale("es"));
         SUPPORTED_LOCALES.add(Locale.FRENCH);
-        SUPPORTED_LOCALES.add(Locale.CHINA);
+        SUPPORTED_LOCALES.add(new Locale("zh", "CN"));
         SUPPORTED_LOCALES.add(Locale.ITALIAN);
         SUPPORTED_LOCALES.add(Locale.JAPANESE);
         SUPPORTED_LOCALES.add(new Locale("pt", "BR"));
@@ -50,9 +50,21 @@ enum SupportedLocales {
 
     public Locale getCurrentLocale() {
         Locale currentLocale = Locale.getDefault();
-        if (SUPPORTED_LOCALES.contains(currentLocale)) {
+        if (isSupported(currentLocale)) {
             return currentLocale;
         }
         return Locale.ENGLISH;
+    }
+
+    private boolean isSupported(Locale locale) {
+        for (Locale supportedLocale : SUPPORTED_LOCALES) {
+            if (!supportedLocale.getLanguage().equals(locale.getLanguage())) {
+                continue;
+            }
+            if (supportedLocale.getCountry().isEmpty() || supportedLocale.getCountry().equals(locale.getCountry())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -189,7 +189,6 @@ public class SaveReportTest {
         launchReportSaveActivity();
 
         saveReportPageObject.typeFileName(fileName);
-        saveReportPageObject.clickSave();
         saveReportPageObject.initialDelay();
         saveReportPageObject.fileNameErrorMatches("A file with this name already exists.");
     }

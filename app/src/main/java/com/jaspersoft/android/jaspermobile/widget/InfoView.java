@@ -99,7 +99,7 @@ public class InfoView extends CardView {
     public void fillWithBaseData(String type, String label, String description, String uri, String creationDate, String modifiedDate, String version, int permissions) {
         infoDataContainer.removeAllViews();
 
-        addInfoItem(getContext().getString(R.string.ri_type_title), type);
+        addInfoItem(getContext().getString(R.string.ri_type_title), fetchResourceType(type));
         addInfoItem(getContext().getString(R.string.ri_label_title), label);
         addInfoItem(getContext().getString(R.string.ri_description_title), description);
         addInfoItem(getContext().getString(R.string.ri_uri_title), uri);
@@ -111,6 +111,13 @@ public class InfoView extends CardView {
 
     private void addInfoItem(String title, String value) {
         addInfoItem(title, value, infoDataContainer.getChildCount());
+    }
+
+    private String fetchResourceType(String type) {
+        if (type.equals("reportUnit")) {
+            return getContext().getString(R.string.ri_report_type);
+        }
+        return type;
     }
 
     private void setItemDistance(View viewGroup, int distance) {

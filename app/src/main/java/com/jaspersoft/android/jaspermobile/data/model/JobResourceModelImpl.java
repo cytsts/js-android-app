@@ -28,11 +28,9 @@ import com.jaspersoft.android.jaspermobile.Analytics;
 import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
 import com.jaspersoft.android.jaspermobile.data.utils.UniqueCompositeSubscription;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
-import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.domain.entity.ResourceIcon;
 import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.domain.fetchers.ThumbnailFetcher;
-import com.jaspersoft.android.jaspermobile.domain.model.JasperResourceModel;
 import com.jaspersoft.android.jaspermobile.domain.model.JobResourceModel;
 import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
 import com.jaspersoft.android.jaspermobile.util.rx.RxTransformer;
@@ -62,7 +60,7 @@ public class JobResourceModelImpl implements JobResourceModel {
 
     private Subscriber<Integer> mUpdateSubscriber;
     private Subscriber<Integer> mDeleteSubscriber;
-    private Map<Integer, ResourceIcon> mThumbnails;
+    private Map<URI, ResourceIcon> mThumbnails;
     private final UniqueCompositeSubscription mThumbnailSubscriptions;
     private final ThumbnailFetcher mThumbnailFetcher;
     private final UniqueCompositeSubscription mActionSubscriptions;
@@ -145,8 +143,8 @@ public class JobResourceModelImpl implements JobResourceModel {
     }
 
     @Override
-    public ResourceIcon getResourceIcon(int id) {
-        return mThumbnails.get(id);
+    public ResourceIcon getResourceIcon(URI resourceUri) {
+        return mThumbnails.get(resourceUri);
     }
 
     @Override
@@ -167,7 +165,7 @@ public class JobResourceModelImpl implements JobResourceModel {
                 .subscribe(new SimpleSubscriber<ResourceIcon>() {
                     @Override
                     public void onNext(ResourceIcon item) {
-                        mThumbnails.put(id, item);
+                        mThumbnails.put(resourceUri, item);
                         mUpdateSubscriber.onNext(id);
                     }
                 });
