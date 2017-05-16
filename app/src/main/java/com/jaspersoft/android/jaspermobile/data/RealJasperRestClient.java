@@ -81,6 +81,11 @@ public class RealJasperRestClient implements JasperRestClient {
     }
 
     @Override
+    public AuthorizedClient authorizedClient() {
+        return createAuthorizedClient().toBlocking().first();
+    }
+
+    @Override
     public ReportService syncReportService() {
         AuthorizedClient client = createAuthorizedClient().toBlocking().first();
         return ReportService.newService(client);

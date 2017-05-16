@@ -40,20 +40,14 @@ import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
 import com.jaspersoft.android.sdk.client.oxm.resource.FileLookup;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
-
 import javax.inject.Inject;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-@EActivity(R.layout.activity_file_viewer)
 public class FileViewerActivity extends ToolbarActivity {
-
-    @Extra
-    protected ResourceLookup resourceLookup;
+    public static final String RESOURCE_URI_ARG = "resourceURI";
 
     @Inject
     protected GetResourceDetailsByTypeCase mGetResourceDetailsByTypeCase;
@@ -61,18 +55,19 @@ public class FileViewerActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_file_viewer);
         getBaseActivityComponent().inject(this);
 
-        showFileTitle();
         if (savedInstanceState == null) {
-            getFileInfo();
+            getFileInfo(fetchResourceUri());
         }
     }
 
     @Override
-    protected void onDestroy() {
+    public void onBackPressed() {
+        super.onBackPressed();
+
         mGetResourceDetailsByTypeCase.unsubscribe();
-        super.onDestroy();
     }
 
     @Override
@@ -87,7 +82,7 @@ public class FileViewerActivity extends ToolbarActivity {
                         new DialogInterface.OnCancelListener() {
                             @Override
                             public void onCancel(DialogInterface dialog) {
-                                finish();
+                                onBackPressed();
                             }
                         }
                 )
@@ -98,15 +93,32 @@ public class FileViewerActivity extends ToolbarActivity {
         ProgressDialogFragment.dismiss(getSupportFragmentManager());
     }
 
-    private void showFileTitle() {
+    private void showFileTitle(String resourceName) {
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(resourceLookup.getLabel());
+        if (actionBar != null && resourceName != null) {
+            actionBar.setTitle(resourceName);
         }
     }
 
-    private void getFileInfo() {
-        ResourceDetailsRequest request = new ResourceDetailsRequest(resourceLookup.getUri(), "file");
+    private Bundle getExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            throw new RuntimeException("Intent extras should be provided");
+        }
+        return extras;
+    }
+
+    private String fetchResourceUri() {
+        Bundle extras = getExtras();
+        String resourceUri = extras.getString(RESOURCE_URI_ARG);
+        if (resourceUri == null) {
+            throw new RuntimeException("Resource uri should be provided");
+        }
+        return resourceUri;
+    }
+
+    private void getFileInfo(String uri) {
+        ResourceDetailsRequest request = new ResourceDetailsRequest(uri, "file");
         mGetResourceDetailsByTypeCase.execute(request, new FileInfoListener());
     }
 
@@ -125,7 +137,6 @@ public class FileViewerActivity extends ToolbarActivity {
         public void onError(Throwable e) {
             RequestExceptionHandler.showCommonErrorMessage(FileViewerActivity.this, e);
             hideProgressDialog();
-            finish();
         }
 
         @Override
@@ -175,6 +186,8 @@ public class FileViewerActivity extends ToolbarActivity {
                     Analytics.EventAction.VIEWED.getValue(),
                     fileLookup.getFileType().name()
             );
+
+            showFileTitle(lookup.getLabel());
         }
     }
 }

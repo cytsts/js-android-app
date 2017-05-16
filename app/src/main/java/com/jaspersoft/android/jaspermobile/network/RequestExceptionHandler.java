@@ -138,6 +138,8 @@ public class RequestExceptionHandler {
                 return mContext.getString(R.string.error_http_403);
             case StatusCodes.CLIENT_ERROR:
                 return mContext.getString(R.string.error_http_404);
+            case StatusCodes.RESOURCE_NOT_FOUND:
+                return mContext.getString(R.string.error_http_404);
             case StatusCodes.INTERNAL_ERROR:
                 return mContext.getString(R.string.error_http_500);
             case StatusCodes.EXPORT_PAGE_OUT_OF_RANGE:

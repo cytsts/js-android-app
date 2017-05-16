@@ -41,7 +41,6 @@ import com.jaspersoft.android.jaspermobile.activities.share.AnnotationActivity;
 import com.jaspersoft.android.jaspermobile.activities.storage.SavedReportsFragment;
 import com.jaspersoft.android.jaspermobile.activities.storage.fragment.SavedItemsFragment;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.WebViewFragment;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.report.ReportCastActivity;
 import com.jaspersoft.android.jaspermobile.dialog.OutputFormatDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.PasswordDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.ReportOptionsFragmentDialog;
@@ -101,7 +100,6 @@ public interface BaseActivityComponent {
     void inject(RecentlyViewedResourceFilter filter);
     void inject(RepositoryResourceFilter filter);
 
-    void inject(ReportCastActivity reportCastActivity);
     void inject(NewScheduleActivity newScheduleActivity);
     void inject(EditScheduleActivity editScheduleActivity);
     void inject(AnnotationActivity toolbarActivity);

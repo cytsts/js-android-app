@@ -24,19 +24,10 @@
 
 package com.jaspersoft.android.jaspermobile.domain;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.view.View;
 
-import com.jaspersoft.android.jaspermobile.internal.di.PerProfile;
-
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import dagger.Provides;
 
 /**
  * @author Andrew Tivodar
@@ -55,11 +46,16 @@ public class ScreenCapture {
 
     public static class Factory {
         public static ScreenCapture capture(View view) {
+            Bitmap resource = captureBitmap(view);
+            return new ScreenCapture(resource);
+        }
+
+        public static Bitmap captureBitmap(View view) {
             view.setDrawingCacheEnabled(true);
             view.buildDrawingCache();
             Bitmap resource = Bitmap.createBitmap(view.getDrawingCache());
             view.destroyDrawingCache();
-            return new ScreenCapture(resource);
+            return resource;
         }
     }
 }

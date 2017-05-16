@@ -43,7 +43,7 @@ public class ResourceCastReceiver extends BroadcastReceiver {
             ResourcePresentationService.stopService();
         } else {
             ResourcePresentationService resourcePresentationService = (ResourcePresentationService) ResourcePresentationService.getInstance();
-            resourcePresentationService.closeCurrentPresentation();
+            resourcePresentationService.stopCasting();
         }
     }
 }

@@ -58,7 +58,7 @@ public class LibraryPageObject extends CategoryPageObject {
     }
 
     public void selectSort(String sortType) {
-        clickMenuItem(anyOf(withText("Sort by"), withId(R.id.sort)));
+        menuItemAction(click(), anyOf(withText("Sort by"), withId(R.id.sort)));
         onData(is(sortType))
                 .perform(click());
     }

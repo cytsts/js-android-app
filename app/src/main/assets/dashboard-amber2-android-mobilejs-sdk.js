@@ -106,19 +106,18 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       function DashboardController(callback, scaler, params) {
         this.callback = callback;
         this.scaler = scaler;
+        this._adHocHandler = bind(this._adHocHandler, this);
+        this._openRemoteLink = bind(this._openRemoteLink, this);
+        this._handleRemotePageHyperlink = bind(this._handleRemotePageHyperlink, this);
+        this._handleRemoteAnchorHyperlink = bind(this._handleRemoteAnchorHyperlink, this);
+        this._startReportExecution = bind(this._startReportExecution, this);
+        this._processLinkClicks = bind(this._processLinkClicks, this);
         this._processErrors = bind(this._processErrors, this);
         this._refreshSuccess = bind(this._refreshSuccess, this);
         this._processSuccess = bind(this._processSuccess, this);
         this._executeDashboard = bind(this._executeDashboard, this);
         this.uri = params.uri, this.session = params.session;
         this.scaler.applyScale();
-        // Hyperlinks
-        this._processLinkClicks = bind(this._processLinkClicks, this);
-        this._adHocHandler = bind(this._adHocHandler, this);
-        this._openRemoteLink = bind(this._openRemoteLink, this);
-        this._openRemotePage = bind(this._openRemotePage, this);
-        this._openRemoteAnchor = bind(this._openRemoteAnchor, this);
-        this._startReportExecution = bind(this._startReportExecution, this);
       }
 
       DashboardController.prototype.destroyDashboard = function() {
@@ -136,13 +135,18 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       };
 
       DashboardController.prototype.minimizeDashlet = function() {
+        var component, dashboardId;
+        this._showDashlets();
+        $('.show_chartTypeSelector_wrapper').hide();
+        dashboardId = this.v.dashboard.componentIdDomAttribute;
+        component = this.maximizedComponent;
+        $(this.dashboard.container()).find("[" + dashboardId + "='" + component.id + "']").removeClass('originalDashletInScaledCanvas');
         this.callback.onMinimizeStart();
-        return this.dashboard.updateComponent(this.maximizedComponent.id, {
+        return this.dashboard.updateComponent(component.id, {
           maximized: false,
-          interactive: true
+          interactive: false
         }, (function(_this) {
           return function() {
-            _this.maximizedComponent = undefined;
             return _this.callback.onMinimizeEnd();
           };
         })(this), (function(_this) {
@@ -197,7 +201,10 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         this.data = dashboard.data();
         this.components = this.data.components;
         this.container = dashboard.container();
+        this._configureComponents();
         this._defineComponentsClickEvent();
+        this._setupFiltersApperance();
+        this._overrideApplyButton();
         return this.callback.onLoadDone();
       };
 
@@ -228,7 +235,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         js_mobile.log("Iterate components");
         return this.components.forEach((function(_this) {
           return function(component) {
-            if (component.type !== 'inputControl') {
+            if (component.type !== 'inputControl' && component.type !== 'text') {
               _this.dashboard.updateComponent(component.id, {
                 interactive: false,
                 toolbar: false
@@ -243,54 +250,40 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         js_mobile.log("Apply click events");
         dashboardId = this.v.dashboard.componentIdDomAttribute;
         self = this;
-        var dashlets = this._getDashlets(dashboardId);
-        for(var i = 0; i < dashlets.length; i++) {
-            var dashlet = dashlets[i];
-            (function(dashlet, self) {
-                var component = self._componentForNode(dashlet);
-                var maximizeButton = self._findMaximizeButtonWithDashletId(component.id);
-                if (maximizeButton !== undefined &&  maximizeButton.nodeName === "BUTTON") {
-                    maximizeButton.componentId = component.id;
-                    maximizeButton.addEventListener("click", function(event) {
-                        var maximizedComponent = self.maximizedComponent;
-                        if (maximizedComponent === undefined) { // Maximize action
-                            self.callback.onMaximizeStart(component.name);
-                            self.maximizedComponent = self._getComponentById(maximizeButton.componentId);
-                            self.callback.onMaximizeEnd(component.name);
-                        } else { // Minimize action
-                            self.callback.onMinimizeStart();
-                            self.maximizedComponent = undefined;
-                            self.callback.onMinimizeEnd();
-                        }
-                    });
-                }
-            })(dashlet, self);
-        }
-      };
-
-      DashboardController.prototype._findMaximizeButtonWithDashletId = function(dashletId) {
-        var allNodes = document.querySelector(".dashboardCanvas > div > div").childNodes;
-        var maximizeButton = null;
-        for (var i = 0; i < allNodes.length; i++) {
-            var nodeElement = allNodes[i];
-            var componentId = nodeElement.attributes["data-componentid"].value;
-            if (componentId === dashletId) {
-                maximizeButton = nodeElement.getElementsByClassName("maximizeDashletButton")[0];
-                break;
+        var activeDashlets = this._getDashlets(dashboardId).filter(function(index, dashlet) {
+            var id = dashlet.attributes[0].value;
+            var component = self._getComponentById(id);
+            if (component.type === "text") {
+                return false;
+            } else {
+                return true;
             }
-        }
-        return maximizeButton;
-      };
-
-      DashboardController.prototype._componentForNode = function(node) {
-        var componentId = node.attributes["data-componentid"].value;
-        var components = this.dashboard.data().components;
-        for (var i = 0; components.length; ++i) {
-            if (components[i].id === componentId) {
-                return components[i];
-            }
-        }
-        return undefined;
+        });
+        return activeDashlets.on('click', function(event) {
+          var component, dashlet, id, targetClass;
+          targetClass = jQuery(event.target).attr('class');
+          if (targetClass !== 'overlay') {
+            return;
+          }
+          $('.show_chartTypeSelector_wrapper').show();
+          dashlet = $(this);
+          id = dashlet.attr(dashboardId);
+          component = self._getComponentById(id);
+          self._hideDashlets(dashboardId, dashlet);
+          if (component && !component.maximized) {
+            $(self.container).find("[" + dashboardId + "='" + id + "']").addClass('originalDashletInScaledCanvas');
+            self.callback.onMaximizeStart(component.name);
+            self.dashboard.updateComponent(id, {
+              maximized: true,
+              interactive: true
+            }, function() {
+              self.maximizedComponent = component;
+              return self.callback.onMaximizeEnd(component.name);
+            }, function(error) {
+              return self.callback.onMaximizeFailed(error);
+            });
+          }
+        });
       };
 
       DashboardController.prototype._getComponentById = function(id) {
@@ -315,10 +308,11 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
             return defaultHandler.call(this);
           case "AdHocExecution":
             return this._adHocHandler(link, defaultHandler);
-          case "RemoteAnchor":
-            return this._openRemoteAnchor(link);
           case "RemotePage":
-            return this._openRemotePage(link);
+            return this._handleRemotePageHyperlink(link);
+          case "RemoteAnchor":
+            return this._handleRemoteAnchorHyperlink(link);
+            break;
           default:
             return defaultHandler.call(this);
         }
@@ -327,12 +321,46 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       DashboardController.prototype._startReportExecution = function(link) {
         var data;
         js_mobile.log("_startReportExecution");
-        js_mobile.log("resource: " + link.parameters._report);
-        data = {
-          resource: link.parameters._report,
-          params: this._collectReportParams(link)
+
+        var runOptions = link.parameters;
+        if (!runOptions) {
+          // TODO: come up with better solution - something like 'empty' hyperlink structure
+          return this.callback.onReportExecution({});
+        }
+
+        var reportParams = filterReportParams(link.parameters);
+        var hyperlink = {
+          reportUri: runOptions._report,
+          parameters: reportParams
         };
-        return this.callback.onReportExecution(data);
+        if (runOptions._page || runOptions._anchor) {
+          hyperlink.destination = {
+            page: runOptions._page,
+            anchor: runOptions._anchor
+          }
+        };
+        if (runOptions._output) {
+          hyperlink.reportFormat = runOptions._output;
+        }
+
+        return this.callback.onReportExecution(hyperlink);
+      };
+
+      filterReportParams = function (params) {
+        var filters = [];
+        var blackList = ["_report", "_page", "_anchor", "_output"];
+        for (var key in params) {
+          var value = params[key];
+          var isFilter = (blackList.indexOf(key) < 0);
+          if (isFilter) {
+            var filter = {
+              name: key,
+              value: [value]
+            }
+            filters.splice(filters.length, 1, filter)
+          }
+        }
+        return filters;
       };
 
       DashboardController.prototype._collectReportParams = function(link) {
@@ -355,21 +383,24 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         return this.callback.onReferenceClick(href);
       };
 
-      DashboardController.prototype._openRemotePage = function(link) {
-        var href;
-        js_mobile.log("_openRemotePage");
-        href = link.href;
-        console.log("_openRemotePage: " + href);
-        return this.callback.onRemotePageClick(href);
+      DashboardController.prototype._handleRemotePageHyperlink = function(link) {
+        js_mobile.log("_handleRemotePageHyperlink");
+        var href = toRestLink(link.href);
+        var page = link.pages;
+        return this.callback.onRemotePageClick(href, page);
       };
 
-      DashboardController.prototype._openRemoteAnchor = function(link) {
-        var href;
-        js_mobile.log("_openRemoteAnchor");
-        href = link.href;
-        console.log("_openRemoteAnchor: " + href);
-        return this.callback.onRemoteAnchorClick(href);
+      DashboardController.prototype._handleRemoteAnchorHyperlink = function(link) {
+        js_mobile.log("_handleRemoteAnchorHyperlink");
+        var href = toRestLink(link.href);
+        var anchor = link.anchor;
+        return this.callback.onRemoteAnchorClick(href, anchor);
       };
+
+      toRestLink = function (url) {
+        var urlWithoutAnchor = url.replace(/(#.+?)$/, '');
+        return urlWithoutAnchor.replace('fileview/fileview/','');
+      }
 
       DashboardController.prototype._adHocHandler = function(link, defaultHandler) {
         js_mobile.log("_adHocHandler");
@@ -377,11 +408,13 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       };
 
       DashboardController.prototype._getDashlets = function(dashboardId) {
+        var components;
         if (dashboardId != null) {
-          return $(this.container).find("[" + dashboardId + "] > .dashlet").parent();
+          components = $(this.container).find("[" + dashboardId + "] > .dashlet").parent();
         } else {
-          return $(this.container).find(".dashlet").parent();
+          components = $(this.container).find(".dashlet").parent();
         }
+        return components;
       };
 
       DashboardController.prototype._hideDashlets = function(dashboardId, dashlet) {
@@ -708,6 +741,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         this.onAuthError = bind(this.onAuthError, this);
         this.onWindowResizeEnd = bind(this.onWindowResizeEnd, this);
         this.onWindowResizeStart = bind(this.onWindowResizeStart, this);
+        this.onReportExecution = bind(this.onReportExecution, this);
         this.onLoadError = bind(this.onLoadError, this);
         this.onLoadDone = bind(this.onLoadDone, this);
         this.onLoadStart = bind(this.onLoadStart, this);
@@ -718,8 +752,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         this.onMaximizeFailed = bind(this.onMaximizeFailed, this);
         this.onMaximizeEnd = bind(this.onMaximizeEnd, this);
         this.onMaximizeStart = bind(this.onMaximizeStart, this);
-        // Hyperlinks
-        this.onReportExecution = bind(this.onReportExecution, this);
         this.onReferenceClick = bind(this.onReferenceClick, this);
         this.onRemotePageClick = bind(this.onRemotePageClick, this);
         this.onRemoteAnchorClick = bind(this.onRemoteAnchorClick, this);
@@ -786,6 +818,14 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         });
       };
 
+      AndroidCallback.prototype.onReportExecution = function(data) {
+        var dataString;
+        dataString = JSON.stringify(data, null, 4);
+        this.dispatch(function() {
+          return Android.onReportExecution(dataString);
+        });
+      };
+
       AndroidCallback.prototype.onWindowResizeStart = function() {
         this.dispatch(function() {
           return Android.onWindowResizeStart();
@@ -810,30 +850,21 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         });
       };
 
-      // Hyperlinks
-      AndroidCallback.prototype.onReportExecution = function(data) {
-        var dataString;
-        dataString = JSON.stringify(data, null, 4);
+      AndroidCallback.prototype.onReferenceClick = function(href) {
         this.dispatch(function() {
-          return Android.onReportExecutionClick(dataString);
+          return Android.onReferenceClick(href);
         });
       };
 
-      AndroidCallback.prototype.onReferenceClick = function(location) {
+      AndroidCallback.prototype.onRemotePageClick = function(href, page) {
         this.dispatch(function() {
-          return Android.onReferenceClick(location);
+          return Android.onRemotePageClick(href, page);
         });
       };
 
-      AndroidCallback.prototype.onRemotePageClick = function(location) {
+      AndroidCallback.prototype.onRemoteAnchorClick = function(href, anchor) {
         this.dispatch(function() {
-          return Android.onRemotePageClick(location);
-        });
-      };
-
-      AndroidCallback.prototype.onRemoteAnchorClick = function(location) {
-        this.dispatch(function() {
-          return Android.onRemoteAnchorClick(location);
+          return Android.onRemoteAnchorClick(href, anchor);
         });
       };
 

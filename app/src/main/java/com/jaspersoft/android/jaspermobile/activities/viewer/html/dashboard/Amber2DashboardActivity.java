@@ -41,15 +41,21 @@ import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity_;
 import com.jaspersoft.android.jaspermobile.activities.save.SaveDashboardActivity_;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity;
+import com.jaspersoft.android.jaspermobile.data.entity.mapper.DestinationMapper;
+import com.jaspersoft.android.jaspermobile.data.entity.mapper.ReportParamsMapper;
+import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.interactor.dashboard.GetDashboardControlsCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.dashboard.GetDashboardVisualizeParamsCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.FlushInputControlsCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetReportMetadataCase;
+import com.jaspersoft.android.jaspermobile.domain.interactor.resource.GetResourceDetailsByTypeCase;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
-import com.jaspersoft.android.jaspermobile.ui.model.visualize.ExecutionReferenceClickEvent;
-import com.jaspersoft.android.jaspermobile.ui.model.visualize.ExternalReferenceClickEvent;
-import com.jaspersoft.android.jaspermobile.ui.view.activity.ReportVisualizeActivity_;
+import com.jaspersoft.android.jaspermobile.util.InputControlHolder;
+import com.jaspersoft.android.jaspermobile.util.ReportParamsStorage;
+import com.jaspersoft.android.jaspermobile.util.ResourceOpener;
+import com.jaspersoft.android.jaspermobile.util.ResourceOpener_;
 import com.jaspersoft.android.jaspermobile.webview.WebInterface;
 import com.jaspersoft.android.jaspermobile.webview.WebViewEnvironment;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.AmberTwoDashboardExecutor;
@@ -59,8 +65,11 @@ import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardTri
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardWebInterface;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.JsDashboardTrigger;
 import com.jaspersoft.android.jaspermobile.webview.hyperlinks.HyperlinksCallback;
+import com.jaspersoft.android.sdk.client.oxm.report.ReportDestination;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
+import com.jaspersoft.android.sdk.network.entity.report.ReportParameter;
 import com.jaspersoft.android.sdk.util.FileUtils;
+import com.jaspersoft.android.sdk.widget.report.renderer.RunOptions;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
@@ -68,9 +77,9 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 
-import javax.inject.Inject;
+import java.util.List;
 
-import rx.subjects.PublishSubject;
+import javax.inject.Inject;
 
 /**
  * @author Tom Koptel
@@ -84,6 +93,17 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
 
     @InstanceState
     protected boolean mMaximized;
+
+    @Inject
+    GetResourceDetailsByTypeCase getResourceDetailsByTypeCase;
+    @Inject
+    ReportParamsMapper paramsMapper;
+    @Inject
+    DestinationMapper destinationMapper;
+    @Inject
+    ReportParamsStorage reportParamsStorage;
+    @Inject
+    RequestExceptionHandler requestExceptionHandler;
 
     @Inject
     GetDashboardControlsCase mGetDashboardControlsCase;
@@ -109,11 +129,15 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
         }
     };
 
+    private ResourceOpener resourceOpener;
+
     @SuppressLint("ShowToast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
+
+        resourceOpener = ResourceOpener_.getInstance_(this);
 
         mGetDashboardControlsCase.execute(resource.getUri(), new GenericSubscriber<>(new SimpleSubscriber<Boolean>() {
             @Override
@@ -310,6 +334,13 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
         hideLoading();
     }
 
+    @UiThread
+    @Override
+    public void onReferenceClick(String href) {
+        Intent i = WebResourceActivity.newIntent(this, Uri.parse(href));
+        startActivity(i);
+    }
+
     @Override
     public void onPageFinished() {
     }
@@ -354,20 +385,7 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     @UiThread
     @Override
     public void onReportExecutionClick(String data) {
-        mGetReportMetadataCase.execute(data, new GenericSubscriber<>(new SimpleSubscriber<ResourceLookup>() {
-            @Override
-            public void onNext(ResourceLookup lookup) {
-                ReportVisualizeActivity_.intent(Amber2DashboardActivity.this)
-                        .resource(lookup)
-                        .start();
-            }
-        }));
-    }
 
-    @UiThread
-    @Override
-    public void onReferenceClick(String location) {
-        showExternalLink(this, location);
     }
 
     @UiThread
@@ -436,5 +454,51 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     private void hideMenuItems() {
         mFavoriteItemVisible = mInfoItemVisible = false;
         supportInvalidateOptionsMenu();
+    }
+
+    /*
+     *  GetResourceDetailListener
+     */
+
+    private class GetResourceDetailListener extends SimpleSubscriber<ResourceLookup> {
+        private final RunOptions runOptions;
+
+        private GetResourceDetailListener(RunOptions runOptions) {
+            this.runOptions = runOptions;
+        }
+
+        public void onStart() {
+            ProgressDialogFragment.builder(getSupportFragmentManager())
+                    .setLoadingMessage(R.string.loading_msg)
+                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            getResourceDetailsByTypeCase.unsubscribe();
+                        }
+                    })
+                    .show();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            requestExceptionHandler.showAuthErrorIfExists(e);
+        }
+
+        @Override
+        public void onNext(ResourceLookup item) {
+            List<ReportParameter> reportParams = runOptions.getParameters();
+            List<com.jaspersoft.android.sdk.client.oxm.report.ReportParameter> legacyReportParams = paramsMapper.retrofittedParamsToLegacy(reportParams);
+            ReportDestination reportDestination = destinationMapper.toReportDestination(runOptions.getDestination());
+
+            InputControlHolder icHolder = reportParamsStorage.getInputControlHolder(item.getUri());
+            icHolder.setReportParams(legacyReportParams);
+
+            resourceOpener.runReport(item, reportDestination);
+        }
+
+        @Override
+        public void onCompleted() {
+            ProgressDialogFragment.dismiss(getSupportFragmentManager());
+        }
     }
 }

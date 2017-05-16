@@ -83,7 +83,7 @@ public abstract class CategoryPageObject extends PageObject {
     }
 
     public void changeViewType() {
-        clickMenuItem(anyOf(withText("Switch view"), withId(R.id.switchLayout)));
+        menuItemAction(click(), anyOf(withText("Switch view"), withId(R.id.switchLayout)));
     }
 
     public void expandSearch() {

@@ -25,8 +25,9 @@
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,8 +36,8 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
-import com.jaspersoft.android.jaspermobile.util.ScrollableTitleHelper;
 import com.jaspersoft.android.jaspermobile.webview.WebInterface;
 import com.jaspersoft.android.jaspermobile.webview.WebViewEnvironment;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.AmberDashboardExecutor;
@@ -45,11 +46,8 @@ import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardExe
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardWebInterface;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.JsDashboardTrigger;
 import com.jaspersoft.android.jaspermobile.webview.hyperlinks.HyperlinksCallback;
-import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.UiThread;
 
@@ -268,14 +266,16 @@ public class AmberDashboardActivity extends BaseDashboardActivity implements Das
         hideLoading();
     }
 
+    @UiThread
+    @Override
+    public void onReferenceClick(String href) {
+        Intent i = WebResourceActivity.newIntent(this, Uri.parse(href));
+        startActivity(i);
+    }
+
     //---------------------------------------------------------------------
     // Hyperlinks
     //---------------------------------------------------------------------
-
-    @UiThread
-    @Override
-    public void onReferenceClick(final String type) {
-    }
 
     @UiThread
     @Override

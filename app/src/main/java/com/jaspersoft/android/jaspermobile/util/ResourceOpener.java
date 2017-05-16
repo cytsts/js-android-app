@@ -24,13 +24,17 @@
 
 package com.jaspersoft.android.jaspermobile.util;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.activities.file.FileViewerActivity_;
+import com.jaspersoft.android.jaspermobile.activities.file.FileViewerActivity;
+import com.jaspersoft.android.jaspermobile.activities.report.BaseReportActivity;
+import com.jaspersoft.android.jaspermobile.activities.report.ReportViewActivity;
+import com.jaspersoft.android.jaspermobile.activities.report.ReportCastActivity;
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositoryControllerFragment;
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositoryControllerFragment_;
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositorySearchFragment;
@@ -38,14 +42,12 @@ import com.jaspersoft.android.jaspermobile.activities.repository.fragment.Reposi
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard.Amber2DashboardActivity_;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard.AmberDashboardActivity_;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard.LegacyDashboardViewerActivity_;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.report.ReportCastActivity_;
 import com.jaspersoft.android.jaspermobile.domain.JasperServer;
-import com.jaspersoft.android.jaspermobile.ui.view.activity.ReportViewActivity_;
-import com.jaspersoft.android.jaspermobile.ui.view.activity.ReportVisualizeActivity_;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.ComponentProviderDelegate;
 import com.jaspersoft.android.jaspermobile.util.cast.ResourcePresentationService;
 import com.jaspersoft.android.jaspermobile.util.filtering.RepositoryResourceFilter_;
 import com.jaspersoft.android.jaspermobile.util.filtering.ResourceFilter;
+import com.jaspersoft.android.sdk.client.oxm.report.ReportDestination;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 import com.jaspersoft.android.sdk.service.data.server.ServerVersion;
 
@@ -96,7 +98,7 @@ public class ResourceOpener {
                 if (ResourcePresentationService.isStarted()) {
                     castReport(resource);
                 } else {
-                    runReport(resource);
+                    runReport(resource, null);
                 }
                 break;
             case legacyDashboard:
@@ -104,7 +106,7 @@ public class ResourceOpener {
                 runDashboard(resource);
                 break;
             case file:
-                showFile(resource);
+                showFile(resource.getUri());
                 break;
             default:
                 showUnsupported();
@@ -130,21 +132,23 @@ public class ResourceOpener {
                 .commit();
     }
 
-    private void runReport(final ResourceLookup resource) {
-        boolean isRestEngine = mServerVersion.lessThan(ServerVersion.v6);
-        boolean isCeJrs = !mIsPro;
-        if (isCeJrs || isRestEngine) {
-            ReportViewActivity_.intent(activity)
-                    .resource(resource).start();
-        } else {
-            ReportVisualizeActivity_.intent(activity)
-                    .resource(resource).start();
-        }
+    public void showFile(String resourceUri){
+        Intent fileViewerIntent = new Intent(activity, FileViewerActivity.class);
+        fileViewerIntent.putExtra(FileViewerActivity.RESOURCE_URI_ARG, resourceUri);
+        activity.startActivity(fileViewerIntent);
+    }
+
+    public void runReport(ResourceLookup resource, ReportDestination destination) {
+        Intent runReport = new Intent(activity, ReportViewActivity.class);
+        runReport.putExtra(ReportViewActivity.RESOURCE_LOOKUP_ARG,resource);
+        runReport.putExtra(ReportViewActivity.REPORT_DESTINATION_ARG, destination);
+        activity.startActivity(runReport);
     }
 
     private void castReport(final ResourceLookup resource) {
-        ReportCastActivity_.intent(activity)
-                .resource(resource).start();
+        Intent castIntent = new Intent(activity, ReportCastActivity.class);
+        castIntent.putExtra(BaseReportActivity.RESOURCE_LOOKUP_ARG, resource);
+        activity.startActivity(castIntent);
     }
 
     private void runDashboard(ResourceLookup resource) {
@@ -168,10 +172,6 @@ public class ResourceOpener {
         if (isVisualizeEngine) {
             Amber2DashboardActivity_.intent(activity).resource(resource).start();
         }
-    }
-
-    private void showFile(ResourceLookup resource){
-        FileViewerActivity_.intent(activity).resourceLookup(resource).start();
     }
 
     private void showUnsupported(){

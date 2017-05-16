@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015 TIBCO Software, Inc. All rights reserved.
+ * Copyright ï¿½ 2015 TIBCO Software, Inc. All rights reserved.
  * http://community.jaspersoft.com/project/jaspermobile-android
  *
  * Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
@@ -194,7 +194,7 @@ public class LibraryTest {
     public void librarySort() {
         libraryPageObject.selectSort("Creation date");
         libraryPageObject.awaitCategoryList();
-        libraryPageObject.resourceMatches(hasText("Test report label"), 0);
+        libraryPageObject.resourceMatches(hasText("Product Sales Trend"), 0);
         libraryPageObject.selectSort("Label");
         libraryPageObject.awaitCategoryList();
         libraryPageObject.resourceMatches(hasText("01. Geographic Results"), 0);
@@ -205,7 +205,7 @@ public class LibraryTest {
     public void librarySortNotPersist() {
         libraryPageObject.selectSort("Creation date");
         libraryPageObject.awaitCategoryList();
-        libraryPageObject.resourceMatches(hasText("Test report label"), 0);
+        libraryPageObject.resourceMatches(hasText("Product Sales Trend"), 0);
 
         leftPanelPageObject.goToRepository();
         leftPanelPageObject.goToLibrary();

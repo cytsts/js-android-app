@@ -71,7 +71,7 @@ public class SaveReportPageObject extends PageObject {
     }
 
     public void clickSave() {
-        clickMenuItem(anyOf(withText("Save"), withId(R.id.saveAction)));
+        menuItemAction(click(), anyOf(withText("Save"), withId(R.id.saveAction)));
     }
 
     public void selectFormat(String format) {

@@ -24,8 +24,14 @@
 
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.Menu;
+import android.webkit.WebView;
 
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.WebViewFragment;
@@ -34,6 +40,8 @@ import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 
 /**
  * Activity which performs viewing of local web resources.
@@ -42,68 +50,21 @@ import org.androidannotations.annotations.Extra;
  * @since 2.6
  */
 
-@EActivity
-public class WebResourceActivity extends ToolbarActivity
-        implements WebViewFragment.OnWebViewCreated {
+public class WebResourceActivity extends SingleFragmentActivity {
 
-    @Extra
-    protected String resourceUrl;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (savedInstanceState == null) {
-            String title = getString(R.string.wr_title);
-            WebViewFragment webViewFragment = WebViewFragment_.builder()
-                    .resourceLabel(title).build();
-            webViewFragment.setOnWebViewCreated(this);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.content, webViewFragment, WebViewFragment.TAG)
-                    .commit();
-        }
+    public static Intent newIntent(Context context, Uri resourceUri) {
+        Intent i = new Intent(context, WebResourceActivity.class);
+        i.setData(resourceUri);
+        return i;
     }
 
     @Override
-    public void onWebViewCreated(WebViewFragment webViewFragment) {
-        if (resourceUrl == null) {
-            // TODO: throw exception?
-        }
-        String url = resourceUrl;
-        if (isViewerUrl(url)) {
-            // TODO: make showing this resource in native viewer (first get resource lookup)
-            url = constructUrlForViewer(url);
-        }
-        webViewFragment.loadUrl(url);
-    }
-
-    private boolean isViewerUrl(String url) {
-        return url.contains("viewer.html");
-    }
-
-    private String constructUrlForViewer(String url) {
-        String nodecoration = "sessionDecorator=no&decorate=no";
-        Uri uri = Uri.parse(url);
-        String scheme = uri.getScheme();
-        String host = uri.getHost();
-        int port = uri.getPort();
-        String path = uri.getPath();
-        String query = uri.getQuery();
-        String fragment = uri.getFragment();
-
-        Uri.Builder builder = new Uri.Builder();
-        builder.scheme(scheme);
-        return builder.path(path)
-                .encodedAuthority(host + (port != -1 ? ":" + port : ""))
-                .encodedQuery(nodecoration + query)
-                .encodedFragment(fragment)
-                .build()
-                .toString();
+    protected Fragment createFragment() {
+        return WebResourceFragment.newInstance(getIntent().getData());
     }
 
     @Override
     protected String getScreenName() {
         return getString(R.string.ja_l_wr_s);
     }
-
 }

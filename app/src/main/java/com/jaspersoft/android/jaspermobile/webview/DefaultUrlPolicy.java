@@ -24,15 +24,12 @@
 
 package com.jaspersoft.android.jaspermobile.webview;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.webkit.WebView;
-import android.widget.Toast;
 
-import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity_;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity;
 
 /**
  * @author Tom Koptel
@@ -62,12 +59,7 @@ public class DefaultUrlPolicy implements UrlPolicy {
             return true;
         }
 
-        Context context = view.getContext();
-        if (isInternalRequestUrl(url)) {
-            showInternalLink(context, url);
-        } else {
-            showExternalLink(context, url);
-        }
+        showInternalLink(view.getContext(), url);
         return true;
     }
 
@@ -90,22 +82,9 @@ public class DefaultUrlPolicy implements UrlPolicy {
         return linkHost != null;
     }
 
-    private void showExternalLink(Context context, String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        try {
-            context.startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            // show notification if no app available to open selected format
-            Toast.makeText(context,
-                    context.getString(R.string.sdr_t_no_app_available, "view"),
-                    Toast.LENGTH_SHORT
-            ).show();
-        }
-    }
-
     private void showInternalLink(Context context, String url) {
-        WebResourceActivity_.intent(context)
-                .resourceUrl(url).start();
+        Intent i = WebResourceActivity.newIntent(context, Uri.parse(url));
+        context.startActivity(i);
     }
 
     public interface SessionListener {

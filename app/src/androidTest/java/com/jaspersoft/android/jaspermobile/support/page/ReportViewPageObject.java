@@ -32,14 +32,14 @@ import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.support.BitmapWrapper;
 import com.jaspersoft.android.jaspermobile.support.matcher.WatchPeriod;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
+import com.jaspersoft.android.sdk.widget.base.ResourceWebView;
 
 import org.hamcrest.Matcher;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.web.assertion.WebViewAssertions.webMatches;
@@ -50,9 +50,8 @@ import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalView
 import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAction.watch;
 import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAction.zoomIn;
 import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAction.zoomOut;
-import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAssertion.hasView;
-import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAssertion.isVisible;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.anyOf;
 
 
@@ -72,7 +71,7 @@ public class ReportViewPageObject extends PageObject {
     }
 
     public void reportMatches(Matcher<View> reportMatcher) {
-        onView(withId(R.id.webView)).
+        onView(withClassName(is(ResourceWebView.class.getName()))).
                 check(matches(reportMatcher));
     }
 
@@ -83,18 +82,18 @@ public class ReportViewPageObject extends PageObject {
 
     public Bitmap getReportBitmap() {
         BitmapWrapper bitmapWrapper = new BitmapWrapper();
-        onView(withId(R.id.webView))
+        onView(withClassName(is(ResourceWebView.class.getName())))
                 .perform(getImage(bitmapWrapper));
         return bitmapWrapper.getBitmap();
     }
 
     public void zoomInReport() {
-        onView(withId(R.id.webView))
+        onView(withClassName(is(ResourceWebView.class.getName())))
                 .perform(zoomIn());
     }
 
     public void zoomOutReport() {
-        onView(withId(R.id.webView))
+        onView(withClassName(is(ResourceWebView.class.getName())))
                 .perform(zoomOut());
     }
 
@@ -103,14 +102,10 @@ public class ReportViewPageObject extends PageObject {
     }
 
     public void waitForReportWithKeyWord(String keyWord) {
-        onView(isRoot()).
-                perform(watch(hasView(withId(R.id.webView)), WatchPeriod.LONG));
-        onView(withId(R.id.webView)).
-                perform(watch(isVisible(), WatchPeriod.LONG));
-        onView(withId(R.id.progressMessage)).
-                check(doesNotExist());
+        onView(withClassName(is(ResourceWebView.class.getName()))).
+                perform(watch(isDisplayed(), WatchPeriod.LONG));
         onWebView()
-                .withElement(findElement(Locator.CSS_SELECTOR, ".visualizejs._jr_report_container_"))
+                .withElement(findElement(Locator.ID, "container"))
                 .check(webMatches(getText(), containsString(keyWord)));
     }
 

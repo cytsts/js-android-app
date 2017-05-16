@@ -31,12 +31,13 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.activities.report.BaseReportActivity;
+import com.jaspersoft.android.jaspermobile.activities.report.ReportViewActivity;
 import com.jaspersoft.android.jaspermobile.support.page.ReportFiltersPageObject;
 import com.jaspersoft.android.jaspermobile.support.page.ReportViewPageObject;
 import com.jaspersoft.android.jaspermobile.support.rule.ActivityWithLoginRule;
 import com.jaspersoft.android.jaspermobile.support.rule.DisableAnimationsRule;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.NavigationActivity_;
-import com.jaspersoft.android.jaspermobile.ui.view.activity.ReportVisualizeActivity_;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 
 import org.junit.Before;
@@ -46,6 +47,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -71,7 +73,7 @@ public class ReportFiltersTest {
     public ActivityTestRule<NavigationActivity_> init = new ActivityWithLoginRule<>(NavigationActivity_.class);
 
     @Rule
-    public ActivityTestRule<ReportVisualizeActivity_> page = new ActivityTestRule<>(ReportVisualizeActivity_.class, false, false);
+    public ActivityTestRule<ReportViewActivity> page = new ActivityTestRule<>(ReportViewActivity.class, false, false);
 
     @Before
     public void init() {
@@ -79,11 +81,11 @@ public class ReportFiltersTest {
         reportFiltersPageObject = new ReportFiltersPageObject();
 
         Intent startIntent = new Intent();
-        startIntent.putExtra(ReportVisualizeActivity_.RESOURCE_EXTRA, createResourceLookup());
+        startIntent.putExtra(BaseReportActivity.RESOURCE_LOOKUP_ARG, createResourceLookup());
         page.launchActivity(startIntent);
 
         reportViewPageObject.waitForReportWithKeyWord("");
-        reportViewPageObject.clickMenuItem(anyOf(withText("Show Filters"), withId(R.id.showFilters)));
+        reportViewPageObject.menuItemAction(click(), anyOf(withText("Show Filters"), withId(R.id.showFilters)));
         reportViewPageObject.initialDelay();
     }
 

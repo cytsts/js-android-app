@@ -32,12 +32,13 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.activities.report.BaseReportActivity;
+import com.jaspersoft.android.jaspermobile.activities.report.ReportViewActivity;
 import com.jaspersoft.android.jaspermobile.support.page.LibraryPageObject;
 import com.jaspersoft.android.jaspermobile.support.page.ReportViewPageObject;
 import com.jaspersoft.android.jaspermobile.support.rule.ActivityWithLoginRule;
 import com.jaspersoft.android.jaspermobile.support.rule.DisableAnimationsRule;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.NavigationActivity_;
-import com.jaspersoft.android.jaspermobile.ui.view.activity.ReportVisualizeActivity_;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 
 import org.junit.Before;
@@ -46,6 +47,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -74,7 +77,7 @@ public class ReportViewTest {
     public ActivityTestRule<NavigationActivity_> init = new ActivityWithLoginRule<>(NavigationActivity_.class);
 
     @Rule
-    public ActivityTestRule<ReportVisualizeActivity_> page = new ActivityTestRule<>(ReportVisualizeActivity_.class, false, false);
+    public ActivityTestRule<ReportViewActivity> page = new ActivityTestRule<>(ReportViewActivity.class, false, false);
 
     @ClassRule
     public static DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
@@ -85,7 +88,7 @@ public class ReportViewTest {
         libraryPageObject = new LibraryPageObject();
 
         Intent startIntent = new Intent();
-        startIntent.putExtra(ReportVisualizeActivity_.RESOURCE_EXTRA, createStoreSegmentResourceLookup());
+        startIntent.putExtra(BaseReportActivity.RESOURCE_LOOKUP_ARG, createStoreSegmentResourceLookup());
         page.launchActivity(startIntent);
     }
 
@@ -126,18 +129,16 @@ public class ReportViewTest {
 
     @Test
     public void favoriteReport() {
-        reportViewPageObject.awaitReport();
-        reportViewPageObject.clickMenuItem(anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
+        reportViewPageObject.menuItemAction(click(), anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
         reportViewPageObject.menuItemMatches(withIconResource(R.drawable.ic_menu_star), anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
 
-        reportViewPageObject.clickMenuItem(anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
+        reportViewPageObject.menuItemAction(click(), anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
         reportViewPageObject.menuItemMatches(withIconResource(R.drawable.ic_menu_star_outline), anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
     }
 
     @Test
     public void favoriteItemHint() {
-        reportViewPageObject.awaitReport();
-        reportViewPageObject.longClickMenuItem(anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
+        reportViewPageObject.menuItemAction(longClick(), anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
         reportViewPageObject.assertToastMessage("Add to favorites");
     }
 
@@ -149,15 +150,14 @@ public class ReportViewTest {
 
     @Test
     public void aboutAction() {
-        reportViewPageObject.awaitReport();
-        reportViewPageObject.clickMenuItem(anyOf(withText("View Details"), withId(R.id.aboutAction)));
+        reportViewPageObject.menuItemAction(click(), anyOf(withText("View Details"), withId(R.id.aboutAction)));
         reportViewPageObject.dialogTitleMatches("03. Store Segment Performance Report");
     }
 
     @Test
     public void refreshReport() {
         reportViewPageObject.awaitReport();
-        reportViewPageObject.clickMenuItem(anyOf(withText("Refresh"), withId(R.id.refreshAction)));
+        reportViewPageObject.menuItemAction(click(), anyOf(withText("Refresh"), withId(R.id.refreshAction)));
         reportViewPageObject.awaitReport();
     }
 
@@ -167,7 +167,7 @@ public class ReportViewTest {
         reportViewPageObject.menuItemAssertion(anyOf(withText("Show Filters"), withId(R.id.showFilters)), doesNotExist());
 
         Intent startIntent = new Intent();
-        startIntent.putExtra(ReportVisualizeActivity_.RESOURCE_EXTRA, createGeographicResourceLookup());
+        startIntent.putExtra(BaseReportActivity.RESOURCE_LOOKUP_ARG, createGeographicResourceLookup());
         page.launchActivity(startIntent);
 
         reportViewPageObject.awaitReport();

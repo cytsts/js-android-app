@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright © 2015 TIBCO Software, Inc. All rights reserved.
+  ~ http://community.jaspersoft.com/project/jaspermobile-android
+  ~
+  ~ Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
+  ~ the following license terms apply:
+  ~
+  ~ This program is part of TIBCO Jaspersoft Mobile for Android.
+  ~
+  ~ TIBCO Jaspersoft Mobile is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ TIBCO Jaspersoft Mobile is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with TIBCO Jaspersoft Mobile for Android. If not, see
+  ~ <http://www.gnu.org/licenses/lgpl>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/reportAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.jaspersoft.android.jaspermobile.widget.ReportToolbar
+            android:id="@+id/reportToolbar"
+            style="@style/Widget.JasperMobile.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_menu_navigation_up">
+
+            <TextView
+                android:id="@+id/reportTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textSize="@dimen/abc_text_size_title_material_toolbar"/>
+
+        </com.jaspersoft.android.jaspermobile.widget.ReportToolbar>
+
+        <com.jaspersoft.android.jaspermobile.widget.ReportPartsTabLayout
+            android:id="@+id/reportPartsTabs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            app:tabMode="scrollable"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.jaspersoft.android.jaspermobile.widget.LoadingView
+            android:id="@+id/loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/paginationControl"/>
+
+        <com.jaspersoft.android.jaspermobile.widget.ReportErrorActionView
+            android:id="@+id/reportMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/paginationControl"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/controlsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/paginationControl"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnZoomOut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp"
+                    android:paddingTop="12dp"
+                    android:src="@drawable/ic_zoom_out"/>
+
+                <ImageButton
+                    android:id="@+id/btnZoomIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp"
+                    android:paddingTop="12dp"
+                    android:src="@drawable/ic_zoom_in"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:gravity="center_horizontal"
+                android:text="@string/cast_zoom_message"
+                android:textColor="@android:color/black"/>
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:columnCount="3"
+                android:rowCount="4">
+
+                <ImageButton
+                    android:id="@+id/btnScrollUp"
+                    android:layout_column="1"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_arrow_upward"/>
+
+                <ImageButton
+                    android:id="@+id/btnScrollLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_row="1"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_arrow_left"/>
+
+                <ImageButton
+                    android:id="@+id/btnScrollRight"
+                    android:layout_column="2"
+                    android:layout_row="1"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_arrow_right"/>
+
+                <ImageButton
+                    android:id="@+id/btnScrollDown"
+                    android:layout_column="1"
+                    android:layout_row="2"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_arrow_downward"/>
+
+            </GridLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:gravity="center_horizontal"
+                android:text="@string/cast_scroll_message"
+                android:textColor="@android:color/black"/>
+
+        </LinearLayout>
+
+        <com.jaspersoft.android.jaspermobile.widget.SimplePaginationView
+            android:id="@+id/paginationControl"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:background="@color/js_dark_gray"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

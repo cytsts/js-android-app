@@ -24,6 +24,7 @@
 
 package com.jaspersoft.android.jaspermobile.support.page;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.NoMatchingRootException;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewAssertion;
@@ -37,15 +38,14 @@ import junit.framework.AssertionFailedError;
 import org.hamcrest.Matcher;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAction.openOverflowMenu;
 import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAction.watch;
 import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAssertion.exist;
 import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAssertion.hasView;
@@ -61,6 +61,7 @@ import static org.hamcrest.core.AllOf.allOf;
  * @since 2.5
  */
 public abstract class PageObject {
+
     public void initialDelay() {
         try {
             Thread.sleep(3000);
@@ -108,25 +109,8 @@ public abstract class PageObject {
                 .perform(click());
     }
 
-    public void clickMenuItem(Matcher<View> viewMatcher) {
-        menuItemAction(click(), viewMatcher);
-    }
-
-    public void longClickMenuItem(Matcher<View> viewMatcher) {
-        menuItemAction(longClick(), viewMatcher);
-    }
-
     public void menuItemMatches(Matcher<View> menuMatcher, Matcher<View> viewMatcher) {
-        try {
-            onView(isRoot())
-                    .check(matches(hasView(viewMatcher)));
-        } catch (AssertionFailedError ex) {
-            onView(withId(R.id.tb_navigation))
-                    .perform(openOverflowMenu());
-        }
-
-        onView(viewMatcher)
-                .check(matches(menuMatcher));
+        menuItemAssertion(viewMatcher, matches(menuMatcher));
     }
 
     public void menuItemAssertion(Matcher<View> viewMatcher, ViewAssertion viewAssertion) {
@@ -134,8 +118,7 @@ public abstract class PageObject {
             onView(isRoot())
                     .check(matches(hasView(viewMatcher)));
         } catch (AssertionFailedError ex) {
-            onView(withId(R.id.tb_navigation))
-                    .perform(openOverflowMenu());
+            openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
         }
 
         onView(viewMatcher)
@@ -147,8 +130,7 @@ public abstract class PageObject {
             onView(isRoot())
                     .check(matches(hasView(viewMatcher)));
         } catch (AssertionFailedError ex) {
-            onView(withId(R.id.tb_navigation))
-                    .perform(openOverflowMenu());
+            openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
         }
 
         onView(viewMatcher)

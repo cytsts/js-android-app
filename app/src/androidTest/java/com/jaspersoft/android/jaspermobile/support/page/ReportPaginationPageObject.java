@@ -35,7 +35,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAction.scrollToPage;
 import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAction.watch;
 
 
@@ -46,7 +45,7 @@ import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalView
 public class ReportPaginationPageObject extends PageObject {
 
     public void currentMatches(Matcher<View> reportMatcher) {
-        onView(withId(R.id.currentPageLabel))
+        onView(withId(R.id.currentPage))
                 .perform(watch(reportMatcher, WatchPeriod.MEDIUM));
     }
 
@@ -71,18 +70,13 @@ public class ReportPaginationPageObject extends PageObject {
     }
 
     public void clickCurrentPage(){
-        onView(withId(R.id.currentPageLabel))
+        onView(withId(R.id.pagesNumberContainer))
                 .perform(click());
     }
 
     public void clickFirstPage(){
         onView(withId(R.id.firstPage))
                 .perform(click());
-    }
-
-    public void selectPage(int page){
-        onView(withId(R.id.numberPicker))
-                .perform(scrollToPage(page));
     }
 
     public void typePage(int page){

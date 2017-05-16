@@ -32,8 +32,6 @@ import com.jaspersoft.android.jaspermobile.data.cache.profile.CredentialsCache;
 import com.jaspersoft.android.jaspermobile.data.cache.profile.JasperServerCache;
 import com.jaspersoft.android.jaspermobile.data.cache.profile.PreferencesActiveProfileCache;
 import com.jaspersoft.android.jaspermobile.data.cache.profile.ProfileCache;
-import com.jaspersoft.android.jaspermobile.data.cache.report.InMemoryVisualizeTemplateCache;
-import com.jaspersoft.android.jaspermobile.data.cache.report.VisualizeTemplateCache;
 
 import javax.inject.Singleton;
 
@@ -68,12 +66,6 @@ public final class CacheModule {
     @Singleton
     @Provides
     JasperServerCache providesJasperSeverCache(AccountJasperServerCache cache) {
-        return cache;
-    }
-
-    @Singleton
-    @Provides
-    VisualizeTemplateCache providesVisualizeTemplateCache(InMemoryVisualizeTemplateCache cache) {
         return cache;
     }
 }

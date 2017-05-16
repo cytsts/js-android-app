@@ -45,6 +45,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.jaspersoft.android.jaspermobile.support.matcher.AdditionalViewAssertion.exist;
@@ -109,31 +111,31 @@ public class DashboardTest {
     @Test
     public void favoriteDashboard() {
         dashboardPageObject.awaitDashboard();
-        dashboardPageObject.clickMenuItem(anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
+        dashboardPageObject.menuItemAction(click(), anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
         dashboardPageObject.menuItemMatches(withIconResource(R.drawable.ic_menu_star), anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
 
-        dashboardPageObject.clickMenuItem(anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
+        dashboardPageObject.menuItemAction(click(), anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
         dashboardPageObject.menuItemMatches(withIconResource(R.drawable.ic_menu_star_outline), anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
     }
 
     @Test
     public void favoriteItemHint() {
         dashboardPageObject.awaitDashboard();
-        dashboardPageObject.longClickMenuItem(anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
+        dashboardPageObject.menuItemAction(longClick(), anyOf(withText("Add to favorites"), withId(R.id.favoriteAction)));
         dashboardPageObject.assertToastMessage("Add to favorites");
     }
 
     @Test
     public void aboutAction() {
         dashboardPageObject.awaitDashboard();
-        dashboardPageObject.clickMenuItem(anyOf(withText("View Details"), withId(R.id.aboutAction)));
+        dashboardPageObject.menuItemAction(click(), anyOf(withText("View Details"), withId(R.id.aboutAction)));
         dashboardPageObject.dialogTitleMatches("1. Supermart Dashboard");
     }
 
     @Test
     public void refreshDashboard() {
         dashboardPageObject.awaitFullDashboard();
-        dashboardPageObject.clickMenuItem(anyOf(withText("Refresh"), withId(R.id.refreshAction)));
+        dashboardPageObject.menuItemAction(click(), anyOf(withText("Refresh"), withId(R.id.refreshAction)));
         dashboardPageObject.awaitFullDashboard();
     }
 

@@ -27,11 +27,9 @@ package com.jaspersoft.android.jaspermobile.internal.di.modules.app;
 import com.jaspersoft.android.jaspermobile.data.repository.profile.CredentialsDataRepository;
 import com.jaspersoft.android.jaspermobile.data.repository.profile.JasperServerDataRepository;
 import com.jaspersoft.android.jaspermobile.data.repository.profile.ProfileDataRepository;
-import com.jaspersoft.android.jaspermobile.data.repository.report.InMemoryVisualizeTemplateRepository;
 import com.jaspersoft.android.jaspermobile.domain.repository.profile.CredentialsRepository;
 import com.jaspersoft.android.jaspermobile.domain.repository.profile.JasperServerRepository;
 import com.jaspersoft.android.jaspermobile.domain.repository.profile.ProfileRepository;
-import com.jaspersoft.android.jaspermobile.domain.repository.report.VisualizeTemplateRepository;
 
 import javax.inject.Singleton;
 
@@ -54,12 +52,6 @@ public final class RepoModule {
     @Provides
     CredentialsRepository providesCredentialsDataRepository(CredentialsDataRepository repository) {
         return repository;
-    }
-
-    @Singleton
-    @Provides
-    VisualizeTemplateRepository providesVisualizeTemplateRepository(InMemoryVisualizeTemplateRepository visualizeTemplateRepository) {
-        return visualizeTemplateRepository;
     }
 
     @Singleton

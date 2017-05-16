@@ -40,6 +40,7 @@ import rx.subscriptions.Subscriptions;
  */
 public abstract class AbstractUseCase<Result, Argument> implements UseCase<Result, Argument> {
     private Subscription subscription = Subscriptions.empty();
+    private Subscriber<? super Result> useCaseSubscriber;
 
     /**
      * Builds an {@link rx.Observable} which will be used when executing the current {@link AbstractSimpleUseCase}.
@@ -62,16 +63,21 @@ public abstract class AbstractUseCase<Result, Argument> implements UseCase<Resul
     @Override
     public Subscription execute(@NonNull Argument argument, @NonNull Subscriber<? super Result> useCaseSubscriber) {
         Observable<Result> command = this.buildUseCaseObservable(argument);
+        this.useCaseSubscriber = useCaseSubscriber;
         this.subscription = command
                 .subscribeOn(mPreExecutionThread.getScheduler())
                 .observeOn(mPostExecutionThread.getScheduler())
-                .subscribe(useCaseSubscriber);
+                .subscribe(new InternalSubscriber());
         return subscription;
     }
 
     public Result execute(@NonNull Argument argument) {
         Observable<Result> command = this.buildUseCaseObservable(argument);
         return command.toBlocking().firstOrDefault(null);
+    }
+
+    public void updateSubscriber(@NonNull Subscriber<? super Result> useCaseSubscriber) {
+        this.useCaseSubscriber = useCaseSubscriber;
     }
 
     /**
@@ -81,6 +87,37 @@ public abstract class AbstractUseCase<Result, Argument> implements UseCase<Resul
     public void unsubscribe() {
         if (!subscription.isUnsubscribed()) {
             subscription.unsubscribe();
+        }
+        useCaseSubscriber = null;
+    }
+
+    private class InternalSubscriber extends Subscriber<Result> {
+        @Override
+        public void onStart() {
+            if (useCaseSubscriber != null) {
+                useCaseSubscriber.onStart();
+            }
+        }
+
+        @Override
+        public void onCompleted() {
+            if (useCaseSubscriber != null) {
+                useCaseSubscriber.onCompleted();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            if (useCaseSubscriber != null) {
+                useCaseSubscriber.onError(e);
+            }
+        }
+
+        @Override
+        public void onNext(Result result) {
+            if (useCaseSubscriber != null) {
+                useCaseSubscriber.onNext(result);
+            }
         }
     }
 }
