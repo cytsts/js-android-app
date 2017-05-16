@@ -38,22 +38,13 @@ subprojects {
     group = 'com.jaspersoft.android'
     description = 'js-android-jaspermobile'
 
-    ext.androidToolsBuildGradle = '2.2.2'
-    ext.androidApt = '1.8'
-    ext.androidBuildToolsVersion = '23.0.3';
+    ext.androidToolsBuildGradle = '2.3.2'
+    ext.androidBuildToolsVersion = '25';
     ext.androidMinSdkVersion = 15;
-    ext.androidCompileSdkVersion = 23;
-    ext.androidTargetSdkVersion = 23;
+    ext.androidCompileSdkVersion = 25;
+    ext.androidTargetSdkVersion = 25;
 
-    ext.jasperSdkVersion = '1.11';
-    ext.daggerVersion = '2.1';
-    ext.autoValue = '1.2';
-
-    ext.fabricToolsVersion = '1.21.2';
-    ext.dexCountToolsVersion = '0.3.0';
-    ext.jasperSdkVersion = '2.5.1';
-
-    ext.jacocoVersion = '0.7.6.201602180812'
+    ext.jasperSdkVersion = '2.6-SNAPSHOT';
 
     repositories {
         // Local .m2 repo, usually living at home dir
@@ -69,8 +60,4 @@ subprojects {
 
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

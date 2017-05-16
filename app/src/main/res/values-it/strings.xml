@@ -98,10 +98,8 @@
     <string name="rv_t_external_storage_not_available">Scheda di memoria esterna non disponibile. Montare la scheda e riprovare.</string>
 
     <!-- Save Report Activity -->
-    <string name="sr_ab_title">Salva report</string>
     <string name="sr_output_format">Formato dell\'output</string>
     <!-- Toasts -->
-    <string name="sr_t_report_saved">Report salvato correttamente</string>
     <!-- Error messages -->
 
     <!-- Favorites activity -->
@@ -360,11 +358,7 @@
     <string name="rv_webview_still_loading">Tempo di caricamento eccessivamente lungo. Attendere o riprovare più tardi.</string>
 
     <!-- Saved Files Activity -->
-    <string name="sdr_saving_multiply_msg">%1$s rapporti in download</string>
     <string name="sdr_starting_downloading_msg">Inizio download in corso...</string>
-    <string name="sdr_saving_msg">Download rapporto in corso...</string>
-    <string name="sdr_saving_error_msg">Impossibile salvare rapporto</string>
-    <string name="sdr_loading_msg">Il rapporto è ancora in download...</string>
 
     <string name="sdr_dfd_msg_multi">Rimuovere gli elementi selezionati (%1$s elementi)?</string>
 

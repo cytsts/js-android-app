@@ -66,8 +66,8 @@ public class LeftPanelAccountTest {
         } catch (AssertionFailedError error) {
             leftPanelPageObject.clickAddAccountButton();
             loginPageObject.typeAlias("additionalAcc");
-            loginPageObject.typeUserName("joeuser");
-            loginPageObject.typePassword("joeuser");
+            loginPageObject.typeUserName("superuser");
+            loginPageObject.typePassword("superuser");
             loginPageObject.typeUrl(AccountUrlProvider.provide());
             loginPageObject.clickLoginButton();
         }

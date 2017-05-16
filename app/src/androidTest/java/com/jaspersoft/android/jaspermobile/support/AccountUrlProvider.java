@@ -37,7 +37,7 @@ public class AccountUrlProvider {
 
     public static String provide() {
         Bundle extras = InstrumentationRegistry.getArguments();
-        if (!extras.containsKey(SERVER_URL_ARG)) return "http://192.168.88.55:8092/jasperserver-pro-630-ui-tests";
+        if (!extras.containsKey(SERVER_URL_ARG)) return "http://build-master.jaspersoft.com:5980/jrs-pro-trunk";
         return extras.getString(SERVER_URL_ARG);
     }
 }

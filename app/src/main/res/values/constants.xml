@@ -33,6 +33,7 @@
 
     <!-- Untranslatable values -->
     <string name="si_fd_option_html" translatable="false">HTML</string>
+    <string name="si_fd_option_png" translatable="false">PNG</string>
     <string name="si_fd_option_pdf" translatable="false">PDF</string>
     <string name="si_fd_option_xls" translatable="false">XLS</string>
     <string name="empty_text_place_holder" translatable="false">---</string>
@@ -49,6 +50,7 @@
     <string name="ja_dvs_hn" translatable="false">Dashboard viewer screen (HTTP new)</string>
     <string name="ja_dvs_ho" translatable="false">Dashboard viewer screen (HTTP old)</string>
     <string name="ja_srs" translatable="false">Saving report screen</string>
+    <string name="ja_sds" translatable="false">Saving dashboard screen</string>
     <string name="ja_ss" translatable="false">Settings screen</string>
     <string name="ja_aas" translatable="false">Add account screen</string>
     <string name="ja_se_s" translatable="false">Search screen</string>

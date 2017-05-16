@@ -24,8 +24,8 @@
 
 package com.jaspersoft.android.jaspermobile.internal.di.components;
 
-import com.jaspersoft.android.jaspermobile.activities.save.ReportDownloadManager;
-import com.jaspersoft.android.jaspermobile.activities.save.SaveReportService;
+import com.jaspersoft.android.jaspermobile.activities.save.ResourceDownloadManager;
+import com.jaspersoft.android.jaspermobile.activities.save.SaveResourceService;
 import com.jaspersoft.android.jaspermobile.domain.Profile;
 import com.jaspersoft.android.jaspermobile.internal.di.PerProfile;
 import com.jaspersoft.android.jaspermobile.internal.di.components.screen.ChooseReportScreenComponent;
@@ -85,7 +85,7 @@ public interface ProfileComponent {
      * Hardcoded injections.
      */
     void inject(FileResourceBinder fileResourceBinder);
-    void inject(SaveReportService saveReportService);
+    void inject(SaveResourceService saveReportService);
     void inject(ResourcePresentationService resourcePresentationService);
-    void inject(ReportDownloadManager reportDownloadManager);
+    void inject(ResourceDownloadManager resourceDownloadManager);
 }

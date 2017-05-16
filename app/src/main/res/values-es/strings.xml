@@ -102,10 +102,8 @@
     </string>
 
     <!-- Save Report Activity -->
-    <string name="sr_ab_title">Guardar informe</string>
     <string name="sr_output_format">Formato de salida</string>
     <!-- Toasts -->
-    <string name="sr_t_report_saved">El informe se ha guardado correctamente.</string>
     <!-- Error messages -->
 
     <!-- Favorites activity -->
@@ -381,11 +379,7 @@
     <string name="rv_webview_still_loading">Está tomando mucho tiempo cargar. Por favor espere o intente de nuevo más tarde.</string>
 
     <!-- Saved Files Activity -->
-    <string name="sdr_saving_multiply_msg">%1$s informes descargándose</string>
     <string name="sdr_starting_downloading_msg">Comenzando a descargar...</string>
-    <string name="sdr_saving_msg">Informe descargándose</string>
-    <string name="sdr_saving_error_msg">No se pudo guardar el informe</string>
-    <string name="sdr_loading_msg">El informe aún se está descargando...</string>
 
     <string name="sdr_dfd_msg_multi">¿Realmente desea quitar los elementos seleccionados (%1$s elementos)?</string>
 

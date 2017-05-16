@@ -30,6 +30,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.activities.info.fragments.DashboardInfoFragment_;
 import com.jaspersoft.android.jaspermobile.activities.info.fragments.FileInfoFragment_;
 import com.jaspersoft.android.jaspermobile.activities.info.fragments.ReportInfoFragment_;
 import com.jaspersoft.android.jaspermobile.activities.info.fragments.ResourceInfoFragment;
@@ -61,6 +62,11 @@ public class ResourceInfoActivity extends ToolbarActivity {
             switch (jasperResource.getResourceType()) {
                 case report:
                     resourceInfoFragment = ReportInfoFragment_.builder()
+                            .jasperResource(jasperResource)
+                            .build();
+                    break;
+                case dashboard:
+                    resourceInfoFragment = DashboardInfoFragment_.builder()
                             .jasperResource(jasperResource)
                             .build();
                     break;

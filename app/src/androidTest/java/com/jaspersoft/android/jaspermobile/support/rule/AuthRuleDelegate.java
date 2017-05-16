@@ -55,8 +55,8 @@ public class AuthRuleDelegate {
 
     private void addAccount() {
         loginPageObject.typeAlias("accountUnderTest");
-        loginPageObject.typeUserName("joeuser");
-        loginPageObject.typePassword("joeuser");
+        loginPageObject.typeUserName("superuser");
+        loginPageObject.typePassword("superuser");
         loginPageObject.typeUrl(AccountUrlProvider.provide());
         loginPageObject.clickLoginButton();
         loginPageObject.awaitForLoginDone();

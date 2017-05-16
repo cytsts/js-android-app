@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 TIBCO Software,Inc.All rights reserved.
+ * Copyright © 2015 TIBCO Software, Inc. All rights reserved.
  * http://community.jaspersoft.com/project/jaspermobile-android
  *
  * Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
@@ -7,18 +7,18 @@
  *
  * This program is part of TIBCO Jaspersoft Mobile for Android.
  *
- * TIBCO Jaspersoft Mobile is free software:you can redistribute it and/or modify
+ * TIBCO Jaspersoft Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation,either version 3of the License,or
- * (at your option)any later version.
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * TIBCO Jaspersoft Mobile is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY;without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with TIBCO Jaspersoft Mobile for Android.If not,see
+ * along with TIBCO Jaspersoft Mobile for Android. If not, see
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
@@ -38,17 +38,14 @@ import org.androidannotations.annotations.Extra;
 import java.util.ArrayList;
 
 /**
- * @author Ivan Gadzhega
- * @author Tom Koptel
- * @since 1.8
+ * @author Andrew Tivodar
+ * @since 2.6
  */
 @EActivity
-public class SaveReportActivity extends ToolbarActivity {
+public class SaveDashboardActivity extends ToolbarActivity {
 
     @Extra
     ResourceLookup resource;
-    @Extra
-    int pageCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +54,11 @@ public class SaveReportActivity extends ToolbarActivity {
         if (savedInstanceState == null) {
 
             ArrayList<SaveItemFragment.OutputFormat> supportedFormats = new ArrayList<>();
-            supportedFormats.add(SaveItemFragment.OutputFormat.HTML);
+            supportedFormats.add(SaveItemFragment.OutputFormat.PNG);
             supportedFormats.add(SaveItemFragment.OutputFormat.PDF);
-            supportedFormats.add(SaveItemFragment.OutputFormat.XLS);
 
             SaveItemFragment saveItemFragment = SaveItemFragment_.builder()
                     .resource(resource)
-                    .pageCount(pageCount)
                     .supportedFormats(supportedFormats)
                     .build();
             getSupportFragmentManager().beginTransaction()
@@ -74,7 +69,7 @@ public class SaveReportActivity extends ToolbarActivity {
 
     @Override
     protected String getScreenName() {
-        return getString(R.string.ja_srs);
+        return getString(R.string.ja_sds);
     }
 
 }

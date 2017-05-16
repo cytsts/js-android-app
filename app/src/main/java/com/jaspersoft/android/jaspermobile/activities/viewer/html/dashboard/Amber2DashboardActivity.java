@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity_;
+import com.jaspersoft.android.jaspermobile.activities.save.SaveDashboardActivity_;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.interactor.dashboard.GetDashboardControlsCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.dashboard.GetDashboardVisualizeParamsCase;
@@ -44,7 +45,6 @@ import com.jaspersoft.android.jaspermobile.domain.interactor.report.FlushInputCo
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetReportMetadataCase;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ReportVisualizeActivity_;
-import com.jaspersoft.android.jaspermobile.util.ScrollableTitleHelper;
 import com.jaspersoft.android.jaspermobile.webview.WebInterface;
 import com.jaspersoft.android.jaspermobile.webview.WebViewEnvironment;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.AmberTwoDashboardExecutor;
@@ -54,10 +54,9 @@ import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardTri
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardWebInterface;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.JsDashboardTrigger;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
+import com.jaspersoft.android.sdk.util.FileUtils;
 
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsMenu;
@@ -69,7 +68,7 @@ import javax.inject.Inject;
  * @author Tom Koptel
  * @since 2.0
  */
-@OptionsMenu(R.menu.report_filter_manager_menu)
+@OptionsMenu({R.menu.report_filter_manager_menu, R.menu.save_item_menu})
 @EActivity
 public class Amber2DashboardActivity extends BaseDashboardActivity implements DashboardCallback {
 
@@ -150,6 +149,16 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
                     .dashboardInputControl(true)
                     .startForResult(REQUEST_DASHBOARDS_PARAMETERS);
             return true;
+        } else if (item.getItemId() == R.id.saveAction) {
+            if (FileUtils.isExternalStorageWritable()) {
+
+                SaveDashboardActivity_.intent(this)
+                        .resource(resource)
+                        .start();
+            } else {
+                Toast.makeText(this,
+                        R.string.rv_t_external_storage_not_available, Toast.LENGTH_SHORT).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);

@@ -28,21 +28,18 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:" + androidToolsBuildGradle
-        classpath "com.neenbedankt.gradle.plugins:android-apt:" + androidApt
-        classpath "io.fabric.tools:gradle:" + fabricToolsVersion
-        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:" + dexCountToolsVersion
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
-        classpath "org.jacoco:org.jacoco.core:" + jacocoVersion
+        classpath "com.neenbedankt.gradle.plugins:android-apt:1.8"
+        classpath "io.fabric.tools:gradle:1.21.2"
     }
 }
 
 apply plugin: "com.android.application"
 apply plugin: "android-apt"
 apply plugin: "io.fabric"
-apply plugin: "com.getkeepsafe.dexcount"
-apply plugin: 'jacoco-android'
+apply plugin: 'jacoco'
 
-apply from: "scripts/build_utils.gradle"
+apply from: "build_utils.gradle"
+apply from: "tasks.gradle"
 
 repositories {
     maven { url "https://maven.fabric.io/public" }
@@ -52,47 +49,52 @@ repositories {
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
-    useLibrary "org.apache.http.legacy"
 
     defaultConfig {
         applicationId PACKAGE_NAME
         minSdkVersion androidMinSdkVersion
         targetSdkVersion androidTargetSdkVersion
-        generatedDensities = []
 
         versionCode 2_06_00_000
-        versionName "2.6.0"
+        versionName "2.6.0.000"
 
-        if (project.hasProperty("GOOGLE_ANALYTICS_TRACKING_ID")) {
-            resValue "string", "google_analytics_tracking_id", GOOGLE_ANALYTICS_TRACKING_ID
-        } else {
-            resValue "string", "google_analytics_tracking_id", "SET_YOUR_ANALYTIC_TRACKING_ID"
-        }
+        // If you use Google Analytics, please, setup constant "google_analytics_tracking_id"
+        // with valid API key that Google Analytics provides.
+        // ATTENTION: If you don"t need Google Analytics
+        // remove setup in JasperAnalytics
+        resValue "string", "google_analytics_tracking_id", "UA-59444864-2"
+
+        // If you use Crashlytic, please, setup constant "CRASHLYTICS_API_KEY" with valid API key Crashlytics provides.
+        // ATTENTION: App will crash silently due to missing API key. If you don"t need Crashlytics
+        // remove setup in AppConfiguratorImpl for release build type
+        manifestPlaceholders = [crashlyticsApiKey: "9d425447d513077d94708723fd9cf72803a745bc"]
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    if (project.hasProperty("JMA_STORE_FILE")) {
-        signingConfigs {
-            release {
-                storeFile file(JMA_STORE_FILE)
-                storePassword JMA_STORE_PASSWORD
-                keyAlias JMA_KEY_ALIAS
-                keyPassword JMA_KEY_PASSWORD
-            }
-        }
 
-        buildTypes {
-            release {
-                minifyEnabled true
-                proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard.cfg"
-                signingConfig signingConfigs.release
-            }
+    signingConfigs {
+        release {
+            storeFile project.hasProperty("JMA_STORE_FILE") ? file(JMA_STORE_FILE) : null
+            storePassword project.hasProperty("JMA_STORE_PASSWORD") ? JMA_STORE_PASSWORD : null
+            keyAlias project.hasProperty("JMA_KEY_ALIAS") ? JMA_KEY_ALIAS : null
+            keyPassword project.hasProperty("JMA_KEY_PASSWORD") ? JMA_KEY_PASSWORD : null
         }
     }
 
     buildTypes {
         debug {
+            ext.enableCrashlytics = false
             testCoverageEnabled = true
+        }
+        qa {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard.cfg"
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard.cfg"
+            signingConfig signingConfigs.release
         }
     }
 
@@ -127,51 +129,11 @@ android {
         encoding "ISO-8859-1"
     }
 
-    productFlavors {
-        dev {
-            ext.enableCrashlytics = false
-        }
-        production {
-            // If you new Crashlytics enabled, please, setup constant "CRASHLYTICS_API_KEY" in gradle.properties
-            // with valid API key Crashlytics provides.
-            if (project.hasProperty("CRASHLYTICS_API_KEY")) {
-                manifestPlaceholders = [crashlyticsApiKey: CRASHLYTICS_API_KEY]
-            } else {
-                // If API key wasn"t applied we disable io.fabric validation steps during build process.
-                // ATTENTION: App will crash silently due to missing API key. If you don"t need Crashlytics
-                // remove setup in AppConfiguratorImpl for production flavor
-                manifestPlaceholders = [crashlyticsApiKey: ""]
-                ext.enableCrashlytics = false
-            }
-        }
-    }
-
-    android.variantFilter { variant ->
-        if (variant.buildType.name.equals("debug") && variant.getFlavors().get(0).name.equals("production")) {
-            variant.setIgnore(true);
-        }
-    }
-
     apt {
         arguments {
             androidManifestFile variant.outputs[0]?.processResources?.manifestFile
             resourcePackageName PACKAGE_NAME
             logLevel "WARN"
-        }
-    }
-
-    aaptOptions {
-        additionalParameters "--no-version-vectors"
-    }
-
-    dexOptions {
-        javaMaxHeapSize "4g"
-    }
-
-    sourceSets {
-        String androidTestSupport = 'src/androidTestSupport/java'
-        androidTest {
-            java.srcDir androidTestSupport
         }
     }
 
@@ -191,12 +153,12 @@ android {
         compile("org.androidannotations:androidannotations-api:3.2")
         apt "org.androidannotations:androidannotations:3.2"
 
-        compile("com.google.dagger:dagger:${daggerVersion}")
-        apt "com.google.dagger:dagger-compiler:${daggerVersion}"
+        compile 'com.google.dagger:dagger:2.1'
+        apt "com.google.dagger:dagger-compiler:2.1"
         provided "javax.annotation:jsr250-api:1.0"
 
-        provided "com.google.auto.value:auto-value:${autoValue}"
-        apt "com.google.auto.value:auto-value:${autoValue}"
+        provided "com.google.auto.value:auto-value:1.2"
+        apt "com.google.auto.value:auto-value:1.2"
         apt "com.ryanharter.auto.value:auto-value-parcel:0.2.1"
 
         compile "com.jakewharton.timber:timber:2.5.0"
@@ -239,24 +201,20 @@ android {
             exclude group: "commons-logging", module: "commons-logging"
             exclude group: "org.apache.httpcomponents", module: "httpclient"
         }
-        androidTestCompile ("com.android.support.test.espresso:espresso-core:2.2.2") {
+        androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2") {
             exclude group: 'com.android.support'
         }
 
-        androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
             exclude group: 'com.android.support'
         }
 
-        androidTestCompile ('com.android.support.test.espresso:espresso-intents:2.2.2') {
+        androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.2') {
             exclude group: 'com.android.support'
         }
 
-        androidTestCompile ('com.android.support.test.espresso:espresso-web:2.2.2') {
+        androidTestCompile('com.android.support.test.espresso:espresso-web:2.2.2') {
             exclude group: 'com.android.support'
         }
     }
-}
-
-jacoco {
-    toolVersion = jacocoVersion
 }

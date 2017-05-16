@@ -27,6 +27,7 @@ package com.jaspersoft.android.jaspermobile.data;
 import com.jaspersoft.android.jaspermobile.data.cache.profile.JasperServerCache;
 import com.jaspersoft.android.jaspermobile.domain.JasperServer;
 import com.jaspersoft.android.jaspermobile.domain.Profile;
+import com.jaspersoft.android.sdk.service.dashboard.DashboardService;
 import com.jaspersoft.android.sdk.service.filter.FiltersService;
 import com.jaspersoft.android.sdk.service.report.ReportService;
 import com.jaspersoft.android.sdk.service.report.schedule.ReportScheduleService;
@@ -64,6 +65,11 @@ public class StateJasperClient implements JasperRestClient {
     @Override
     public ReportService syncReportService() {
         return getDelegate().syncReportService();
+    }
+
+    @Override
+    public DashboardService syncDashboardService() {
+        return getDelegate().syncDashboardService();
     }
 
     @Override

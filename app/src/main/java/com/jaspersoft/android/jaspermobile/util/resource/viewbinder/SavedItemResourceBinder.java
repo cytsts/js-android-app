@@ -25,6 +25,7 @@
 package com.jaspersoft.android.jaspermobile.util.resource.viewbinder;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.jaspersoft.android.jaspermobile.R;
@@ -45,6 +46,7 @@ class SavedItemResourceBinder extends ResourceBinder {
 
     static {
         DRAWABLE_IDS_MAP.put(SavedItemResource.FileType.HTML, R.drawable.ic_file_html);
+        DRAWABLE_IDS_MAP.put(SavedItemResource.FileType.PNG, R.drawable.ic_file_img);
         DRAWABLE_IDS_MAP.put(SavedItemResource.FileType.PDF, R.drawable.ic_file_pdf);
         DRAWABLE_IDS_MAP.put(SavedItemResource.FileType.XLS, R.drawable.ic_file_xls);
     }

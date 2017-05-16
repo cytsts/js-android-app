@@ -98,10 +98,8 @@
     <string name="rv_t_external_storage_not_available">La carte mémoire externe n\'est pas disponible. Veuillez monter la carte et réessayer.</string>
 
     <!-- Save Report Activity -->
-    <string name="sr_ab_title">Enregistrer le rapport</string>
     <string name="sr_output_format">Format de sortie</string>
     <!-- Toasts -->
-    <string name="sr_t_report_saved">Rapport enregistré avec succès.</string>
     <!-- Error messages -->
 
     <!-- Favorites activity -->
@@ -360,11 +358,7 @@
     <string name="rv_webview_still_loading">Le chargement prend trop de temps. Veuillez patienter ou réessayer plus tard.</string>
 
     <!-- Saved Files Activity -->
-    <string name="sdr_saving_multiply_msg">%1$s rapports en cours de téléchargement</string>
     <string name="sdr_starting_downloading_msg">Début du téléchargement...</string>
-    <string name="sdr_saving_msg">Rapport de téléchargement</string>
-    <string name="sdr_saving_error_msg">Impossible d\'enregistrer le rapport</string>
-    <string name="sdr_loading_msg">Le rapport est toujours en cours de téléchargement...</string>
 
     <string name="sdr_dfd_msg_multi">Souhaitez-vous vraiment retirer les éléments sélectionnés (%1$s éléments) ?</string>
 

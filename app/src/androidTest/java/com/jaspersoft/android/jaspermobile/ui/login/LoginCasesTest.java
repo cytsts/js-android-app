@@ -105,8 +105,8 @@ public class LoginCasesTest {
     @Test
     public void loginWithNewAccount() {
         loginPageObject.typeAlias(nextAccName());
-        loginPageObject.typeUserName("joeuser");
-        loginPageObject.typePassword("joeuser");
+        loginPageObject.typeUserName("superuser");
+        loginPageObject.typePassword("superuser");
         loginPageObject.typeUrl(AccountUrlProvider.provide());
         loginPageObject.clickLoginButton();
         libraryPageObject.awaitCategoryList();
@@ -124,8 +124,8 @@ public class LoginCasesTest {
     @Test
     public void loginWithAlreadyExisted() {
         loginPageObject.typeAlias("accountUnderTest");
-        loginPageObject.typeUserName("joeuser");
-        loginPageObject.typePassword("joeuser");
+        loginPageObject.typeUserName("superuser");
+        loginPageObject.typePassword("superuser");
         loginPageObject.typeUrl(AccountUrlProvider.provide());
         loginPageObject.clickLoginButton();
         loginPageObject.aliasMatches(hasErrorText("Duplicate account name."));
@@ -136,7 +136,7 @@ public class LoginCasesTest {
         loginPageObject.typeAlias("testWrongUserName");
         loginPageObject.typeUrl(AccountUrlProvider.provide());
         loginPageObject.typeUserName("WRONG");
-        loginPageObject.typePassword("joeuser");
+        loginPageObject.typePassword("superuser");
         loginPageObject.clickLoginButton();
         loginPageObject.assertToastMessage("Authentication credentials were missing or incorrect.");
     }
@@ -145,7 +145,7 @@ public class LoginCasesTest {
     public void loginWithWrongPassword() {
         loginPageObject.typeAlias("testWrongPassword");
         loginPageObject.typeUrl(AccountUrlProvider.provide());
-        loginPageObject.typeUserName("joeuser");
+        loginPageObject.typeUserName("superuser");
         loginPageObject.typePassword("WRONG");
         loginPageObject.clickLoginButton();
         loginPageObject.assertToastMessage("Authentication credentials were missing or incorrect.");

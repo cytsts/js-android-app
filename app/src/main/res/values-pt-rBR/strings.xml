@@ -98,10 +98,8 @@
     <string name="rv_t_external_storage_not_available">O cartão de memória externo não está disponível. Coloque o cartão e tente novamente.</string>
 
     <!-- Save Report Activity -->
-    <string name="sr_ab_title">Salvar relatório</string>
     <string name="sr_output_format">Formato de saída</string>
     <!-- Toasts -->
-    <string name="sr_t_report_saved">O relatório foi salvo com sucesso</string>
     <!-- Error messages -->
 
     <!-- Favorites activity -->
@@ -362,11 +360,7 @@
     <string name="rv_webview_still_loading">Tempo excessivo de carregamento. Aguarde ou tente novamente mais tarde.</string>
 
     <!-- Saved Files Activity -->
-    <string name="sdr_saving_multiply_msg">Baixando %1$s relatórios</string>
     <string name="sdr_starting_downloading_msg">Iniciando download...</string>
-    <string name="sdr_saving_msg">Baixando relatório</string>
-    <string name="sdr_saving_error_msg">Falha ao salvar relatório</string>
-    <string name="sdr_loading_msg">O relatório ainda está sendo baixado...</string>
 
     <string name="sdr_dfd_msg_multi">Deseja realmente remover os itens selecionados? (%1$s itens)</string>
 

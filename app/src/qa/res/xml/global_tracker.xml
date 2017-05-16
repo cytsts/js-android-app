@@ -21,25 +21,10 @@
   ~ along with TIBCO Jaspersoft Mobile for Android.If not,see
   ~ <http://www.gnu.org/licenses/lgpl>.
   -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jaspersoft.android.jaspermobile">
 
-    <permission
-        android:name="jaspermobile.util.actions"
-        android:label="util_actions" />
-    <uses-permission android:name="android.permission.SET_ANIMATION_SCALE"/>
+<resources>
+    <int name="ga_dispatchPeriod">15</int>
+    <bool name="ga_dryRun">true</bool>
+    <string name="ga_logLevel">verbose</string>
 
-    <application>
-        <receiver
-            android:name=".UtilReceiver"
-            android:exported="true"
-            android:permission="jaspermobile.util.actions">
-            <intent-filter>
-                <action android:name="jaspermobile.util.action.REMOVE_COOKIES" />
-                <action android:name="jaspermobile.util.action.REMOVE_ALL_ACCOUNTS" />
-                <action android:name="jaspermobile.util.action.INVALIDATE_PASSWORD" />
-            </intent-filter>
-        </receiver>
-    </application>
-
-</manifest>
+</resources>

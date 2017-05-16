@@ -32,6 +32,7 @@ public class SavedItemResource extends JasperResource {
 
     public enum FileType {
         HTML,
+        PNG,
         PDF,
         XLS,
         UNKNOWN;

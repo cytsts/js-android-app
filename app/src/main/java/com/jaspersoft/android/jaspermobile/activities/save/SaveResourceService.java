@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 TIBCO Software,Inc.All rights reserved.
+ * Copyright ï¿½ 2016 TIBCO Software,Inc.All rights reserved.
  * http://community.jaspersoft.com/project/jaspermobile-android
  *
  * Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
@@ -40,6 +40,7 @@ import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.data.entity.ExportBundle;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.NavigationActivity_;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.ComponentProviderDelegate;
+import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.SystemService;
@@ -54,12 +55,13 @@ import javax.inject.Inject;
  */
 
 @EService
-public class SaveReportService extends Service implements ReportDownloadManager.ReportDownloadCallback {
+public class SaveResourceService extends Service implements ResourceDownloadManager.ResourceDownloadCallback {
 
-    public final static String ACTION_SAVE_REPORT = "saveReport";
+    public final static String ACTION_SAVE_RESOURCE = "saveResource";
     public final static String ACTION_CANCEL_SAVING = "cancelSaving";
 
     public final static String EXPORT_BUNDLE_EXTRA = "exportBundle";
+    public final static String RESOURCE_FORMAT_EXTRA = "resourceFormat";
     public final static String ITEM_URI_EXTRA = "itemUri";
 
     private static final int LOADING_NOTIFICATION_ID = 434;
@@ -69,19 +71,20 @@ public class SaveReportService extends Service implements ReportDownloadManager.
 
     @SystemService
     protected NotificationManager mNotificationManager;
-    private ReportDownloadManager mReportDownloadManager;
+    private ResourceDownloadManager mResourceDownloadManager;
 
-    public static void start(Context context, ExportBundle bundle) {
-        Intent startIntent = SaveReportService_.intent(context).get();
-        startIntent.setAction(ACTION_SAVE_REPORT);
+    public static void start(Context context, ExportBundle bundle, ResourceLookup.ResourceType resourceType) {
+        Intent startIntent = SaveResourceService_.intent(context).get();
+        startIntent.setAction(ACTION_SAVE_RESOURCE);
         startIntent.putExtra(EXPORT_BUNDLE_EXTRA, bundle);
+        startIntent.putExtra(RESOURCE_FORMAT_EXTRA, resourceType);
         context.startService(startIntent);
     }
 
-    public static void cancel(Context context, Uri reportUri) {
-        Intent cancelIntent = SaveReportService_.intent(context).get();
+    public static void cancel(Context context, Uri resourceUri) {
+        Intent cancelIntent = SaveResourceService_.intent(context).get();
         cancelIntent.setAction(ACTION_CANCEL_SAVING);
-        cancelIntent.putExtra(ITEM_URI_EXTRA, reportUri);
+        cancelIntent.putExtra(ITEM_URI_EXTRA, resourceUri);
         context.startService(cancelIntent);
     }
 
@@ -93,8 +96,8 @@ public class SaveReportService extends Service implements ReportDownloadManager.
                 .getProfileComponent(this)
                 .inject(this);
 
-        mReportDownloadManager = new ReportDownloadManager(this);
-        mReportDownloadManager.setReportDownloadCallback(this);
+        mResourceDownloadManager = new ResourceDownloadManager(this);
+        mResourceDownloadManager.setResourceDownloadCallback(this);
 
         startForegroundNotification();
     }
@@ -110,12 +113,13 @@ public class SaveReportService extends Service implements ReportDownloadManager.
         String action = intent.getAction();
         Bundle extras = intent.getExtras();
 
-        if (SaveReportService.ACTION_CANCEL_SAVING.equals(action)) {
-            Uri reportUri = extras.getParcelable(SaveReportService.ITEM_URI_EXTRA);
-            mReportDownloadManager.cancelDownloading(reportUri);
+        if (SaveResourceService.ACTION_CANCEL_SAVING.equals(action)) {
+            Uri resourceUri = extras.getParcelable(SaveResourceService.ITEM_URI_EXTRA);
+            mResourceDownloadManager.cancelDownloading(resourceUri);
         } else {
-            ExportBundle bundle = extras.getParcelable(SaveReportService.EXPORT_BUNDLE_EXTRA);
-            mReportDownloadManager.downloadReport(bundle);
+            ExportBundle bundle = extras.getParcelable(SaveResourceService.EXPORT_BUNDLE_EXTRA);
+            ResourceLookup.ResourceType resourceType = (ResourceLookup.ResourceType) extras.getSerializable(SaveResourceService.RESOURCE_FORMAT_EXTRA);
+            mResourceDownloadManager.downloadResource(bundle, resourceType);
         }
 
         return super.onStartCommand(intent, flags, startId);
@@ -131,14 +135,14 @@ public class SaveReportService extends Service implements ReportDownloadManager.
     }
 
     @Override
-    public void onDownloadComplete(String reportName) {
-        notifySaveResult(reportName, android.R.drawable.stat_sys_download_done, getString(R.string.sr_t_report_saved));
+    public void onDownloadComplete(String sourceName) {
+        notifySaveResult(sourceName, android.R.drawable.stat_sys_download_done, getString(R.string.sr_t_report_saved));
         analytics.sendEvent(Analytics.EventCategory.RESOURCE.getValue(), Analytics.EventAction.SAVED.getValue(), Analytics.EventLabel.DONE.getValue());
     }
 
     @Override
-    public void onDownloadFailed(String reportName) {
-        notifySaveResult(reportName, android.R.drawable.ic_dialog_alert, getString(R.string.sdr_saving_error_msg));
+    public void onDownloadFailed(String resourceName) {
+        notifySaveResult(resourceName, android.R.drawable.ic_dialog_alert, getString(R.string.sdr_saving_error_msg));
         analytics.sendEvent(Analytics.EventCategory.RESOURCE.getValue(), Analytics.EventAction.SAVED.getValue(), Analytics.EventLabel.FAILED.getValue());
     }
 
@@ -176,10 +180,10 @@ public class SaveReportService extends Service implements ReportDownloadManager.
         mNotificationManager.notify(LOADING_NOTIFICATION_ID, mBuilder.build());
     }
 
-    private void notifySaveResult(String reportName, int iconId, String message) {
+    private void notifySaveResult(String resourceName, int iconId, String message) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(iconId)
-                .setContentTitle(reportName)
+                .setContentTitle(resourceName)
                 .setContentText(message)
                 .setContentIntent(getSavedItemIntent())
                 .setAutoCancel(true);

@@ -237,7 +237,7 @@
     <string name="share_message">Shared from TIBCO JasperMobile</string>
 
     <!-- Save Report Activity -->
-    <string name="sr_ab_title">Save Report</string>
+    <string name="sr_ab_title" translatable="false">Save Resource</string>
     <string name="sr_report_name">File name</string>
     <string name="sr_output_format">Output format</string>
     <string name="sr_recurrence_type">Recurrence</string>
@@ -270,7 +270,7 @@
     <string name="sr_failed_to_execute_report">Failed to execute report</string>
 
     <!-- Toasts -->
-    <string name="sr_t_report_saved">Report saved to file successfully.</string>
+    <string name="sr_t_report_saved" translatable="false">Resource saved to file successfully.</string>
     <!-- Error messages -->
     <string name="sr_error_field_is_empty">This field is required.</string>
     <string name="sr_error_characters_not_allowed">The following characters are not allowed: * \\ / \" \' : ? | &lt; > + [ ]</string>
@@ -283,11 +283,11 @@
     <!-- Saved Files Activity -->
     <string name="sdr_ab_title">Saved Files</string>
     <string name="sdr_ab_list_msg">No saved files</string>
-    <string name="sdr_saving_multiply_msg">%1$s reports downloading</string>
+    <string name="sdr_saving_multiply_msg" translatable="false">%1$s resources downloading</string>
     <string name="sdr_starting_downloading_msg">Starting downloading…</string>
-    <string name="sdr_saving_msg">Downloading report</string>
-    <string name="sdr_saving_error_msg">Failed to save report</string>
-    <string name="sdr_loading_msg">Report is still downloading…</string>
+    <string name="sdr_saving_msg" translatable="false">Downloading resource</string>
+    <string name="sdr_saving_error_msg" translatable="false">Failed to save resource</string>
+    <string name="sdr_loading_msg" translatable="false">Resource is still downloading…</string>
 
     <!-- Context Menu -->
     <string name="action_mode_title">Selected item</string>

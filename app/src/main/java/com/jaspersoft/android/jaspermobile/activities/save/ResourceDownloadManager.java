@@ -36,11 +36,16 @@ import com.jaspersoft.android.jaspermobile.data.entity.mapper.ReportParamsMapper
 import com.jaspersoft.android.jaspermobile.db.model.SavedItems;
 import com.jaspersoft.android.jaspermobile.db.provider.JasperMobileDbProvider;
 import com.jaspersoft.android.jaspermobile.domain.Profile;
+import com.jaspersoft.android.jaspermobile.domain.repository.report.ControlsRepository;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.ComponentProviderDelegate;
 import com.jaspersoft.android.jaspermobile.util.SavedItemHelper;
 import com.jaspersoft.android.jaspermobile.util.SavedItemHelper_;
 import com.jaspersoft.android.sdk.client.oxm.report.ReportParameter;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
+import com.jaspersoft.android.sdk.service.dashboard.DashboardService;
+import com.jaspersoft.android.sdk.service.data.dashboard.DashboardControlComponent;
+import com.jaspersoft.android.sdk.service.data.dashboard.DashboardExportFormat;
+import com.jaspersoft.android.sdk.service.data.dashboard.DashboardExportOptions;
 import com.jaspersoft.android.sdk.service.data.report.PageRange;
 import com.jaspersoft.android.sdk.service.data.report.ReportExportOutput;
 import com.jaspersoft.android.sdk.service.data.report.ResourceOutput;
@@ -67,7 +72,7 @@ import javax.inject.Inject;
  * @author Andrew Tivodar
  * @since 2.3
  */
-public class ReportDownloadManager {
+public class ResourceDownloadManager {
 
     @Inject
     protected Profile mProfile;
@@ -77,14 +82,16 @@ public class ReportDownloadManager {
     protected ReportParamsCache mReportParamsCache;
     @Inject
     protected ReportParamsMapper mReportParamsMapper;
+    @Inject
+    protected ControlsRepository mControlsRepository;
 
     private SavedItemHelper mSavedItemHelper;
 
     private Context mContext;
     private HashMap<Uri, AsyncTask> mDownloadsPool;
-    private ReportDownloadCallback listener;
+    private ResourceDownloadCallback listener;
 
-    public ReportDownloadManager(Context context) {
+    public ResourceDownloadManager(Context context) {
         ComponentProviderDelegate.INSTANCE
                 .getProfileComponent(context)
                 .inject(this);
@@ -92,13 +99,18 @@ public class ReportDownloadManager {
         mContext = context;
         mDownloadsPool = new HashMap<>();
         mSavedItemHelper = SavedItemHelper_.getInstance_(context);
-        listener = ReportDownloadCallback.EMPTY;
+        listener = ResourceDownloadCallback.EMPTY;
     }
 
-    public void downloadReport(ExportBundle exportBundle) {
-        Uri reportUri = addSavedItemRecord(exportBundle);
-        SaveReportAsyncTask asyncTask = new SaveReportAsyncTask(reportUri);
-        mDownloadsPool.put(reportUri, asyncTask);
+    public void downloadResource(ExportBundle exportBundle, ResourceLookup.ResourceType resourceType) {
+        Uri resourceUri = addSavedItemRecord(exportBundle, resourceType);
+        SaveResourceAsyncTask asyncTask;
+        if (resourceType == ResourceLookup.ResourceType.reportUnit) {
+            asyncTask = new SaveReportAsyncTask(resourceUri);
+        } else {
+            asyncTask = new SaveDashboardAsyncTask(resourceUri);
+        }
+        mDownloadsPool.put(resourceUri, asyncTask);
 
         AsyncTaskCompat.executeParallel(asyncTask, exportBundle);
     }
@@ -107,24 +119,24 @@ public class ReportDownloadManager {
         mDownloadsPool.get(reportUri).cancel(true);
     }
 
-    public void setReportDownloadCallback(ReportDownloadCallback listener) {
+    public void setResourceDownloadCallback(ResourceDownloadCallback listener) {
         if (listener != null) {
             this.listener = listener;
         }
     }
 
-    private Uri addSavedItemRecord(ExportBundle bundle) {
+    private Uri addSavedItemRecord(ExportBundle bundle, ResourceLookup.ResourceType resourceType) {
         String descriptionExtra = bundle.getDescription();
         String outputFormatExtra = bundle.getFormat();
-        File reportFileExtra = bundle.getFile();
-        String savedReportNameExtra = bundle.getLabel();
+        File resourceFileExtra = bundle.getFile();
+        String savedResourceNameExtra = bundle.getLabel();
 
         SavedItems savedItemsEntry = new SavedItems();
-        savedItemsEntry.setName(savedReportNameExtra);
-        savedItemsEntry.setFilePath(reportFileExtra.getPath());
+        savedItemsEntry.setName(savedResourceNameExtra);
+        savedItemsEntry.setFilePath(resourceFileExtra.getPath());
         savedItemsEntry.setFileFormat(outputFormatExtra);
         savedItemsEntry.setDescription(descriptionExtra);
-        savedItemsEntry.setWstype(ResourceLookup.ResourceType.reportUnit.toString());
+        savedItemsEntry.setWstype(resourceType.toString());
         savedItemsEntry.setCreationTime(new Date().getTime());
         savedItemsEntry.setAccountName(mProfile.getKey());
         savedItemsEntry.setDownloaded(false);
@@ -191,18 +203,41 @@ public class ReportDownloadManager {
         }
     }
 
-    public interface ReportDownloadCallback {
-        ReportDownloadCallback EMPTY = new ReportDownloadCallback() {
+    private void saveDashboard(ExportBundle bundle) throws ServiceException, IOException {
+        String dashboardUri = bundle.getUri();
+        String format = bundle.getFormat();
+        File file = bundle.getFile();
+
+        DashboardExportFormat dashboardExportFormat = DashboardExportFormat.valueOf(format);
+
+        List<ReportParameter> reportParameters = mReportParamsCache.get(dashboardUri);
+        List<DashboardControlComponent> dashboardControlComponent = mControlsRepository.listDashboardControlComponents(dashboardUri).toBlocking().first();
+        List<ReportParameter> dashboardParams = mReportParamsMapper.adaptDashboardControlComponents(reportParameters, dashboardControlComponent);
+        List<com.jaspersoft.android.sdk.network.entity.report.ReportParameter> params =
+                mReportParamsMapper.legacyParamsToRetrofitted(dashboardParams);
+
+        DashboardService dashboardService = mRestClient.syncDashboardService();
+
+        DashboardExportOptions dashboardExportOptions = new DashboardExportOptions.Builder(dashboardUri, dashboardExportFormat)
+                .setParameters(params)
+                .build();
+
+        ResourceOutput resourceOutput = dashboardService.export(dashboardExportOptions);
+        FileUtils.copyInputStreamToFile(resourceOutput.getStream(), file);
+    }
+
+    public interface ResourceDownloadCallback {
+        ResourceDownloadCallback EMPTY = new ResourceDownloadCallback() {
             @Override
             public void onDownloadCountChange(int count) {
             }
 
             @Override
-            public void onDownloadComplete(String reportName) {
+            public void onDownloadComplete(String resourceName) {
             }
 
             @Override
-            public void onDownloadFailed(String reportName) {
+            public void onDownloadFailed(String resourceName) {
             }
 
             @Override
@@ -213,19 +248,19 @@ public class ReportDownloadManager {
 
         void onDownloadCountChange(int count);
 
-        void onDownloadComplete(String reportName);
+        void onDownloadComplete(String resourceName);
 
-        void onDownloadFailed(String reportName);
+        void onDownloadFailed(String resourceName);
 
         void onDownloadCanceled();
     }
 
-    private class SaveReportAsyncTask extends AsyncTask<ExportBundle, Void, Boolean> {
-        private Uri mReportUri;
-        private String mReportName;
+    private abstract class SaveResourceAsyncTask extends AsyncTask<ExportBundle, Void, Boolean> {
+        private Uri mResourceUri;
+        private String mResourceName;
 
-        public SaveReportAsyncTask(Uri reportUri) {
-            this.mReportUri = reportUri;
+        public SaveResourceAsyncTask(Uri resourceUri) {
+            this.mResourceUri = resourceUri;
         }
 
         @Override
@@ -238,10 +273,10 @@ public class ReportDownloadManager {
         @Override
         protected Boolean doInBackground(ExportBundle... params) {
             ExportBundle exportBundle = params[0];
-            mReportName = exportBundle.getLabel();
+            mResourceName = exportBundle.getLabel();
 
             try {
-                saveReport(exportBundle);
+                saveResource(exportBundle);
                 return true;
             } catch (ServiceException | IOException e) {
                 return false;
@@ -252,14 +287,14 @@ public class ReportDownloadManager {
         protected void onPostExecute(Boolean success) {
             super.onPostExecute(success);
 
-            mDownloadsPool.remove(mReportUri);
+            mDownloadsPool.remove(mResourceUri);
             listener.onDownloadCountChange(mDownloadsPool.size());
 
-            if (success && updateSavedItemRecord(mReportUri)) {
-                listener.onDownloadComplete(mReportName);
+            if (success && updateSavedItemRecord(mResourceUri)) {
+                listener.onDownloadComplete(mResourceName);
             } else {
-                removeUnsavedItem(mReportUri);
-                listener.onDownloadFailed(mReportName);
+                removeUnsavedItem(mResourceUri);
+                listener.onDownloadFailed(mResourceName);
             }
         }
 
@@ -267,11 +302,35 @@ public class ReportDownloadManager {
         protected void onCancelled() {
             super.onCancelled();
 
-            removeUnsavedItem(mReportUri);
-            mDownloadsPool.remove(mReportUri);
+            removeUnsavedItem(mResourceUri);
+            mDownloadsPool.remove(mResourceUri);
 
             listener.onDownloadCanceled();
             listener.onDownloadCountChange(mDownloadsPool.size());
+        }
+
+        protected abstract void saveResource(ExportBundle exportBundle) throws ServiceException, IOException;
+    }
+
+    private class SaveReportAsyncTask extends SaveResourceAsyncTask {
+        public SaveReportAsyncTask(Uri reportUri) {
+            super(reportUri);
+        }
+
+        @Override
+        protected void saveResource(ExportBundle exportBundle) throws ServiceException, IOException {
+            saveReport(exportBundle);
+        }
+    }
+
+    private class SaveDashboardAsyncTask extends SaveResourceAsyncTask {
+        public SaveDashboardAsyncTask(Uri reportUri) {
+            super(reportUri);
+        }
+
+        @Override
+        protected void saveResource(ExportBundle exportBundle) throws ServiceException, IOException {
+            saveDashboard(exportBundle);
         }
     }
 }

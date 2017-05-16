@@ -44,6 +44,7 @@ public class StorageResourceFilter extends ResourceFilter {
 
     public enum FileType {
         HTML,
+        PNG,
         PDF,
         XLS,
         UNKNOWN
@@ -55,6 +56,7 @@ public class StorageResourceFilter extends ResourceFilter {
     private enum StorageFilterCategory {
         all(R.string.s_fd_option_all),
         html(R.string.si_fd_option_html),
+        png(R.string.si_fd_option_png),
         pdf(R.string.si_fd_option_pdf),
         xls(R.string.si_fd_option_xls);
 
@@ -81,6 +83,7 @@ public class StorageResourceFilter extends ResourceFilter {
 
         availableFilters.add(getFilterAll());
         availableFilters.add(getFilterHtml());
+        availableFilters.add(getFilterPng());
         availableFilters.add(getFilterPdf());
         availableFilters.add(getFilterXls());
 
@@ -100,6 +103,7 @@ public class StorageResourceFilter extends ResourceFilter {
     private Filter getFilterAll(){
         ArrayList<String> filterValues = new ArrayList<>();
         filterValues.add(FileType.HTML.toString());
+        filterValues.add(FileType.PNG.toString());
         filterValues.add(FileType.PDF.toString());
         filterValues.add(FileType.XLS.toString());
 
@@ -111,6 +115,13 @@ public class StorageResourceFilter extends ResourceFilter {
         filterValues.add(FileType.HTML.toString());
 
         return new Filter(StorageFilterCategory.html.name(), filterValues);
+    }
+
+    private Filter getFilterPng(){
+        ArrayList<String> filterValues = new ArrayList<>();
+        filterValues.add(FileType.PNG.toString());
+
+        return new Filter(StorageFilterCategory.png.name(), filterValues);
     }
 
     private Filter getFilterPdf(){

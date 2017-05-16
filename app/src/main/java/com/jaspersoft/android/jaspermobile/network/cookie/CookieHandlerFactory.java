@@ -51,10 +51,7 @@ public final class CookieHandlerFactory {
         WebViewCookieStore webViewCookieStore = createWebViewCookieStore(context);
         java.net.CookieStore cookieStore = new PersistentCookieStore(context);
 
-        CookieMapper cookieMapper = new CookieMapper();
-        org.apache.http.client.CookieStore apacheStore = new ApacheCookieStore(cookieStore, cookieMapper);
-
-        AppCookieStore appCookieStore = new AppCookieStore(webViewCookieStore, cookieStore, apacheStore);
+        AppCookieStore appCookieStore = new AppCookieStore(webViewCookieStore, cookieStore);
 
         CookieHandler defaultCookieManager = new CookieManager(appCookieStore, CookiePolicy.ACCEPT_ALL);
         CookieHandler.setDefault(defaultCookieManager);

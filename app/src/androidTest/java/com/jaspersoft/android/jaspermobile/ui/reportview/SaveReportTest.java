@@ -120,7 +120,7 @@ public class SaveReportTest {
 
     @Test
     public void savePageAppear() {
-        saveReportPageObject.titleMatches(startsWith("Save Report"));
+        saveReportPageObject.titleMatches(startsWith("Save Resource"));
     }
 
     @Test

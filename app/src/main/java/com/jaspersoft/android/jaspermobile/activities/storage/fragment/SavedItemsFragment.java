@@ -40,7 +40,7 @@ import android.widget.Toast;
 import com.jaspersoft.android.jaspermobile.Analytics;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.info.ResourceInfoActivity_;
-import com.jaspersoft.android.jaspermobile.activities.save.SaveReportService;
+import com.jaspersoft.android.jaspermobile.activities.save.SaveResourceService;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.SavedReportHtmlViewerActivity_;
 import com.jaspersoft.android.jaspermobile.db.database.table.SavedItemsTable;
 import com.jaspersoft.android.jaspermobile.db.provider.JasperMobileDbProvider;
@@ -220,7 +220,7 @@ public class SavedItemsFragment extends BaseFragment
                             .jasperResource(jasperResource)
                             .start();
                 } else {
-                    SaveReportService.cancel(getContext(), Uri.parse(jasperResource.getId()));
+                    SaveResourceService.cancel(getContext(), Uri.parse(jasperResource.getId()));
                 }
             }
         });

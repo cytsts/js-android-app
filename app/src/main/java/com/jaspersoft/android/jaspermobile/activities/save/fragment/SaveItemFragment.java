@@ -41,7 +41,7 @@ import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.JasperMobileApplication;
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.activities.save.SaveReportService;
+import com.jaspersoft.android.jaspermobile.activities.save.SaveResourceService;
 import com.jaspersoft.android.jaspermobile.data.entity.ExportBundle;
 import com.jaspersoft.android.jaspermobile.dialog.NumberPickerDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.Profile;
@@ -63,6 +63,7 @@ import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -99,6 +100,8 @@ public class SaveItemFragment extends BaseFragment implements NumberPickerDialog
     @FragmentArg
     ResourceLookup resource;
     @FragmentArg
+    ArrayList<OutputFormat> supportedFormats;
+    @FragmentArg
     int pageCount;
 
     @Bean
@@ -114,6 +117,7 @@ public class SaveItemFragment extends BaseFragment implements NumberPickerDialog
     private int mToPage;
 
     public enum OutputFormat {
+        PNG,
         HTML,
         PDF,
         XLS
@@ -184,7 +188,7 @@ public class SaveItemFragment extends BaseFragment implements NumberPickerDialog
                 .setPageRange(pageRange)
                 .build();
 
-        SaveReportService.start(getActivity(), bundle);
+        SaveResourceService.start(getActivity(), bundle, resource.getResourceType());
         Toast.makeText(getActivity().getApplicationContext(), getString(R.string.sdr_starting_downloading_msg), Toast.LENGTH_SHORT).show();
         getActivity().finish();
     }
@@ -192,8 +196,8 @@ public class SaveItemFragment extends BaseFragment implements NumberPickerDialog
     @AfterViews
     final void init() {
         // show spinner with available output formats
-        ArrayAdapter<OutputFormat> arrayAdapter = new ArrayAdapter<OutputFormat>(getActivity(),
-                android.R.layout.simple_spinner_item, OutputFormat.values());
+        ArrayAdapter<OutputFormat> arrayAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item, supportedFormats);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         formatSpinner.setAdapter(arrayAdapter);
 

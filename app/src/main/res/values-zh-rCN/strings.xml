@@ -98,10 +98,8 @@
     <string name="rv_t_external_storage_not_available">外部存储卡不可用。请安装卡并重试。</string>
 
     <!-- Save Report Activity -->
-    <string name="sr_ab_title">保存报告</string>
     <string name="sr_output_format">输出格式</string>
     <!-- Toasts -->
-    <string name="sr_t_report_saved">成功保存报告</string>
     <!-- Error messages -->
 
     <!-- Favorites activity -->
@@ -361,11 +359,7 @@
     <string name="rv_webview_still_loading">加载时间过长。请稍等后再次重试。</string>
 
     <!-- Saved Files Activity -->
-    <string name="sdr_saving_multiply_msg">%1$s报告下载中</string>
     <string name="sdr_starting_downloading_msg">开始下载...</string>
-    <string name="sdr_saving_msg">报告下载中</string>
-    <string name="sdr_saving_error_msg">无法保存报告</string>
-    <string name="sdr_loading_msg">报告仍在下载...</string>
 
     <string name="sdr_dfd_msg_multi">确定删除选定的项目（%1$s项）？</string>
 

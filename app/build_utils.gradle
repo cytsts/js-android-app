@@ -1,0 +1,167 @@
+/*
+ * Copyright © 2015 TIBCO Software, Inc. All rights reserved.
+ * http://community.jaspersoft.com/project/jaspermobile-android
+ *
+ * Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is part of TIBCO Jaspersoft Mobile for Android.
+ *
+ * TIBCO Jaspersoft Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * TIBCO Jaspersoft Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with TIBCO Jaspersoft Mobile for Android. If not, see
+ * <http://www.gnu.org/licenses/lgpl>.
+ */
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.ajoberstar:gradle-git:1.1.0'
+    }
+}
+
+import org.ajoberstar.grgit.*
+
+import java.text.NumberFormat
+
+ext {
+    versionFile = new File(project.rootDir, 'version.properties')
+    currentBranch = getCurrentBranch()
+    baseAppName = "jaspermobile"
+}
+
+android {
+    afterEvaluate {
+        Properties currentAppVersion = getCurrentAppVersion()
+        String versionNumber = android.defaultConfig.versionName as String
+        int versionCode = generateVersionCodeValue(currentAppVersion) as int
+
+        //update values for different build tasks
+        applicationVariants.all { variant ->
+            String fullVersionName = generateFullVersionName(versionNumber, variant.name as String)
+            variant.mergedFlavor.versionCode = versionCode
+            variant.mergedFlavor.versionName = fullVersionName
+
+            renameApk(variant, generateApkName(versionName))
+        }
+    }
+}
+//---------------------------------------------------------------------
+// Helper methods
+//---------------------------------------------------------------------
+/**
+ * Return current branch name
+ * @return current branch
+ */
+String getCurrentBranch() {
+    def repo = Grgit.open(project.rootDir)
+    String branch = repo.branch.getCurrent().getName()
+    return branch.replaceAll("/", "_")
+}
+
+/**
+ * Check if current branch is "develop", "master" or "hotfix".
+ * @return if current branch is one of production branches
+ */
+boolean currentBranchIsProd() {
+    return (currentBranch.equalsIgnoreCase("develop") ||
+            currentBranch.equalsIgnoreCase("master") ||
+            currentBranch.equalsIgnoreCase("hotfix"));
+}
+
+/**
+ * Return app version from gradle build defaultConfig.
+ * @return app version as Bundle that contains 'major", "minor" and "patch" values.
+ */
+Properties getCurrentAppVersion() {
+    Properties appVersion = new Properties()
+    String appVersionName = android.defaultConfig.versionName as String
+
+    if (appVersionName ==~ /(\d).(\d{1,2}).(\d{1,2}).(\d{1,3})/) {
+        def versions = appVersionName.tokenize('.')
+
+        appVersion['major'] = versions[0]
+        appVersion['minor'] = versions[1]
+        appVersion['patch'] = versions[2]
+        appVersion['revision'] = versions[3]
+
+        return appVersion as Properties
+    } else throw new InvalidPropertiesFormatException("Version name does not match available pattern!")
+}
+
+/**
+ * Return version code of app version. Used for Google Play build identification.
+ * Pattern for version code: "xxyyzzvvv"
+ * where:
+ * xx - major version number
+ * yy - minor version number
+ * zz - patch version
+ * vvv - revision number
+ */
+int generateVersionCodeValue(Properties appVersion) {
+    String versionCode = ""
+
+    def format = NumberFormat.getInstance()
+    format.setMinimumIntegerDigits(2)
+
+    versionCode += format.format(appVersion.major as int)
+    versionCode += format.format(appVersion.minor as int)
+    versionCode += format.format(appVersion.patch as int)
+
+    format.setMinimumIntegerDigits(3)
+    versionCode += format.format(appVersion.revision as int)
+
+    return Integer.valueOf(versionCode)
+}
+
+/**
+ * Returns version name considering current branch and current flavor
+ * Version name pattern: "x.y.z.vvvv.ttttt-BRANCH_NAME-FLAVOR_TYPE"
+ * where:
+ * ttttt - current test build number - empty for builds that are not from QA branch
+ * BRANCH_NAME - current branch name - empty for production branches
+ * FLAVOR_TYPE - current flavor type - empty for production release builds
+ * @param versionNumber version number for current build
+ * @param testBuildNumber version number for QA build
+ * @param flavorName name of flavor that is currently building
+ * @return version name for build
+ */
+String generateFullVersionName(String versionNumber, String flavorName) {
+    String versionName = currentBranchIsProd() ? "${versionNumber}" : "${currentBranch}"
+
+    if (flavorName.equalsIgnoreCase("debug")) {
+        versionName = "${versionName}-SNAPSHOT"
+    } else if (flavorName.equalsIgnoreCase("qa")) {
+        versionName = "${versionName}-SIGNED"
+    }
+    return versionName;
+}
+
+/**
+ * Returns new apk name based on version name
+ * Apk name pattern: "jaspermobile-x.y.z.vvvv.ttttt-BRANCH_NAME-FLAVOR_TYPE"
+ * @param versionName
+ * @return
+ */
+String generateApkName(String versionName) {
+    return "${baseAppName}-${versionName}"
+}
+
+void renameApk(flavor, String apkName) {
+    def outputs = flavor.outputs
+
+    outputs.each { output ->
+        output.outputFile = new File(output.outputFile.parent, "${apkName}.apk")
+    }
+}
