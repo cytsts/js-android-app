@@ -118,7 +118,6 @@ public final class NavigationPresenter extends LegacyPresenter<NavigationContrac
             public void onNext(ProfileMetadata profile) {
                 JasperServer server = profile.getServer();
                 boolean proEdition = server.isProEdition();
-                getView().toggleRecentlyViewedNavigation(proEdition);
             }
         });
     }

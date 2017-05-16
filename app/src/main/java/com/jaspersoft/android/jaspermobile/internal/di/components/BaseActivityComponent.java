@@ -33,8 +33,6 @@ import com.jaspersoft.android.jaspermobile.activities.info.fragments.ResourceInf
 import com.jaspersoft.android.jaspermobile.activities.info.fragments.SimpleInfoFragment;
 import com.jaspersoft.android.jaspermobile.activities.library.LibraryPageFragment;
 import com.jaspersoft.android.jaspermobile.activities.library.fragment.LibraryFragment;
-import com.jaspersoft.android.jaspermobile.activities.recent.RecentPageFragment;
-import com.jaspersoft.android.jaspermobile.activities.recent.fragment.RecentFragment;
 import com.jaspersoft.android.jaspermobile.activities.repository.RepositoryPageFragment;
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositoryFragment;
 import com.jaspersoft.android.jaspermobile.activities.save.fragment.SaveItemFragment;
@@ -84,13 +82,11 @@ public interface BaseActivityComponent {
     void inject(FileLoadFragment fileLoadFragment);
     void inject(FileViewerActivity fileViewerActivity);
     void inject(FavoritesFragment favoritesFragment);
-    void inject(RecentFragment recentFragment);
     void inject(SavedItemsFragment savedItemsFragment);
     void inject(SettingsFragment settingsFragment);
     void inject(ControllerFragment controllerFragment);
     void inject(LibraryPageFragment libraryPageFragment);
     void inject(RepositoryPageFragment repositoryPageFragment);
-    void inject(RecentPageFragment recentPageFragment);
     void inject(SavedReportsFragment savedReportsFragment);
     void inject(FavoritesPageFragment favoritesPageFragment);
     void inject(WebViewFragment webViewFragment);

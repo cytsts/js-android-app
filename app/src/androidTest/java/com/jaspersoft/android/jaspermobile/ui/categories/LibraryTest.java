@@ -37,6 +37,7 @@ import com.jaspersoft.android.jaspermobile.ui.view.activity.NavigationActivity_;
 
 import org.junit.Before;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -86,6 +87,7 @@ public class LibraryTest {
     }
 
     @Test
+    @Ignore(value = "Depends on server resource list")
     public void librarySearch() {
         libraryPageObject.selectFilter("All");
 
@@ -102,6 +104,7 @@ public class LibraryTest {
     }
 
     @Test
+    @Ignore(value = "Depends on server resource list")
     public void libraryIncorrectSearch() {
         libraryPageObject.expandSearch();
         libraryPageObject.searchFor("INCORRECT");
@@ -187,6 +190,7 @@ public class LibraryTest {
     }
 
     @Test
+    @Ignore(value = "Depends on server resource list")
     public void librarySort() {
         libraryPageObject.selectSort("Creation date");
         libraryPageObject.awaitCategoryList();
@@ -197,6 +201,7 @@ public class LibraryTest {
     }
 
     @Test
+    @Ignore(value = "Depends on server resource list")
     public void librarySortNotPersist() {
         libraryPageObject.selectSort("Creation date");
         libraryPageObject.awaitCategoryList();

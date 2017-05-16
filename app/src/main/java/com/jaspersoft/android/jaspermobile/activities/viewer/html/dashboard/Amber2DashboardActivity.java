@@ -26,8 +26,11 @@ package com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +47,8 @@ import com.jaspersoft.android.jaspermobile.domain.interactor.dashboard.GetDashbo
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.FlushInputControlsCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetReportMetadataCase;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
+import com.jaspersoft.android.jaspermobile.ui.model.visualize.ExecutionReferenceClickEvent;
+import com.jaspersoft.android.jaspermobile.ui.model.visualize.ExternalReferenceClickEvent;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ReportVisualizeActivity_;
 import com.jaspersoft.android.jaspermobile.webview.WebInterface;
 import com.jaspersoft.android.jaspermobile.webview.WebViewEnvironment;
@@ -53,6 +58,7 @@ import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardExe
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardTrigger;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardWebInterface;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.JsDashboardTrigger;
+import com.jaspersoft.android.jaspermobile.webview.hyperlinks.HyperlinksCallback;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 import com.jaspersoft.android.sdk.util.FileUtils;
 
@@ -64,13 +70,15 @@ import org.androidannotations.annotations.UiThread;
 
 import javax.inject.Inject;
 
+import rx.subjects.PublishSubject;
+
 /**
  * @author Tom Koptel
  * @since 2.0
  */
 @OptionsMenu({R.menu.report_filter_manager_menu, R.menu.save_item_menu})
 @EActivity
-public class Amber2DashboardActivity extends BaseDashboardActivity implements DashboardCallback {
+public class Amber2DashboardActivity extends BaseDashboardActivity implements DashboardCallback, HyperlinksCallback {
 
     private static final int REQUEST_DASHBOARDS_PARAMETERS = 200;
 
@@ -204,7 +212,7 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     public void onWebViewConfigured(WebView webView) {
         mDashboardTrigger = JsDashboardTrigger.with(webView);
         mDashboardExecutor = AmberTwoDashboardExecutor.newInstance(webView, mServer, resource);
-        mWebInterface = DashboardWebInterface.from(this);
+        mWebInterface = DashboardWebInterface.from(this, this);
         WebViewEnvironment.configure(webView)
                 .withWebInterface(mWebInterface);
         loadFlow();
@@ -213,7 +221,6 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     @UiThread
     @Override
     public void onMaximizeStart(String title) {
-        resetZoom();
         hideMenuItems();
         showLoading();
     }
@@ -236,7 +243,6 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     @UiThread
     @Override
     public void onMinimizeStart() {
-        resetZoom();
         showMenuItems();
         showLoading();
     }
@@ -245,7 +251,9 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     @Override
     public void onMinimizeEnd() {
         hideLoading();
+        resetZoom();
         mMaximized = false;
+        scrollableTitleHelper.injectTitle(resource.getLabel());
     }
 
     @UiThread
@@ -277,19 +285,6 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     public void onLoadError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
         hideLoading();
-    }
-
-    @UiThread
-    @Override
-    public void onReportExecution(String data) {
-        mGetReportMetadataCase.execute(data, new GenericSubscriber<>(new SimpleSubscriber<ResourceLookup>() {
-            @Override
-            public void onNext(ResourceLookup lookup) {
-                ReportVisualizeActivity_.intent(Amber2DashboardActivity.this)
-                        .resource(lookup)
-                        .start();
-            }
-        }));
     }
 
     @Override
@@ -350,6 +345,60 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
         mGetReportMetadataCase.unsubscribe();
         mFlushInputControlsCase.execute(resource.getUri());
         super.finish();
+    }
+
+    //---------------------------------------------------------------------
+    // Hyperlinks
+    //---------------------------------------------------------------------
+
+    @UiThread
+    @Override
+    public void onReportExecutionClick(String data) {
+        mGetReportMetadataCase.execute(data, new GenericSubscriber<>(new SimpleSubscriber<ResourceLookup>() {
+            @Override
+            public void onNext(ResourceLookup lookup) {
+                ReportVisualizeActivity_.intent(Amber2DashboardActivity.this)
+                        .resource(lookup)
+                        .start();
+            }
+        }));
+    }
+
+    @UiThread
+    @Override
+    public void onReferenceClick(String location) {
+        showExternalLink(this, location);
+    }
+
+    @UiThread
+    @Override
+    public void onRemotePageClick(String location) {
+        String url = mServer.getBaseUrl() + location;
+        showExternalLink(this, url);
+    }
+
+    @UiThread
+    @Override
+    public void onRemoteAnchorClick(String location) {
+        String url = mServer.getBaseUrl() + location;
+        showExternalLink(this, url);
+    }
+
+    //---------------------------------------------------------------------
+    // Hyperlinks Helpers
+    //---------------------------------------------------------------------
+
+    private void showExternalLink(Context context, String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            // show notification if no app available to open selected format
+            Toast.makeText(context,
+                    context.getString(R.string.sdr_t_no_app_available, "view"),
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 
     //---------------------------------------------------------------------

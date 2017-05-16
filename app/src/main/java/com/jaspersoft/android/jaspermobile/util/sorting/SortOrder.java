@@ -24,11 +24,15 @@
 
 package com.jaspersoft.android.jaspermobile.util.sorting;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * @author Tom Koptel
  * @since 1.9
  */
-public enum SortOrder {
+public enum SortOrder implements Serializable {
     LABEL("label"), CREATION_DATE("creationDate"), ACCESS_TIME("accessTime");
 
     private final String mValue;

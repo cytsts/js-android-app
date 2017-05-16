@@ -46,7 +46,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.functions.Action0;
 import rx.functions.Func1;
 
 /**
@@ -112,7 +111,7 @@ public final class InMemoryResourceRepository implements ResourceRepository {
                         int searchCount = resources.size();
                         boolean hasReachedEnd = searchCount < limit;
 
-                        List<ResourceLookup> lookups = mResourceMapper.toLegacyResources(resources);
+                        List<ResourceLookup> lookups = mResourceMapper.toLegacyResources(resources, criteria);
                         SearchResult searchResult = new SearchResult(lookups, hasReachedEnd);
                         return searchResult;
                     }

@@ -88,33 +88,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/vg_recent"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_navigation_item"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:id="@+id/iv_recent"
-                android:layout_width="24dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/bg_navigation_icon_recently" />
-
-            <TextView
-                android:id="@+id/tv_recent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:fontFamily="sans-serif-regular"
-                android:singleLine="true"
-                android:text="@string/recent_card_label" />
-
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/vg_favorites"
             android:layout_width="match_parent"
             android:layout_height="48dp"

@@ -108,6 +108,9 @@
     <!--TODO Remove!-->
     <string name="fv_opening_message">Opening file...</string>
 
+    <!-- Local Web Resource Viewing -->
+    <string name="wr_title">Web Resource</string>
+
     <!-- Filter Dialog -->
     <string name="s_fd_option_all">All</string>
     <string name="s_fd_option_reports">Reports</string>

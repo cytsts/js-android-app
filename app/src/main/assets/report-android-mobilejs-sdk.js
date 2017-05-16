@@ -86,8 +86,6 @@
         this.onRefreshError = bind(this.onRefreshError, this);
         this.onRefreshSuccess = bind(this.onRefreshSuccess, this);
         this.onExportGetResourcePath = bind(this.onExportGetResourcePath, this);
-        this.onReportExecution = bind(this.onReportExecution, this);
-        this.onReferenceClick = bind(this.onReferenceClick, this);
         this.onPageChange = bind(this.onPageChange, this);
         this.onTotalPagesLoaded = bind(this.onTotalPagesLoaded, this);
         this.onReportCompleted = bind(this.onReportCompleted, this);
@@ -96,6 +94,9 @@
         this.onLoadDone = bind(this.onLoadDone, this);
         this.onLoadStart = bind(this.onLoadStart, this);
         this.onScriptLoaded = bind(this.onScriptLoaded, this);
+        // hyperlinks
+        this.onReportExecution = bind(this.onReportExecution, this);
+        this.onReferenceClick = bind(this.onReferenceClick, this);
         return ReportCallback.__super__.constructor.apply(this, arguments);
       }
 
@@ -141,18 +142,6 @@
         });
       };
 
-      ReportCallback.prototype.onReferenceClick = function(location) {
-        this.dispatch(function() {
-          return Android.onReferenceClick(location);
-        });
-      };
-
-      ReportCallback.prototype.onReportExecution = function(data) {
-        this.dispatch(function() {
-          return Android.onReportExecutionClick(data);
-        });
-      };
-
       ReportCallback.prototype.onExportGetResourcePath = function(link) {
         this.dispatch(function() {
           return Android.onExportGetResourcePath(link);
@@ -186,6 +175,21 @@
       ReportCallback.prototype.onPageLoadError = function(error, page) {
         this.dispatch(function() {
           return Android.onPageLoadError(error, page);
+        });
+      };
+
+
+      // Hyperlinks
+
+      ReportCallback.prototype.onReferenceClick = function(location) {
+        this.dispatch(function() {
+          return Android.onReferenceClick(location);
+        });
+      };
+
+      ReportCallback.prototype.onReportExecution = function(data) {
+        this.dispatch(function() {
+          return Android.onReportExecutionClick(data);
         });
       };
 
@@ -329,7 +333,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       function ReportController(callback1, scaler, options) {
         this.callback = callback1;
         this.scaler = scaler;
-        this._processLinkClicks = bind(this._processLinkClicks, this);
         this._processErrors = bind(this._processErrors, this);
         this._processSuccess = bind(this._processSuccess, this);
         this._processMultipageState = bind(this._processMultipageState, this);
@@ -342,10 +345,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         this._exportResource = bind(this._exportResource, this);
         this._notifyPageChangeError = bind(this._notifyPageChangeError, this);
         this._notifyPageChange = bind(this._notifyPageChange, this);
-        this._openRemoteLink = bind(this._openRemoteLink, this);
-        this._navigateToPage = bind(this._navigateToPage, this);
-        this._navigateToAnchor = bind(this._navigateToAnchor, this);
-        this._startReportExecution = bind(this._startReportExecution, this);
         this._executeFailedCallback = bind(this._executeFailedCallback, this);
         this._executeReport = bind(this._executeReport, this);
         this._executeReportForAmber = bind(this._executeReportForAmber, this);
@@ -360,6 +359,12 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         this.params || (this.params = {});
         this.totalPages = 0;
         this.pages || (this.pages = '1');
+        // Hyperlinks
+        this._processLinkClicks = bind(this._processLinkClicks, this);
+        this._navigateToPage = bind(this._navigateToPage, this);
+        this._navigateToAnchor = bind(this._navigateToAnchor, this);
+        this._openRemoteLink = bind(this._openRemoteLink, this);
+        this._startReportExecution = bind(this._startReportExecution, this);
       }
 
       ReportController.prototype.runReport = function() {

@@ -133,28 +133,6 @@ public final class ReportWebInterface extends WebInterface implements ReportCall
 
     @JavascriptInterface
     @Override
-    public void onReferenceClick(final String type) {
-        handleCallback(new Runnable() {
-            @Override
-            public void run() {
-                decoratedCallback.onReferenceClick(type);
-            }
-        });
-    }
-
-    @JavascriptInterface
-    @Override
-    public void onReportExecutionClick(final String data) {
-        handleCallback(new Runnable() {
-            @Override
-            public void run() {
-                decoratedCallback.onReportExecutionClick(data);
-            }
-        });
-    }
-
-    @JavascriptInterface
-    @Override
     public void onMultiPageStateObtained(final boolean isMultiPage) {
         handleCallback(new Runnable() {
             @Override
@@ -188,4 +166,29 @@ public final class ReportWebInterface extends WebInterface implements ReportCall
         });
     }
 
+    //---------------------------------------------------------------------
+    // Hyperlinks
+    //---------------------------------------------------------------------
+
+    @JavascriptInterface
+    @Override
+    public void onReferenceClick(final String type) {
+        handleCallback(new Runnable() {
+            @Override
+            public void run() {
+                decoratedCallback.onReferenceClick(type);
+            }
+        });
+    }
+
+    @JavascriptInterface
+    @Override
+    public void onReportExecutionClick(final String data) {
+        handleCallback(new Runnable() {
+            @Override
+            public void run() {
+                decoratedCallback.onReportExecutionClick(data);
+            }
+        });
+    }
 }

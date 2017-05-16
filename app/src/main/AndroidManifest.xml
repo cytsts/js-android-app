@@ -160,6 +160,10 @@
             android:name=".activities.file.FileViewerActivity_"/>
 
         <activity
+            android:name=".activities.viewer.html.webresource.WebResourceActivity_"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".activities.share.AnnotationActivity_"
             android:configChanges="keyboard|keyboardHidden|screenSize|orientation|locale"/>
 

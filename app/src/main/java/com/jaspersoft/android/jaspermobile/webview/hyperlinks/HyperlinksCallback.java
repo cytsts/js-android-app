@@ -22,25 +22,16 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.ui.contract;
-
-import com.jaspersoft.android.jaspermobile.domain.Profile;
-import com.jaspersoft.android.jaspermobile.ui.model.ProfileViewModel;
-
-import java.util.List;
+package com.jaspersoft.android.jaspermobile.webview.hyperlinks;
 
 /**
- * @author Tom Koptel
- * @since 2.3
+ * @author Olexandr Dahno
+ * @since 2.6
  */
-public interface NavigationContract {
-    interface View {
-        void showProfiles(List<ProfileViewModel> profiles);
-    }
 
-    interface ActionListener {
-        void loadProfiles();
-        void loadActiveProfile();
-        void activateProfile(Profile profile);
-    }
+public interface HyperlinksCallback {
+    void onReferenceClick(String location);
+    void onReportExecutionClick(String data);
+    void onRemotePageClick(String location);
+    void onRemoteAnchorClick(String location);
 }

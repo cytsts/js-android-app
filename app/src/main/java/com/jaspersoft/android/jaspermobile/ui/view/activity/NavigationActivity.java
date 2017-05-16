@@ -47,7 +47,6 @@ import com.jaspersoft.android.jaspermobile.Analytics;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.favorites.FavoritesPageFragment_;
 import com.jaspersoft.android.jaspermobile.activities.library.LibraryPageFragment_;
-import com.jaspersoft.android.jaspermobile.activities.recent.RecentPageFragment_;
 import com.jaspersoft.android.jaspermobile.activities.repository.RepositoryPageFragment_;
 import com.jaspersoft.android.jaspermobile.activities.settings.SettingsActivity_;
 import com.jaspersoft.android.jaspermobile.activities.storage.SavedReportsFragment_;
@@ -162,12 +161,6 @@ public class NavigationActivity extends CastActivity implements HasComponent<Nav
     public NavigationActivityComponent getComponent() {
         return getProfileComponent()
                 .plusNavigationPage(new NavigationActivityModule(this));
-    }
-
-    @Override
-    public void toggleRecentlyViewedNavigation(boolean visibility) {
-        View recentlyView = findViewById(R.id.vg_recent);
-        recentlyView.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -305,10 +298,6 @@ public class NavigationActivity extends CastActivity implements HasComponent<Nav
             case R.id.vg_repository:
                 currentSelection = R.id.vg_repository;
                 commitContent(RepositoryPageFragment_.builder().build());
-                break;
-            case R.id.vg_recent:
-                currentSelection = R.id.vg_recent;
-                commitContent(RecentPageFragment_.builder().build());
                 break;
             case R.id.vg_saved_items:
                 currentSelection = R.id.vg_saved_items;

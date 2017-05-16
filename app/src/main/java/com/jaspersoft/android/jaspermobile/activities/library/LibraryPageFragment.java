@@ -42,6 +42,7 @@ import com.jaspersoft.android.jaspermobile.activities.library.fragment.LibrarySe
 import com.jaspersoft.android.jaspermobile.activities.library.fragment.LibrarySearchFragment_;
 import com.jaspersoft.android.jaspermobile.dialog.SimpleDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.SortDialogFragment;
+import com.jaspersoft.android.jaspermobile.domain.JasperServer;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
 import com.jaspersoft.android.jaspermobile.util.DefaultPrefHelper;
@@ -77,6 +78,8 @@ public class LibraryPageFragment extends BaseFragment implements SortDialogFragm
 
     @Inject
     protected Analytics analytics;
+    @Inject
+    protected JasperServer jasperServer;
 
     @OptionsMenuItem(R.id.voiceCommand)
     protected MenuItem voiceCommandAction;
@@ -140,7 +143,9 @@ public class LibraryPageFragment extends BaseFragment implements SortDialogFragm
 
     @OptionsItem(R.id.sort)
     final void startSorting() {
+        boolean isPro = jasperServer.isProEdition();
         SortDialogFragment.createBuilder(getFragmentManager())
+                .setWithAccessTimeOption(isPro)
                 .setInitialSortOption(sortOptions.getOrder())
                 .setTargetFragment(this)
                 .show();

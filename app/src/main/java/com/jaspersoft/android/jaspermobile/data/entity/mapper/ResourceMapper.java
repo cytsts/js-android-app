@@ -37,6 +37,7 @@ import com.jaspersoft.android.jaspermobile.util.resource.viewbinder.FolderResour
 import com.jaspersoft.android.sdk.client.oxm.report.FolderDataResponse;
 import com.jaspersoft.android.sdk.client.oxm.resource.FileLookup;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
+import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookupSearchCriteria;
 import com.jaspersoft.android.sdk.service.data.report.FileResource;
 import com.jaspersoft.android.sdk.service.data.repository.Resource;
 
@@ -46,7 +47,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * @author Tom Koptel
@@ -89,13 +89,15 @@ public class ResourceMapper {
     }
 
     @NonNull
-    public List<ResourceLookup> toLegacyResources(@NonNull List<Resource> resources) {
+    public List<ResourceLookup> toLegacyResources(@NonNull List<Resource> resources, ResourceLookupSearchCriteria criteria) {
         List<ResourceLookup> list = new ArrayList<>(resources.size());
         for (Resource resource : resources) {
             if (resource != null) {
                 ResourceLookup lookup = new ResourceLookup();
-                toLegacyResource(resource, lookup);
-                list.add(lookup);
+                lookup = toLegacyResource(resource, lookup);
+                if (lookup != null && criteria.getTypes().contains(lookup.getResourceType().name())) {
+                    list.add(lookup);
+                }
             }
         }
         return list;
@@ -117,26 +119,31 @@ public class ResourceMapper {
         return lookup;
     }
 
-    public void toLegacyResource(@NonNull Resource resource, @NonNull ResourceLookup lookup) {
+    public ResourceLookup toLegacyResource(@NonNull Resource resource, @NonNull ResourceLookup lookup) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DEFAULT_DATE_TIME_FORMAT, Locale.getDefault());
         String creationDate = simpleDateFormat.format(resource.getCreationDate());
         String updateDate = simpleDateFormat.format(resource.getUpdateDate());
 
-
         String rawValue = resource.getResourceType().getRawValue();
-        ResourceLookup.ResourceType resourceType = ResourceLookup.ResourceType.valueOf(rawValue);
-        lookup.setResourceType(resourceType);
+        try {
+            ResourceLookup.ResourceType resourceType = ResourceLookup.ResourceType.valueOf(rawValue);
+            lookup.setResourceType(resourceType);
 
-        lookup.setLabel(resource.getLabel());
-        lookup.setDescription(resource.getDescription());
-        lookup.setUri(resource.getUri());
-        lookup.setVersion(resource.getVersion());
-        lookup.setCreationDate(creationDate);
-        lookup.setUpdateDate(updateDate);
-        lookup.setPermissionMask(resource.getPermissionMask().getMask());
+            lookup.setLabel(resource.getLabel());
+            lookup.setDescription(resource.getDescription());
+            lookup.setUri(resource.getUri());
+            lookup.setVersion(resource.getVersion());
+            lookup.setCreationDate(creationDate);
+            lookup.setUpdateDate(updateDate);
+            lookup.setPermissionMask(resource.getPermissionMask().getMask());
+        } catch (IllegalArgumentException e) {
+            lookup = null;
+        }
+
+        return lookup;
     }
 
-    private JasperResource toJasperResource(Resource resource){
+    private JasperResource toJasperResource(Resource resource) {
         JasperResource jasperresource;
         switch (resource.getResourceType()) {
             case folder:

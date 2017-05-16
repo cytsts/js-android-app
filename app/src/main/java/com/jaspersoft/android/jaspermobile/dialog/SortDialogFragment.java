@@ -30,7 +30,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.view.ContextThemeWrapper;
 
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.util.sorting.SortOrder;
@@ -42,14 +41,17 @@ import org.androidannotations.annotations.EFragment;
  * @since 1.9
  */
 @EFragment
-public class SortDialogFragment extends BaseDialogFragment implements DialogInterface.OnClickListener{
+public class SortDialogFragment extends BaseDialogFragment implements DialogInterface.OnClickListener {
 
     private static final String SORT_ORDER_ARG = "sort_order";
+    private static final String WITH_ACCESS_TIME_ARG = "with_access_time";
 
     private static final int BY_LABEL = 0;
     private static final int BY_CREATION_DATE = 1;
+    private static final int BY_ACCESS_TIME = 2;
 
     private SortOrder mSortOrder;
+    private boolean withAccessTimeOption;
 
     @NonNull
     @Override
@@ -58,10 +60,19 @@ public class SortDialogFragment extends BaseDialogFragment implements DialogInte
 
         builder.setTitle(R.string.s_ab_sort_by);
 
-        CharSequence[] options = {
-                getString(R.string.s_fd_sort_label),
-                getString(R.string.s_fd_sort_date)
-        };
+        CharSequence[] options;
+        if (withAccessTimeOption) {
+            options = new CharSequence[]{
+                    getString(R.string.s_fd_sort_label),
+                    getString(R.string.s_fd_sort_date),
+                    getString(R.string.recent_card_label)
+            };
+        } else {
+            options = new CharSequence[]{
+                    getString(R.string.s_fd_sort_label),
+                    getString(R.string.s_fd_sort_date)
+            };
+        }
 
         int position = 0;
         if (mSortOrder.equals(SortOrder.LABEL)) {
@@ -69,6 +80,9 @@ public class SortDialogFragment extends BaseDialogFragment implements DialogInte
         }
         if (mSortOrder.equals(SortOrder.CREATION_DATE)) {
             position = BY_CREATION_DATE;
+        }
+        if (mSortOrder.equals(SortOrder.ACCESS_TIME)) {
+            position = BY_ACCESS_TIME;
         }
 
         builder.setSingleChoiceItems(options, position, this);
@@ -86,6 +100,9 @@ public class SortDialogFragment extends BaseDialogFragment implements DialogInte
                 break;
             case BY_CREATION_DATE:
                 mSortOrder = SortOrder.CREATION_DATE;
+                break;
+            case BY_ACCESS_TIME:
+                mSortOrder = SortOrder.ACCESS_TIME;
                 break;
             default:
                 mSortOrder = SortOrder.LABEL;
@@ -111,6 +128,9 @@ public class SortDialogFragment extends BaseDialogFragment implements DialogInte
             if (args.containsKey(SORT_ORDER_ARG)) {
                 mSortOrder = (SortOrder) args.getSerializable(SORT_ORDER_ARG);
             }
+            if (args.containsKey(WITH_ACCESS_TIME_ARG)) {
+                withAccessTimeOption = args.getBoolean(WITH_ACCESS_TIME_ARG);
+            }
         }
     }
 
@@ -130,6 +150,11 @@ public class SortDialogFragment extends BaseDialogFragment implements DialogInte
 
         public SortDialogFragmentBuilder setInitialSortOption(SortOrder sortOrder) {
             args.putSerializable(SORT_ORDER_ARG, sortOrder);
+            return this;
+        }
+
+        public SortDialogFragmentBuilder setWithAccessTimeOption(boolean withAccessTimeOption) {
+            args.putBoolean(WITH_ACCESS_TIME_ARG, withAccessTimeOption);
             return this;
         }
 

@@ -162,7 +162,7 @@
         var dataString;
         dataString = JSON.stringify(data, null, 4);
         this.dispatch(function() {
-          return Android.onReportExecution(dataString);
+          return Android.onReportExecutionClick(dataString);
         });
       };
 

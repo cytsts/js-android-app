@@ -30,21 +30,24 @@ import android.webkit.WebView;
 
 import com.jaspersoft.android.jaspermobile.CrashReport;
 import com.jaspersoft.android.jaspermobile.webview.WebInterface;
+import com.jaspersoft.android.jaspermobile.webview.hyperlinks.HyperlinksCallback;
 
 /**
  * @author Tom Koptel
  * @since 2.0
  */
-public final class DashboardWebInterface extends WebInterface implements DashboardCallback {
-    private final DashboardCallback delegate;
+public final class DashboardWebInterface extends WebInterface implements DashboardCallback, HyperlinksCallback {
+    private final DashboardCallback dashboardCallback;
+    private final HyperlinksCallback hyperlinksCallback;
     private boolean mOnLoadDone;
 
-    private DashboardWebInterface(DashboardCallback dashboardCallback) {
-        this.delegate = dashboardCallback;
+    private DashboardWebInterface(DashboardCallback dashboardCallback, HyperlinksCallback hyperlinksCallback) {
+        this.dashboardCallback = dashboardCallback;
+        this.hyperlinksCallback = hyperlinksCallback;
     }
 
-    public static WebInterface from(DashboardCallback dashboardCallback) {
-        return new DashboardWebInterface(dashboardCallback);
+    public static WebInterface from(DashboardCallback dashboardCallback, HyperlinksCallback hyperlinksCallback) {
+        return new DashboardWebInterface(dashboardCallback, hyperlinksCallback);
     }
 
     @JavascriptInterface
@@ -53,7 +56,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onMaximizeStart(title);
+                dashboardCallback.onMaximizeStart(title);
             }
         });
     }
@@ -64,7 +67,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onMaximizeEnd(title);
+                dashboardCallback.onMaximizeEnd(title);
             }
         });
     }
@@ -75,7 +78,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onMaximizeFailed(error);
+                dashboardCallback.onMaximizeFailed(error);
             }
         });
     }
@@ -86,7 +89,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onMinimizeStart();
+                dashboardCallback.onMinimizeStart();
             }
         });
     }
@@ -97,7 +100,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onMinimizeEnd();
+                dashboardCallback.onMinimizeEnd();
             }
         });
     }
@@ -108,7 +111,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onMinimizeFailed(error);
+                dashboardCallback.onMinimizeFailed(error);
             }
         });
     }
@@ -119,7 +122,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onScriptLoaded();
+                dashboardCallback.onScriptLoaded();
             }
         });
     }
@@ -130,7 +133,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onLoadStart();
+                dashboardCallback.onLoadStart();
             }
         });
     }
@@ -142,7 +145,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onLoadDone();
+                dashboardCallback.onLoadDone();
             }
         });
     }
@@ -153,18 +156,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onLoadError(error);
-            }
-        });
-    }
-
-    @JavascriptInterface
-    @Override
-    public void onReportExecution(final String data) {
-        handleCallback(new Runnable() {
-            @Override
-            public void run() {
-                delegate.onReportExecution(data);
+                dashboardCallback.onLoadError(error);
             }
         });
     }
@@ -175,7 +167,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onWindowResizeStart();
+                dashboardCallback.onWindowResizeStart();
             }
         });
     }
@@ -186,7 +178,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onWindowResizeEnd();
+                dashboardCallback.onWindowResizeEnd();
             }
         });
     }
@@ -197,7 +189,7 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
         handleCallback(new Runnable() {
             @Override
             public void run() {
-                delegate.onAuthError(message);
+                dashboardCallback.onAuthError(message);
             }
         });
     }
@@ -210,10 +202,58 @@ public final class DashboardWebInterface extends WebInterface implements Dashboa
                 @Override
                 public void run() {
                     CrashReport.logException(new RuntimeException(errorMessage));
-                    delegate.onWindowError(errorMessage);
+                    dashboardCallback.onWindowError(errorMessage);
                 }
             });
         }
+    }
+
+    //---------------------------------------------------------------------
+    // Hyperlinks
+    //---------------------------------------------------------------------
+
+    @JavascriptInterface
+    @Override
+    public void onReportExecutionClick(final String data) {
+        handleCallback(new Runnable() {
+            @Override
+            public void run() {
+                hyperlinksCallback.onReportExecutionClick(data);
+            }
+        });
+    }
+
+    @JavascriptInterface
+    @Override
+    public void onReferenceClick(final String type) {
+        handleCallback(new Runnable() {
+            @Override
+            public void run() {
+                hyperlinksCallback.onReferenceClick(type);
+            }
+        });
+    }
+
+    @JavascriptInterface
+    @Override
+    public void onRemotePageClick(final String location) {
+        handleCallback(new Runnable() {
+            @Override
+            public void run() {
+                hyperlinksCallback.onRemotePageClick(location);
+            }
+        });
+    }
+
+    @JavascriptInterface
+    @Override
+    public void onRemoteAnchorClick(final String location) {
+        handleCallback(new Runnable() {
+            @Override
+            public void run() {
+                hyperlinksCallback.onRemoteAnchorClick(location);
+            }
+        });
     }
 
     @SuppressLint("AddJavascriptInterface")

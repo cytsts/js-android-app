@@ -712,16 +712,6 @@ public class ResourcePresentationService extends CastRemoteDisplayLocalService {
         }
 
         @Override
-        public void onReferenceClick(String location) {
-
-        }
-
-        @Override
-        public void onReportExecutionClick(String data) {
-
-        }
-
-        @Override
         public void onMultiPageStateObtained(final boolean isMultiPage) {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -765,6 +755,20 @@ public class ResourcePresentationService extends CastRemoteDisplayLocalService {
                     }
                 }
             });
+        }
+
+        //---------------------------------------------------------------------
+        // Hyperlinks
+        //---------------------------------------------------------------------
+
+        @Override
+        public void onReferenceClick(String location) {
+
+        }
+
+        @Override
+        public void onReportExecutionClick(String data) {
+
         }
     }
 }

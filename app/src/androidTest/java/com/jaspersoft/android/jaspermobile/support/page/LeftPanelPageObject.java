@@ -66,10 +66,6 @@ public class LeftPanelPageObject extends PageObject {
         return onView(withId(R.id.vg_repository)).check(matches(matcher));
     }
 
-    public ViewInteraction recentMatches(Matcher<View> matcher) {
-        return onView(withId(R.id.vg_recent)).check(matches(matcher));
-    }
-
     public ViewInteraction favoritesMatches(Matcher<View> matcher) {
         return onView(withId(R.id.vg_favorites)).check(matches(matcher));
     }
@@ -112,12 +108,6 @@ public class LeftPanelPageObject extends PageObject {
     public void goToRepository() {
         swipeToOpenMenu();
         onView(withId(R.id.vg_repository))
-                .perform(click());
-    }
-
-    public void goToRecentlyViewed() {
-        swipeToOpenMenu();
-        onView(withId(R.id.vg_recent))
                 .perform(click());
     }
 

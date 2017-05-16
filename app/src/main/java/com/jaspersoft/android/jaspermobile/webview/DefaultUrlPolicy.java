@@ -32,6 +32,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity_;
 
 /**
  * @author Tom Koptel
@@ -54,23 +55,39 @@ public class DefaultUrlPolicy implements UrlPolicy {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        String jasperHost = Uri.parse(serverUrl).getHost();
-        String linkHost = Uri.parse(url).getHost();
-
-        // This is my Jasper site, let WebView check page for 401 page
-        if (linkHost != null && linkHost.equals(jasperHost)) {
-            if (url.contains("login.html")) {
-                if (sessionListener != null) {
-                    sessionListener.onSessionExpired();
-                }
-                return true;
+        if (isLoginRequestUrl(url)) {
+            if (sessionListener != null) {
+                sessionListener.onSessionExpired();
             }
+            return true;
         }
+
         Context context = view.getContext();
-        if (context != null) {
+        if (isInternalRequestUrl(url)) {
+            showInternalLink(context, url);
+        } else {
             showExternalLink(context, url);
         }
         return true;
+    }
+
+    private boolean isLoginRequestUrl(String url) {
+        // This is my Jasper site, let WebView check page for 401 page
+        if (isValidUrl(url) && isInternalRequestUrl(url)) {
+            return url.contains("login.html");
+        }
+        return false;
+    }
+
+    private boolean isInternalRequestUrl(String url) {
+        String jasperHost = Uri.parse(serverUrl).getHost();
+        String linkHost = Uri.parse(url).getHost();
+        return linkHost.equals(jasperHost);
+    }
+
+    private boolean isValidUrl(String url) {
+        String linkHost = Uri.parse(url).getHost();
+        return linkHost != null;
     }
 
     private void showExternalLink(Context context, String url) {
@@ -84,6 +101,11 @@ public class DefaultUrlPolicy implements UrlPolicy {
                     Toast.LENGTH_SHORT
             ).show();
         }
+    }
+
+    private void showInternalLink(Context context, String url) {
+        WebResourceActivity_.intent(context)
+                .resourceUrl(url).start();
     }
 
     public interface SessionListener {

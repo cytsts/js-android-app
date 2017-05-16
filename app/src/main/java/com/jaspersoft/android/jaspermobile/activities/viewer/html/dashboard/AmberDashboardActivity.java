@@ -44,6 +44,7 @@ import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardCal
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardExecutor;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.DashboardWebInterface;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.JsDashboardTrigger;
+import com.jaspersoft.android.jaspermobile.webview.hyperlinks.HyperlinksCallback;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 
 import org.androidannotations.annotations.Bean;
@@ -57,7 +58,7 @@ import org.androidannotations.annotations.UiThread;
  * @since 2.0
  */
 @EActivity
-public class AmberDashboardActivity extends BaseDashboardActivity implements DashboardCallback {
+public class AmberDashboardActivity extends BaseDashboardActivity implements DashboardCallback, HyperlinksCallback {
 
     @InstanceState
     protected boolean mMaximized;
@@ -139,7 +140,7 @@ public class AmberDashboardActivity extends BaseDashboardActivity implements Das
     public void onWebViewConfigured(WebView webView) {
         mDashboardTrigger = JsDashboardTrigger.with(webView);
         mDashboardExecutor = AmberDashboardExecutor.newInstance(webView, mServer, resource);
-        webInterface = DashboardWebInterface.from(this);
+        webInterface = DashboardWebInterface.from(this, this);
         WebViewEnvironment
                 .configure(webView)
                 .withWebInterface(webInterface);
@@ -247,11 +248,6 @@ public class AmberDashboardActivity extends BaseDashboardActivity implements Das
 
     @UiThread
     @Override
-    public void onReportExecution(String data) {
-    }
-
-    @UiThread
-    @Override
     public void onWindowResizeStart() {
     }
 
@@ -270,6 +266,30 @@ public class AmberDashboardActivity extends BaseDashboardActivity implements Das
     public void onWindowError(String errorMessage) {
         showMessage(getString(R.string.failed_load_data));
         hideLoading();
+    }
+
+    //---------------------------------------------------------------------
+    // Hyperlinks
+    //---------------------------------------------------------------------
+
+    @UiThread
+    @Override
+    public void onReferenceClick(final String type) {
+    }
+
+    @UiThread
+    @Override
+    public void onReportExecutionClick(final String data) {
+    }
+
+    @UiThread
+    @Override
+    public void onRemotePageClick(final String data) {
+    }
+
+    @UiThread
+    @Override
+    public void onRemoteAnchorClick(final String data) {
     }
 
     //---------------------------------------------------------------------

@@ -98,14 +98,6 @@ public class LeftPanelNavigationTest {
     }
 
     @Test
-    public void goToRecentlyViewed() {
-        leftPanelPageObject.goToRecentlyViewed();
-        leftPanelPageObject.waitForLeftPanelMatches(not(isDisplayed()));
-        leftPanelPageObject.swipeToOpenMenu();
-        leftPanelPageObject.recentMatches(isSelected());
-    }
-
-    @Test
     public void goToFavorites() {
         leftPanelPageObject.goToFavorites();
         leftPanelPageObject.waitForLeftPanelMatches(not(isDisplayed()));

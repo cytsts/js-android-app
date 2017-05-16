@@ -89,16 +89,6 @@ public final class RxVisualizeEvents implements VisualizeEvents {
             }
 
             @Override
-            public void onReferenceClick(String location) {
-                mExternalReferenceClickEvent.onNext(new ExternalReferenceClickEvent(location));
-            }
-
-            @Override
-            public void onReportExecutionClick(String data) {
-                mExecutionReferenceClickEvent.onNext(new ExecutionReferenceClickEvent(data));
-            }
-
-            @Override
             public void onMultiPageStateObtained(boolean isMultiPage) {
                 mMultiPageLoadEvent.onNext(new MultiPageLoadEvent(isMultiPage));
             }
@@ -111,6 +101,16 @@ public final class RxVisualizeEvents implements VisualizeEvents {
             @Override
             public void onPageLoadError(String errorMessage, int page) {
                 mPageLoadErrorEvent.onNext(new PageLoadErrorEvent(errorMessage, page));
+            }
+
+            @Override
+            public void onReferenceClick(String location) {
+                mExternalReferenceClickEvent.onNext(new ExternalReferenceClickEvent(location));
+            }
+
+            @Override
+            public void onReportExecutionClick(String data) {
+                mExecutionReferenceClickEvent.onNext(new ExecutionReferenceClickEvent(data));
             }
         };
         WebInterface webInterface = ReportWebInterface.from(reportCallback);

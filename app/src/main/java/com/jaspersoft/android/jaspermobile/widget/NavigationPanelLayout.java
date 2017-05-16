@@ -212,12 +212,6 @@ public class NavigationPanelLayout extends RelativeLayout {
         trackNavigateEvent(Analytics.EventLabel.SAVED_ITEMS.getValue());
     }
 
-    @Click(R.id.vg_recent)
-    final void navigateToRecent(View newSelectItem) {
-        selectItem(newSelectItem);
-        trackNavigateEvent(Analytics.EventLabel.RECENTLY_VIEWED.getValue());
-    }
-
     @Click(R.id.vg_jobs)
     final void navigateToJobs(View newSelectItem) {
         selectItem(newSelectItem);

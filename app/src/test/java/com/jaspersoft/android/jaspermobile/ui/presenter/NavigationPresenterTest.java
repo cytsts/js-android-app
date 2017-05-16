@@ -174,7 +174,6 @@ public class NavigationPresenterTest {
         whenLoadsActiveProfile();
 
         thenShouldExecuteGetActiveProfileCase();
-        thenShouldToggleRecentlyViewed();
     }
 
     @Test
@@ -210,10 +209,6 @@ public class NavigationPresenterTest {
 
     private void whenActivatesProfile() {
         mNavigationPresenter.activateProfile(fakeProfile);
-    }
-
-    private void thenShouldToggleRecentlyViewed() {
-        verify(mView).toggleRecentlyViewedNavigation(true);
     }
 
     private void thenShouldExecuteGetActiveProfileCase() {
