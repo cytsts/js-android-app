@@ -1,507 +1,357 @@
-﻿﻿<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright © 2016 TIBCO Software,Inc.All rights reserved.
-  ~ http://community.jaspersoft.com/project/jaspermobile-android
-  ~
-  ~ Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
-  ~ the following license terms apply:
-  ~
-  ~ This program is part of TIBCO Jaspersoft Mobile for Android.
-  ~
-  ~ TIBCO Jaspersoft Mobile is free software:you can redistribute it and/or modify
-  ~ it under the terms of the GNU Lesser General Public License as published by
-  ~ the Free Software Foundation,either version 3of the License,or
-  ~ (at your option)any later version.
-  ~
-  ~ TIBCO Jaspersoft Mobile is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY;without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-  ~ GNU Lesser General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU Lesser General Public License
-  ~ along with TIBCO Jaspersoft Mobile for Android.If not,see
-  ~ <http://www.gnu.org/licenses/lgpl>.
-  -->
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 2.6.0.2  LP Refresh (last updated at 2017-05-11) -->
 <resources>
-    <!-- Images content description -->
-    <string name="img_cd_list_item">リスト項目プレビュー</string>
-    <string name="img_cd_grid_item">グリッド項目プレビュー</string>
-
-    <!-- Home Activity -->
-    <string name="h_repository_label">リポジトリ</string>
-    <string name="h_library_label">ライブラリ</string>
-
-    <!-- Connection Dialog -->
-
-    <!-- Password Dialog -->
-    <string name="h_ad_label_server_profile">サーバープロファイル</string>
-
-    <!-- Action Bar -->
-
-    <!-- Delete Dialog -->
-    <string name="spm_delete_btn">削除</string>
-
-    <!-- Server Profile Activity -->
-    <string name="sp_save_btn">保存</string>
-
-    <!-- Error messages -->
-    <string name="sp_error_field_required">このフィールドは必須項目です。</string>
-    <string name="sp_error_url_not_valid">URL が有効ではありません。</string>
-    <string name="sp_error_duplicate_alias">重複するエイリアス。</string>
-
-    <!-- Action Bar -->
-    <string name="r_ab_switch">ビューの切り替え</string>
-    <string name="r_ab_search">検索</string>
-    <string name="r_ab_refresh">更新</string>
-    <!-- Context Menu -->
-    <string name="r_cm_view_details">詳細を表示</string>
-    <string name="r_cm_add_to_favorites_failed">お気に入りへの追加に失敗しました</string>
-    <string name="r_cm_add_to_favorites">お気に入りに追加</string>
-    <string name="r_cm_remove_from_favorites">お気に入りから削除</string>
-    <string name="r_cm_remove_from_favorites_failed">お気に入りからの削除に失敗しました</string>
-
-    <!-- Progress Dialog -->
-    <string name="r_pd_running_report_msg">レポートを実行中...</string>
-
-    <!-- Error messages -->
-    <string name="r_error_server_not_supported">サーバーのバージョンが 5.5 より古いか (サポートされていない) または URL が誤っています。</string>
-
-    <!-- Search Activity -->
-    <string name="s_hint">リソースの検索</string>
-
-    <!-- Action Bar -->
-    <string name="s_ab_filter_by">フィルタ基準</string>
-    <string name="s_ab_sort_by">ソート基準</string>
-
-    <!-- Filter Dialog -->
-    <string name="s_fd_option_all">すべて</string>
-    <string name="s_fd_option_reports">レポート</string>
-    <string name="s_fd_option_dashboards">ダッシュボード</string>
-    <string name="s_fd_sort_label">ラベル</string>
-    <string name="s_fd_sort_date">作成日</string>
-
-    <!-- Settings Activity -->
-    <string name="sa_show_about">バージョン情報</string>
-    <string name="sa_about_privacy">個人情報保護方針</string>
-
-    <!-- Report Options Activity -->
-    <string name="ro_run_report_btn">レポートの実行</string>
-
-    <!-- Report Viewer Activity -->
-    <string name="rv_ab_save_report">レポートの保存</string>
-    <string name="rv_ab_show_filters">フィルタを表示</string>
-    <string name="rv_error_empty_report">レポートデータがありません</string>
-    <!-- Toasts -->
-    <string name="rv_t_external_storage_not_available">外部メモリーカードが利用できません。カードをマウントしてから、再試行してください。</string>
-
-    <!-- Save Report Activity -->
-    <string name="sr_output_format">出力フォーマット</string>
-    <string name="rv_select_page">ページを選択</string>
-    <string name="rv_dialog_reload">リロード</string>
-
-    <!-- Toasts -->
-    <!-- Error messages -->
-
-    <!-- Favorites activity -->
-    <string name="f_title">お気に入り</string>
-
-    <!-- Saved Reports Activity -->
-
-    <!-- Context Menu -->
-    <string name="sdr_cm_rename">名前変更</string>
-    <string name="sdr_cm_delete">削除</string>
-
-    <!-- Rename Report Dialog -->
-    <string name="sdr_rrd_msg">新しい名前を入力：</string>
-
-    <!-- Delete Report Dialog -->
-    <string name="sdr_drd_title">レポートの削除</string>
-    <string name="sdr_drd_msg">「%1$s」を削除してもよろしいですか？</string>
-
-    <!-- Toasts -->
-    <string name="sdr_t_no_app_available">「%1$s」ビューアがインストールされていません。</string>
-    <string name="sdr_t_report_renaming_error">レポート名を変更できません</string>
-    <string name="sdr_t_report_deletion_error">レポートを削除できません</string>
-
-    <!-- Settings activity -->
-    <string name="st_title">設定</string>
-    <string name="st_category_connection">接続</string>
-    <string name="st_title_cache_enable">キャッシュを有効にする</string>
-    <string name="st_title_connect_timeout">接続タイムアウト</string>
-    <string name="st_title_read_timeout">データ読み込みタイムアウト</string>
-    <string name="st_send_crashes">クラッシュレポートを送信</string>
-    <string name="st_summary_sec">%1$s 秒</string>
-    <string name="st_summary_h">%1$s 時間</string>
-    <string name="st_invalid_number_format">無効な数値フォーマット</string>
-    <string name="st_category_more">詳細</string>
-
-    <!-- Error messages -->
-    <string name="error_http_400">要求が正しくありません。リクエストは無効です。</string>
-    <string name="error_http_401">認証資格情報がないか、または誤っています。</string>
-    <string name="error_http_403">アクセスは拒否されました。リクエストは理解されましたが、拒否されました。</string>
-    <string name="error_http_404">見つかりません。要求された URI が無効か、または要求されたリソースが存在していません。</string>
-    <string name="error_http_500">内部サーバー エラー。</string>
-    <string name="error_http_502">ゲートウェイが不正です。</string>
-    <string name="error_http_503">サービスを利用できません。</string>
-    <string name="error_http_504">ゲートウェイタイムアウト。</string>
-
-    <!-- Others -->
-    <string name="loading_msg">読み込み中...</string>
-    <string name="search_result_format">「%1$s」のサーチ結果</string>
-    <string name="failed_load_data">データの読み込みが失敗しました。</string>
-
-    <!-- Navigation panel -->
-    <string name="library_card_label">ライブラリ</string>
-    <string name="repository_card_label">リポジトリ</string>
-    <string name="favorites_card_label">お気に入り</string>
-    <string name="settings_card_label">設定</string>
-
-    <!-- Pagination controll -->
-    <string name="of"><![CDATA[/%d]]></string>
-    <string name="dialog_current_page">現在のページを設定</string>
-    <string name="rv_error_empty_report_title">レポートが空です</string>
-
-    <!-- Rate Dialog -->
-    <string name="h_rd_later">後で見る</string>
-    <string name="h_rd_never">いいえ</string>
-    <string name="h_rd_rate">TIBCO® JasperMobile™の評価</string>
-
-    <!-- Navigation Drawer -->
-    <string name="nd_drawer_open">開く</string>
-    <string name="nd_drawer_close">閉じる</string>
-    <string name="nd_manage_accounts">アカウントの管理</string>
-    <string name="nd_select_account">アカウントを選択</string>
-
-    <!-- Password Dialog -->
-    <string name="h_ad_title_server_sign_in">サーバーにサインイン</string>
-    <string name="h_ad_label_wrong_password">ユーザー名またはパスワードが正しくありません。正しい情報を再入力してください。</string>
-
-    <!-- Rate Dialog -->
-    <string name="h_rd_description">もしTIBCO® JasperMobile™を気に入って頂けましたら、少しお時間をとって評価をして頂けると幸いです。これには１分もかかりません。ご協力ありがとうございます！</string>
-
-    <!-- Error messages -->
-    <string name="sp_error_reserved_alias">エイリアスは既に使用されています。</string>
-
-    <!-- Repository Activity -->
-    <string name="r_search_nothing_to_display">検索条件に一致するアイテムはありません。</string>
-
-    <!-- Context Menu -->
-    <string name="r_cm_added_to_favorites">お気に入りに追加しました。</string>
-    <string name="r_cm_removed_from_favorites">お気に入りから削除しました。</string>
-    <string name="r_cm_print">印刷</string>
-
-    <!-- Search Activity -->
-    <string name="s_saved_items_hint">保存されたファイルを検索</string>
-
-    <!-- Filter Favorites Dialog -->
-    <string name="f_fd_option_folders">フォルダ</string>
-
-    <!-- Settings Activity -->
-    <string name="sa_show_feedback">フィードバック</string>
-
-    <!-- Report Viewer Activity -->
-    <string name="rv_out_of_range">要求されたページは範囲外です。</string>
-    <string name="rv_open_link_chooser">次の項目でリンクを開きます</string>
-
-
-    <!-- Save Report Activity -->
-    <string name="sr_report_name">ファイル名</string>
-    <string name="sr_from">ページから</string>
-    <string name="sr_to">ページへ</string>
-    <string name="sr_failed_to_create_local_repo">ローカルファイルストレージが作成できませんでした。</string>
-    <string name="sr_failed_to_execute_report">レポートの実行に失敗しました</string>
-
-    <!-- Error messages -->
-    <string name="sr_error_field_is_empty">この項目は入力が必須です。</string>
-    <string name="sr_error_characters_not_allowed">次の文字は使用できません。* \\ / \"\'：|？&lt;&gt; + []</string>
-    <string name="sr_error_report_exists">この名前のファイルはすでに存在しています。</string>
-
-    <!-- Favorites activity -->
-    <string name="f_empty_list_msg">お気に入りのアイテムはありません</string>
-
-    <!-- Saved Files Activity -->
-    <string name="sdr_ab_title">保存されたファイル</string>
-    <string name="sdr_ab_list_msg">保存されたファイルがありません</string>
-
-    <!-- Context Menu -->
-    <string name="action_mode_title">選択したアイテム</string>
-
-    <!-- Rename File Dialog -->
-    <string name="sdr_rrd_title">ファイルの名前を変更</string>
-    <string name="sdr_rrd_hint">ファイル名</string>
-    <string name="sdr_rrd_error_name_is_empty">この項目は入力が必須です。</string>
-    <string name="sdr_rrd_error_characters_not_allowed">次の文字は使用できません。* \\ / \"\'：|？&lt;&gt; + []</string>
-    <string name="sdr_rrd_error_report_exists">この名前のファイルはすでに存在しています。</string>
-
-    <!-- Remove Favorites Dialog -->
-    <string name="sdr_dfd_title">お気に入りから削除</string>
-    <string name="sdr_dfd_msg">本当に「%1$s 」を削除しますか？</string>
-
-    <!-- Settings activity -->
-    <string name="st_restart_note">注：この設定を変更した後、アプリを再起動して下さい。</string>
-
-    <!-- Error messages -->
-    <string name="r_error_server_not_found">サーバーが見つかりません。</string>
-    <string name="r_error_incorrect_credentials">無効な認証情報。</string>
-
-    <!-- Others -->
-    <string name="authenticator_label">Jasperアカウント</string>
-    <string name="no_network">ネットワークエラーが発生しました。</string>
-    <string name="request_was_cancelled_explicitly">キャンセルされました</string>
-
-    <!-- Accounts activity -->
-    <string name="add_account">アカウントを追加する</string>
-    <string name="try_demo">体験版をご利用下さい</string>
-    <string name="hint_alias">アカウント名</string>
-    <string name="hint_server_url">サーバーURL</string>
-    <string name="hint_organization">所属機関</string>
-    <string name="hint_username">ユーザー名</string>
-    <string name="hint_password">パスワード</string>
-    <string name="success_add_account"> %1$s という名前のアカウントが追加されました</string>
-    <string name="failure_add_account">アカウントを追加できませんでした。理由：%1$s</string>
-    <string name="account_add">アカウントを追加しています</string>
-
-    <!--Dashboard activity-->
-    <string name="da_session_expired">セッションが終了されました</string>
-    <string name="da_session_refresh_failed">セッションの更新に失敗しました。</string>
-    <string name="da_loading">ダッシュボードを読み込んでいます...</string>
-
-    <!-- MultiSelectSpinner -->
-    <string name="mss_btn_check_all">すべてをチェックする</string>
-    <string name="mss_btn_uncheck_all">すべてのチェックを外す</string>
-
-    <!-- Navigation panel -->
-    <string name="recent_card_label">最近表示した項目</string>
-    <string name="cancel">キャンセル</string>
-    <string name="ok">OK</string>
-
-    <!-- Repository Activity -->
-    <string name="resources_not_found">リソースが見つかりません</string>
-
-    <!-- Progress Dialog -->
-    <string name="r_pd_initializing_msg">初期化しています...</string>
-
-    <!-- File viewing -->
-    <string name="fv_try_again_btn">もう一度試す</string>
-    <string name="fv_can_not_show_message">ファイルの内容を表示することができません</string>
-    <string name="fv_undefined_message">開けません。リソース タイプが定義されていません。</string>
-    <string name="fv_opening_message">ファイルを開いています...</string>
-
-    <!-- Filter Dialog -->
-    <string name="s_fd_option_saved_values">保存した値</string>
-    <string name="s_fd_option_files">ファイル</string>
-    <string name="s_fd_option_others">その他</string>
-
-    <!-- Report Options Activity -->
-    <string name="ro_default">デフォルト</string>
-    <string name="ro_page_title">フィルター</string>
-    <string name="ro_save_ro">値を保存する</string>
-    <string name="ro_save_text">保存された値の名前</string>
-    <string name="ro_save_same">このレポートには既に、この名前で保存された値が存在しています。続けると内容は上書きされます。</string>
-    <string name="ro_default_save_name">オプション</string>
-    <string name="ro_delete_ro">保存した値を削除する</string>
-    <string name="ro_reset_ro">値をリセットする</string>
-    <string name="ro_ms_available">利用可能な項目：%1$s</string>
-    <string name="ro_ms_selected">選択された項目：%1$s</string>
-    <string name="ro_no_items_selected">選択したアイテムがありません</string>
-    <string name="ro_select_all">すべて選択</string>
-    <string name="ro_deselect_all">すべての選択を解除する</string>
-    <string name="ro_inverse">逆にする</string>
-    <string name="ro_search">検索リスト...</string>
-    <string name="ro_show">保存された値</string>
-
-    <!-- Resource Info Activity -->
-    <string name="ri_schedule">スケジュール</string>
-    <string name="ri_type_title">タイプ：</string>
-    <string name="ri_label_title">ラベル：</string>
-    <string name="ri_description_title">説明：</string>
-    <string name="ri_modified_title">更新日：</string>
-    <string name="ri_creation_title">作成日：</string>
-    <string name="ri_file_format">ファイル形式：</string>
-    <string name="ri_file_size">ファイルサイズ：</string>
-    <string name="ri_version_title">バージョン：</string>
-    <string name="ri_permissions_title">ユーザーアクセス：</string>
-
-    <!-- Resource permission -->
-    <string name="rp_no_access">アクセスなし</string>
-    <string name="rp_administer">変更、削除、管理</string>
-    <string name="rp_read_only">読み取り専用</string>
-    <string name="rp_read_write">変更</string>
-    <string name="rp_read_delete">読み取り専用、削除</string>
-    <string name="rp_read_write_delete">変更、削除</string>
-    <string name="rp_execute_only">実行のみ</string>
-
-    <!-- Schedule -->
-    <string name="sch_new">新しいスケジュール</string>
-    <string name="sch_edit">スケジュールを編集する</string>
-    <string name="sch_job_name">スケジュールされたジョブの名前</string>
-    <string name="sch_file_name">出力ファイル名</string>
-    <string name="sch_run_immediately">すぐに実行する</string>
-    <string name="sch_start_date">スケジュールの開始日</string>
-    <string name="sch_destination">出力先パス</string>
-    <string name="sch_created">ジョブがスケジュールされました</string>
-    <string name="sch_updated">ジョブが更新されました</string>
-    <string name="sch_deleted">スケジュールが削除されました</string>
-    <string name="sch_jobs">スケジュール</string>
-    <string name="sch_not_found">ジョブがスケジュールされていません。</string>
-    <string name="sch_format_paginated">%1$s (ページ区切り付き)</string>
-    <string name="sch_state_normal">ノーマル</string>
-    <string name="sch_state_complete">完了</string>
-    <string name="sch_state_executing">実行しています</string>
-    <string name="sch_state_error">エラー</string>
-    <string name="sch_state_paused">一時停止</string>
-    <string name="sch_state_unknown">不明</string>
-    <string name="sdr_delete_title">スケジュールが削除されました</string>
-    <string name="sdr_delete_message">本当にこのスケジュールを削除しますか？</string>
-
-    <!-- Report Viewer Activity -->
-    <string name="rv_webview_still_loading">読み込みに時間がかかりすぎています。続けて待機するか、後でもう一度お試しください。</string>
-
-    <!-- Saved Files Activity -->
-    <string name="sdr_starting_downloading_msg">ダウンロードを開始しています...</string>
-
-    <string name="sdr_dfd_msg_multi">本当に選択したアイテム(%1$s項目)を削除しますか？</string>
-
-    <!-- Settings activity -->
-    <string name="st_category_resource_cache">リソース キャッシュ</string>
-    <string name="st_title_cache_expiration">キャッシュの有効期限</string>
-    <string name="st_title_clear_cache">キャッシュを消去する</string>
-    <string name="st_summary_cache_enable">指定された時間帯のキャッシュ リソース</string>
-    <string name="st_summary_clear_cache">すべてのキャッシュ リソースを削除する</string>
-    <string name="st_screenshot_enable">画面のキャプチャ</string>
-    <string name="st_action_clear_cache">キャッシュがクリアされました</string>
-    <string name="st_action_clear_cache_fail">キャッシュをクリアできません</string>
-
-    <!-- Error messages -->
-    <string name="error_report_cancelled">レポートの実行がキャンセルされました</string>
-    <string name="error_report_failed">レポートの実行に失敗しました</string>
-    <string name="error_export_failed">レポートの書き出しに失敗しました</string>
-    <string name="error_export_cancelled">レポートの書き出しがキャンセルされました</string>
-    <string name="error_schedule_duplicate_file_name">出力ファイル名が重複しています</string>
-    <string name="error_schedule_start_date_in_the_past">開始日が過去の日付となっています。現在以降の日付を設定してください。</string>
-    <string name="error_schedule_special_characters">ベースとなる出力名に無効な文字が含まれています。</string>
-    <string name="error_schedule_folder_not_exist">ジョブの出力フォルダが見つかりません。</string>
-    <string name="error_schedule_folder_not_writable">あなたには、フォルダにジョブを出力して保存する権限がありません。</string>
-    <string name="error_schedule_output_filename_too_long">ジョブの出力ファイル名が長すぎます。許容できる長さ：%1$s</string>
-    <string name="error_schedule_label_too_long">ジョブ ラベル名が長すぎます。許容できる長さ：%1$s</string>
-    <string name="error_undefined">未知のエラーが発生しました</string>
-    <string name="error_saved_values_duplicate">他のレポートのこのフォルダに、その名前で保存されたオプションが既に存在しています。</string>
-    <string name="error_saved_values_label_too_long">保存されたオプションのラベルが長すぎます。利用可能な文字数は最高で%1$s文字です。</string>
-
-    <!-- Others -->
-    <string name="wrong_action">このアクションを実行することができません。</string>
-    <string name="voice_command_btn">ボイス コマンド</string>
-    <string name="voice_command_title">いくつかのコマンドを言ってください</string>
-    <string name="voice_command_undefined">コマンドを認識することができません。</string>
-    <string name="voice_command_help">音声コマンドを使ってリソースと対話することが可能です。実行と発見： 2つのコマンドがサポートされています。たとえば、レポートの実行を開始するには、リソース名を指定してから「実行」と言ってください。</string>
-    <string name="voice_command_not_show_again">二度と表示しないでください</string>
-
-    <!-- Casting -->
-    <string name="cast_logo_presentation_message">常にオン、簡単にアクセスできます</string>
-    <string name="cast_ready_message">レポートをキャストする準備ができました</string>
-    <string name="cast_scroll_message">レポートが公開されています。矢印ボタンを長押しして上下にスクロールしてください。</string>
-
-    <!-- WebView errors -->
-    <string name="error_webview_auth_msg">サーバ上でのユーザー認証に失敗しました。</string>
-    <string name="error_webview_auth_title">認証エラー</string>
-    <string name="error_webview_timeout_msg">サーバーへの接続に時間がかかりすぎています。後ほどもう一度お試しください。</string>
-    <string name="error_webview_timeout_title">接続タイムアウト</string>
-    <string name="error_webview_too_many_requests_msg">読み込み中に多すぎる要求がなされました</string>
-    <string name="error_webview_too_many_requests_title">多すぎる要求</string>
-    <string name="error_webview_generic_msg">一般的なエラー</string>
-    <string name="error_webview_generic_title">不明のエラー</string>
-    <string name="error_webview_bad_url_msg">入力したURLを確認してください..</string>
-    <string name="error_webview_bad_url_title">URLの形式が無効です</string>
-    <string name="error_webview_connect_msg">サーバーへの接続に失敗しました</string>
-    <string name="error_webview_connect_title">接続</string>
-    <string name="error_webview_ssl_handshake_msg">SSLハンドシェイクの実行に失敗しました</string>
-    <string name="error_webview_ssl_handshake_title">SSLハンドシェイクに失敗しました</string>
-    <string name="error_webview_host_lookup_msg">サーバーまたはプロキシのホスト名が検索できませんでした</string>
-    <string name="error_webview_host_lookup_title">ホスト検索エラー</string>
-    <string name="error_webview_proxy_auth_msg">プロキシでユーザー認証に失敗しました</string>
-    <string name="error_webview_proxy_auth_title">プロキシ認証エラー</string>
-    <string name="error_webview_redirect_loop_msg">リダイレクトが多すぎます</string>
-    <string name="error_webview_redirect_loop_title">リダイレクト ループ エラー</string>
-    <string name="error_webview_unsupported_auth_scheme_msg">サポートされていない認証方式です(ベーシックまたはダイジェストではありません)</string>
-    <string name="error_webview_unsupported_auth_scheme_title">認証スキームのエ​​ラー</string>
-    <string name="error_webview_unsupported_scheme_msg">サポートされていないURIスキーム</string>
-    <string name="error_webview_unsupported_scheme_title">URIスキーム エラー</string>
-    <string name="error_webview_error_file_msg">一般的なファイル エラー</string>
-    <string name="error_webview_error_file_title">ファイル</string>
-    <string name="error_webview_file_not_found_msg">ファイルが見つかりません</string>
-    <string name="error_webview_file_not_found_title">ファイル</string>
-    <string name="error_webview_io_msg">サーバーに接続できませんでした。後ほどもう一度お試しください。</string>
-    <string name="error_webview_io_title">IOエラー</string>
-
-    <!-- Permissions -->
-    <string name="enable_write_permission">保存できません。アクセスが拒否されました</string>
-
-    <!-- Context Menu -->
-    <string name="r_cm_share">共有する</string>
-    <string name="r_cm_info">詳細情報</string>
-    <string name="r_cm_cancel_saving">保存をキャンセルする</string>
-    <string name="r_cm_enable">有効化する</string>
-    <string name="r_cm_disable">無効化する</string>
-    <string name="r_cm_edit">編集する</string>
-    <string name="r_cm_delete">削除する</string>
-
-    <!-- Schedule -->
-    <string name="sch_end_date">スケジュールの終了日</string>
-    <string name="sch_next_run_label">次の実行：%1s</string>
-    <string name="sch_choose_report">スケジュールしたいレポートを選択してください...</string>
-    <string name="sch_resource_label">レポート ラベル</string>
-    <string name="sch_resource_uri">レポートのURI</string>
-    <string name="sch_label">名称</string>
-    <string name="sch_description">説明</string>
-    <string name="sch_id">ID</string>
-    <string name="sch_owner">オーナー</string>
-    <string name="sch_state">状態</string>
-    <string name="sch_lass_run">最後に実行された時</string>
-    <string name="sch_next_run">次の実行予定</string>
-
-    <!-- Toasts -->
-    <string name="annotation_title">コメントを挿入するためにタッチしてください...</string>
-    <string name="annotation_pick_color">色を選択してください...</string>
-    <string name="annotation_pick_line_size">ラインサイズを選択してください...</string>
-    <string name="annotation_pick_font_size">フォントサイズを選択してください...</string>
-    <string name="annotation_enable_border">テキストのボーダーを追加する</string>
-    <string name="annotation_add_note">メモを追加する</string>
-    <string name="annotation_edit_note">メモを編集する</string>
-    <string name="annotation_hint">値を入力する</string>
-    <string name="annotation_done">完了しました</string>
-    <string name="annotation_reset">リセットする</string>
-    <string name="share_chooser_title">次のメディアを経由で共有する</string>
-    <string name="share_message">TIBCO JasperMobileが共有しています</string>
-
-    <!-- Save Report Activity -->
-    <string name="sr_recurrence_type">定期スケジュール</string>
-    <string name="sr_recurrence_none">なし</string>
-    <string name="sr_recurrence_simple">シンプル</string>
-    <string name="sr_recurrence_simple_unit_minute">分</string>
-    <string name="sr_recurrence_simple_unit_hour">時間</string>
-    <string name="sr_recurrence_simple_unit_day">日</string>
-    <string name="sr_recurrence_simple_unit_week">週</string>
-    <string name="sr_recurrence_calendar">カレンダー</string>
-    <string name="sr_repeat_every">すべて繰り返す(必須)</string>
-    <string name="sr_schedule_end">スケジュール終了</string>
-    <string name="sr_run_number_of_times">設定回数を実行する</string>
-    <string name="sr_number_of_runs">実行回数</string>
-    <string name="sr_run_until">指定された日付まで実行する</string>
-    <string name="sr_run_indefinitely">無期限で実行する</string>
-    <string name="sr_months">月</string>
-    <string name="sr_hours">時(必須)：</string>
-    <string name="sr_minutes">分(必須)：</string>
-    <string name="sr_days">日</string>
-    <string name="sr_select_days">日付を選択してください：</string>
-    <string name="sr_selected_days">選択された日：</string>
-    <string name="sr_dates_in_month">月間の日付：</string>
-
-    <!-- Error messages -->
-    <string name="error_schedule_end_date_in_the_past">終了日が過去の日付となっています。未来の日付を設定してください。</string>
-    <string name="error_trigger_empty_months">少なくとも1ヶ月、選択する必要があります。</string>
-    <string name="error_trigger_empty_days">少なくとも1日、選択する必要があります。</string>
-
-    <!-- Casting -->
-    <string name="cast_zoom_message">レポートのスケールを変更するために、ズームインもしくはズームアウトをクリックしてください。</string>
+	<string name="sr_recurrence_simple_unit_week">週</string>
+<string name="s_fd_sort_label">ラベル</string>
+<string name="sp_error_reserved_alias">エイリアスは既に使用されています。</string>
+<string name="resources_not_found">リソースが見つかりません</string>
+<string name="f_empty_list_msg">お気に入りのアイテムはありません</string>
+<string name="error_schedule_special_characters">ベースとなる出力名に無効な文字が含まれています。入力ミスの可能性があります。</string>
+<string name="sdr_rrd_hint">ファイル名</string>
+<string name="error_webview_redirect_loop_title">リダイレクト ループ エラー</string>
+<string name="failure_add_account">アカウントを追加できませんでした。理由: %1$s</string>
+<string name="hint_password">パスワード</string>
+<string name="ro_save_ro">値を保存</string>
+<string name="sp_error_field_required">このフィールドは必須です。</string>
+<string name="sch_updated">ジョブが更新されました</string>
+<string name="ro_search">検索リスト…</string>
+<string name="rv_apply_filters_action">適用</string>
+<string name="st_invalid_number_format">無効な数値形式</string>
+<string name="f_fd_option_folders">フォルダ</string>
+<string name="sch_choose_report">スケジュールしたいレポートを選択してください…</string>
+<string name="sr_months">月</string>
+<string name="repository_card_label">リポジトリ</string>
+<string name="error_webview_timeout_msg">サーバーとの通信に時間がかかりすぎています。後でもう一度お試しください。</string>
+<string name="sdr_delete_message">このスケジュールを削除しますか?</string>
+<string name="sa_about_privacy_policy">個人情報保護方針</string>
+<string name="sr_recurrence_none">なし</string>
+<string name="action_mode_title">選択したアイテム</string>
+<string name="wr_title">Webリソース</string>
+<string name="share_chooser_title">次のメディアを経由で共有する</string>
+<string name="error_schedule_output_filename_too_long">ジョブの出力ファイル名が長すぎます。許容できる長さ: %1$s</string>
+<string name="r_cm_add_to_favorites_failed">お気に入りへの追加に失敗しました。</string>
+<string name="ro_reset_ro">値をリセットする</string>
+<string name="ro_default_save_name">オプション</string>
+<string name="s_fd_option_files">ファイル</string>
+<string name="error_webview_unsupported_scheme_title">URIスキーム エラー</string>
+<string name="sr_schedule_end">スケジュール終了</string>
+<string name="sp_save_btn">保存</string>
+<string name="ro_page_title">フィルタ</string>
+<string name="error_export_failed">レポートの書き出しに失敗しました</string>
+<string name="st_title">設定</string>
+<string name="sdr_saving_error_msg">リソースの保存に失敗しました</string>
+<string name="sa_about_copyright">Copyright © 2005–2016 TIBCO Software, Inc.</string>
+<string name="sch_deleted">スケジュールが削除されました</string>
+<string name="failed_load_data">データの読み込みが失敗しました。</string>
+<string name="error_trigger_calendar_pattern_days_in_month">定期スケジュールのカレンダーの月日の形式が不正です。</string>
+<string name="sch_description">説明</string>
+<string name="nd_select_account">アカウントを選択</string>
+<string name="sr_recurrence_simple_unit_minute">分</string>
+<string name="rv_ab_show_filters">フィルタを表示</string>
+<string name="r_cm_added_to_favorites">お気に入りに追加しました。</string>
+<string name="error_report_cancelled">レポートの実行がキャンセルされました</string>
+<string name="cast_scroll_message">レポートが公開されています。矢印ボタンを長押しして上下にスクロールしてください。</string>
+<string name="h_ad_label_wrong_password">ユーザー名またはパスワードが正しくありません。認証情報を再入力してください。</string>
+<string name="error_schedule_end_date_in_the_past">終了日が過去の日付になっています。未来の日付にする必要があります。</string>
+<string name="img_cd_list_item">リスト アイテムのプレビュー</string>
+<string name="sr_from">開始ページ</string>
+<string name="sch_destination">出力先パス</string>
+<string name="spm_delete_btn">削除</string>
+<string name="sdr_ab_title">保存されたファイル</string>
+<string name="account_add">アカウントを追加しています</string>
+<string name="error_trigger_calendar_pattern_minutes">定期スケジュールのカレンダーの分の形式が不正です。</string>
+<string name="st_summary_sec">%1$s秒</string>
+<string name="error_saved_values_duplicate">他のレポートのこのフォルダに、その名前で保存されたオプションが既に存在しています。</string>
+<string name="r_cm_enable">有効化する</string>
+<string name="sa_about_privacy">個人情報保護方針</string>
+<string name="ri_creation_title">作成日:</string>
+<string name="st_screenshot_enable">画面のキャプチャ</string>
+<string name="sdr_dfd_msg">「%1$s」を削除しますか?</string>
+<string name="ro_inverse">逆にする</string>
+<string name="error_webview_generic_title">不明なエラー</string>
+<string name="annotation_pick_color">色を選択してください…</string>
+<string name="error_webview_auth_title">認証エラー</string>
+<string name="r_pd_running_report_msg">レポートを実行中…</string>
+<string name="sr_number_of_runs">実行回数</string>
+<string name="r_pd_initializing_msg">初期化しています…</string>
+<string name="error_http_504">ゲートウェイ タイムアウト。</string>
+<string name="error_http_503">サービスを利用できません。</string>
+<string name="error_http_502">ゲートウェイが不正です。</string>
+<string name="sdr_rrd_error_name_is_empty">このフィールドは必須です。</string>
+<string name="error_http_500">内部サーバー エラー。</string>
+<string name="ri_version_title">バージョン:</string>
+<string name="h_rd_rate">TIBCO® JasperMobile™の評価</string>
+<string name="ro_save_same">このレポートには既に、この名前で保存された値が存在しています。続けると内容は上書きされます。</string>
+<string name="error_schedule_start_date_in_the_past">開始日が過去の日付になっています。未来の日付にする必要があります。</string>
+<string name="error_saved_values_label_too_long">保存されたオプションのラベルが長すぎます。利用可能な文字数は最大で%1$s文字です。</string>
+<string name="rv_ab_save_report">レポートの保存</string>
+<string name="recent_card_label">最近表示したアイテム</string>
+<string name="sa_show_feedback">フィードバック</string>
+<string name="error_webview_error_file_msg">一般的なファイル エラー</string>
+<string name="hint_organization">組織</string>
+<string name="sch_id">ID</string>
+<string name="r_cm_add_to_favorites">お気に入りに追加</string>
+<string name="voice_command_title">いくつかのコマンドを言ってください</string>
+<string name="sdr_t_no_app_available">「%1$s」ビューアがインストールされていません。</string>
+<string name="s_fd_option_reports">レポート</string>
+<string name="error_trigger_empty_days">少なくとも1日、選択する必要があります。</string>
+<string name="r_cm_view_details">詳細を表示</string>
+<string name="error_webview_io_title">IOエラー</string>
+<string name="fv_undefined_message">開けません。リソース タイプが定義されていません</string>
+<string name="da_session_expired">セッションの期限が切れました</string>
+<string name="error_webview_connect_msg">サーバーへの接続に失敗しました</string>
+<string name="rv_t_external_storage_not_available">外部メモリー カードが利用できません。カードをマウントしてから、再試行してください。</string>
+<string name="favorites_card_label">お気に入り</string>
+<string name="r_ab_refresh">更新</string>
+<string name="sdr_starting_downloading_msg">ダウンロードを開始しています…</string>
+<string name="ro_no_items_selected">選択したアイテムがありません</string>
+<string name="rv_dialog_reload">リロード</string>
+<string name="sp_error_url_not_valid">URLが有効ではありません。</string>
+<string name="ro_show">保存された値</string>
+<string name="sch_state_unknown">不明</string>
+<string name="rv_webview_still_loading">読み込みに時間がかかりすぎています。続けて待機するか、後でもう一度お試しください。</string>
+<string name="ri_schedule">スケジュール</string>
+<string name="hint_server_url">サーバーURL</string>
+<string name="h_rd_description">TIBCO® JasperMobile™を気に入って頂けましたら、少しお時間をとって評価をして頂けると幸いです。これには1分もかかりません。ご協力ありがとうございます!</string>
+<string name="error_undefined">未知のエラーが発生しました</string>
+<string name="sr_output_format">出力形式</string>
+<string name="r_error_server_not_supported">サーバーのバージョンが5.5より古いか(サポートされていない)またはURLが誤っています。</string>
+<string name="r_cm_edit">編集</string>
+<string name="sr_to">終了ページ</string>
+<string name="sdr_saving_multiply_msg">%1$sのリソースをダウンロードしています</string>
+<string name="sch_next_run">次の実行</string>
+<string name="dialog_current_page">現在のページを設定</string>
+<string name="error_webview_unsupported_scheme_msg">サポートされていないURIスキームです</string>
+<string name="sdr_drd_title">ファイルを削除</string>
+<string name="nd_drawer_close">閉じる</string>
+<string name="ri_description_title">説明:</string>
+<string name="h_ad_title_server_sign_in">サーバーにサインイン</string>
+<string name="rv_bookmark_page">ページ: %s</string>
+<string name="annotation_add_note">メモを追加する</string>
+<string name="voice_command_not_show_again">今後は表示しない</string>
+<string name="sch_resource_label">レポート ラベル</string>
+<string name="sch_end_date">スケジュールの終了日</string>
+<string name="ok">OK</string>
+<string name="s_fd_option_all">すべて</string>
+<string name="error_webview_proxy_auth_msg">プロキシでユーザー認証に失敗しました</string>
+<string name="of">/%d</string>
+<string name="st_restart_note">注: この設定を変更した後、アプリを再起動して下さい。</string>
+<string name="sdr_delete_title">スケジュールを削除</string>
+<string name="sr_run_indefinitely">無期限で実行する</string>
+<string name="rv_select_page">ページを選択</string>
+<string name="r_cm_remove_from_favorites_failed">お気に入りからの削除に失敗しました。</string>
+<string name="ri_file_size">ファイル サイズ:</string>
+<string name="open_in">次で開く</string>
+<string name="st_category_resource_cache">リソース キャッシュ</string>
+<string name="sch_lass_run">最後に実行された時</string>
+<string name="st_summary_clear_cache">すべてのキャッシュ リソースを削除</string>
+<string name="r_cm_disable">無効化する</string>
+<string name="mss_btn_uncheck_all">すべてのチェックを外す</string>
+<string name="sa_about_eula">エンド ユーザー ライセンス契約</string>
+<string name="st_title_connect_timeout">接続タイムアウト</string>
+<string name="ri_modified_title">更新日:</string>
+<string name="error_webview_io_msg">サーバーは通信に失敗しました。後でもう一度お試しください。</string>
+<string name="sr_recurrence_simple_unit_hour">時間</string>
+<string name="error_webview_unsupported_auth_scheme_msg">サポートされていない認証方式です(ベーシックまたはダイジェストではありません)</string>
+<string name="sr_recurrence_type">定期スケジュール</string>
+<string name="r_cm_removed_from_favorites">お気に入りから削除しました。</string>
+<string name="sr_error_report_exists">この名前のファイルはすでに存在しています。</string>
+<string name="authenticator_label">Jasperアカウント</string>
+<string name="r_ab_switch">ビューの切り替え</string>
+<string name="st_send_crashes">クラッシュ レポートを送信</string>
+<string name="error_schedule_folder_not_exist">ジョブの出力フォルダが見つかりません。削除または移動された可能性があります。</string>
+<string name="da_session_refresh_failed">セッションの更新に失敗しました</string>
+<string name="wrong_action">このアクションを実行することができません</string>
+<string name="error_http_404">見つかりません。要求されたURIが無効か、または要求されたリソースが存在していません。</string>
+<string name="error_http_403">アクセスは拒否されました。リクエストは認識されましたが、拒否されました。</string>
+<string name="nd_drawer_open">開く</string>
+<string name="error_http_401">認証資格情報がないか、または誤っています。</string>
+<string name="error_webview_error_file_title">ファイル</string>
+<string name="error_http_400">リクエストが正しくありません。リクエストは無効です。</string>
+<string name="sdr_t_report_renaming_error">レポート名を変更できません。</string>
+<string name="error_webview_ssl_handshake_msg">SSLハンドシェイクの実行に失敗しました</string>
+<string name="sch_state_normal">ノーマル</string>
+<string name="sr_run_until">指定された日付まで実行する</string>
+<string name="sdr_drd_msg">「%1$s」を削除しますか?</string>
+<string name="mss_btn_check_all">すべてをチェックする</string>
+<string name="ro_deselect_all">すべての選択を解除する</string>
+<string name="r_error_server_not_found">サーバーが見つかりません。</string>
+<string name="enable_write_permission">保存できません。アクセスが拒否されました</string>
+<string name="fv_opening_message">ファイルを開いています…</string>
+<string name="error_webview_host_lookup_msg">サーバーまたはプロキシのホスト名が検索できませんでした</string>
+<string name="h_rd_never">いいえ</string>
+<string name="library_card_label">ライブラリ</string>
+<string name="h_rd_later">後で見る</string>
+<string name="st_action_clear_cache_fail">キャッシュをクリアできません</string>
+<string name="sch_not_found">ジョブが見つかりません。</string>
+<string name="ri_label_title">ラベル:</string>
+<string name="sch_next_run_label">次の実行: %1s</string>
+<string name="rv_error_empty_report_title">レポートが空です。</string>
+<string name="img_cd_grid_item">グリッド アイテムのプレビュー</string>
+<string name="error_webview_proxy_auth_title">プロキシ認証エラー</string>
+<string name="sch_format_paginated">%1$s (ページ区切り付き)</string>
+<string name="r_cm_remove_from_favorites">お気に入りから削除</string>
+<string name="r_cm_info">お知らせ</string>
+<string name="error_webview_file_not_found_msg">ファイルが見つかりません</string>
+<string name="h_library_label">ライブラリ</string>
+<string name="h_repository_label">リポジトリ</string>
+<string name="sch_created">ジョブがスケジュールされました</string>
+<string name="ro_default">デフォルト</string>
+<string name="sr_report_name">ファイル名</string>
+<string name="no_network">ネットワーク エラーが発生しました。</string>
+<string name="error_webview_timeout_title">接続タイムアウト</string>
+<string name="rp_read_write">変更</string>
+<string name="error_trigger_empty_months">少なくとも1ヶ月、選択する必要があります。</string>
+<string name="rv_error_empty_report">レポート データがありません</string>
+<string name="sch_file_name">出力ファイル名</string>
+<string name="sdr_dfd_title">お気に入りから削除</string>
+<string name="sch_label">名称</string>
+<string name="search_result_format">「%1$s」の検索結果</string>
+<string name="error_schedule_folder_not_writable">ジョブの出力をフォルダに保存する権限がありません。ジョブを保存するために、別の場所を選択してください。</string>
+<string name="r_cm_available_chart_types">チャートのタイプ</string>
+<string name="sch_edit">スケジュールを編集</string>
+<string name="sch_job_name">スケジュールされたジョブの名前</string>
+<string name="r_cm_delete">削除</string>
+<string name="rv_apply_filters_no_data">他のフィルタを適用することもできます。</string>
+<string name="error_webview_bad_url_title">URLの形式が無効です</string>
+<string name="s_fd_option_others">その他</string>
+<string name="sdr_rrd_msg">新しい名前を入力:</string>
+<string name="ri_type_title">タイプ:</string>
+<string name="sr_dates_in_month_hint">日付(9、12、15)または日付の範囲(9–12、1–17)を入力します</string>
+<string name="annotation_done">完了</string>
+<string name="s_fd_option_dashboards">ダッシュボード</string>
+<string name="st_category_connection">接続</string>
+<string name="rp_read_only">読み取り専用</string>
+<string name="sch_disabled">無効にされた</string>
+<string name="sdr_ab_list_msg">保存されたファイルはありません</string>
+<string name="sr_failed_to_create_local_repo">ローカル ファイル ストレージが作成できませんでした。</string>
+<string name="annotation_pick_font_size">フォント サイズを選択してください…</string>
+<string name="ro_select_all">すべて選択</string>
+<string name="sdr_dfd_msg_multi">選択したアイテム(%1$sアイテム)を削除しますか?</string>
+<string name="error_webview_bad_url_msg">入力したURLを確認してください..</string>
+<string name="sch_new">新しいスケジュール</string>
+<string name="error_export_cancelled">レポートの書き出しがキャンセルされました</string>
+<string name="sdr_rrd_error_report_exists">この名前のファイルはすでに存在しています。</string>
+<string name="success_add_account">%1$sという名前のアカウントが追加されました</string>
+<string name="st_title_cache_enable">キャッシュを有効にする</string>
+<string name="sch_resource_uri">レポートのURI</string>
+<string name="ro_ms_selected">選択したアイテム: %1$s</string>
+<string name="sdr_t_report_deletion_error">レポートを削除できません。</string>
+<string name="error_schedule_label_too_long">ジョブ ラベル名が長すぎます。許容できる長さ: %1$s</string>
+<string name="sch_run_immediately">すぐに実行する</string>
+<string name="error_webview_file_not_found_title">ファイル</string>
+<string name="cast_zoom_message">レポートのスケールを変更するために、ズームインもしくはズームアウトをクリックしてください。</string>
+<string name="voice_command_undefined">コマンドを認識することができません</string>
+<string name="sr_select_days">日を選択：</string>
+<string name="st_summary_cache_enable">指定された時間帯のキャッシュ リソース</string>
+<string name="nd_manage_accounts">アカウントの管理</string>
+<string name="sdr_cm_rename">名前の変更</string>
+<string name="try_demo">体験版をご利用下さい</string>
+<string name="sr_hours_hint">9、12、15などの24時間形式の時間、または9–12、1–17などの範囲を入力します</string>
+<string name="s_fd_sort_date">作成日</string>
+<string name="rp_no_access">アクセスなし</string>
+<string name="rv_out_of_range">要求されたページは範囲外です。</string>
+<string name="hint_username">ユーザー名</string>
+<string name="sp_error_duplicate_alias">アカウント名が重複しています。</string>
+<string name="sr_failed_to_execute_report">レポートの実行に失敗しました</string>
+<string name="annotation_enable_border">テキストのボーダーを追加する</string>
+<string name="rp_read_write_delete">変更、削除</string>
+<string name="sr_days">日</string>
+<string name="r_cm_print">印刷</string>
+<string name="cancel">キャンセル</string>
+<string name="annotation_pick_line_size">ライン サイズを選択してください…</string>
+<string name="sch_state_executing">実行しています</string>
+<string name="ri_permissions_title">ユーザー アクセス:</string>
+<string name="sr_error_field_is_empty">このフィールドは必須です。</string>
+<string name="da_loading">ダッシュボードを読み込んでいます…</string>
+<string name="annotation_hint">値を入力</string>
+<string name="fv_can_not_show_message">ファイルの内容を表示することができません</string>
+<string name="add_account">アカウントを追加する</string>
+<string name="s_hint">リソースの検索</string>
+<string name="s_saved_items_hint">保存されたファイルを検索</string>
+<string name="sr_recurrence_simple">シンプル</string>
+<string name="error_trigger_calendar_pattern_hours">定期スケジュールのカレンダーの時間の形式が不正です。</string>
+<string name="sr_selected_days">選択した日:</string>
+<string name="loading_msg">読み込み中…</string>
+<string name="st_title_read_timeout">データ読み込みタイムアウト</string>
+<string name="sr_t_report_saved">リソースはファイルに正常に保存されました。</string>
+<string name="sch_state">状態</string>
+<string name="r_error_incorrect_credentials">無効な認証情報。</string>
+<string name="sdr_cm_delete">削除</string>
+<string name="st_title_clear_cache">キャッシュをクリアする</string>
+<string name="r_search_nothing_to_display">検索条件に一致するアイテムはありません。</string>
+<string name="error_report_failed">レポートの実行に失敗しました</string>
+<string name="settings_card_label">設定</string>
+<string name="sa_about_hint">TIBCO JasperReports® Server 6.0以降向けの管理ツール/レポート ビューア。</string>
+<string name="annotation_edit_note">メモを編集</string>
+<string name="error_webview_generic_msg">一般的なエラー</string>
+<string name="error_schedule_duplicate_file_name">出力ファイル名が重複しています</string>
+<string name="voice_command_btn">ボイス コマンド</string>
+<string name="sa_show_about">バージョン情報</string>
+<string name="rv_open_link_chooser">次でリンクを開く</string>
+<string name="rv_ab_chart_types">チャートのタイプ</string>
+<string name="sdr_rrd_title">ファイルの名前を変更</string>
+<string name="st_summary_h">%1$s時間</string>
+<string name="st_action_clear_cache">キャッシュがクリアされました</string>
+<string name="r_cm_share">共有する</string>
+<string name="s_ab_sort_by">ソート基準</string>
+<string name="sch_owner">オーナー</string>
+<string name="sr_ab_title">リソースを保存</string>
+<string name="sr_minutes_hint">0、15、30、45を入力して15分ごとに実行します</string>
+<string name="fv_try_again_btn">もう一度試す</string>
+<string name="s_fd_option_saved_values">保存された値</string>
+<string name="sr_recurrence_simple_unit_day">日</string>
+<string name="error_webview_too_many_requests_msg">読み込み中のリクエストが多すぎます</string>
+<string name="h_ad_label_server_profile">サーバー プロファイル</string>
+<string name="sr_minutes">分(必須):</string>
+<string name="annotation_title">タッチしてコメントを挿入…</string>
+<string name="st_title_cache_expiration">キャッシュの有効期限</string>
+<string name="error_webview_host_lookup_title">ホスト検索エラー</string>
+<string name="rp_read_delete">読み取り専用、削除</string>
+<string name="sch_start_date">スケジュールの開始日</string>
+<string name="sr_recurrence_calendar">カレンダー</string>
+<string name="sch_state_error">エラー</string>
+<string name="share_message">TIBCO JasperMobileが共有しています</string>
+<string name="error_webview_auth_msg">サーバー上でのユーザー認証に失敗しました。</string>
+<string name="annotation_reset">リセットする</string>
+<string name="st_category_more">詳細</string>
+<string name="sr_run_number_of_times">設定した回数だけ実行する</string>
+<string name="error_webview_ssl_handshake_title">SSLハンドシェイクに失敗しました</string>
+<string name="ro_delete_ro">保存した値を削除</string>
+<string name="ro_save_text">保存された値の名前</string>
+<string name="error_webview_redirect_loop_msg">リダイレクトが多すぎます</string>
+<string name="ro_ms_available">利用可能なアイテム：%1$s</string>
+<string name="sch_jobs">スケジュール</string>
+<string name="sdr_loading_msg">リソースはまだダウンロード中です…</string>
+<string name="r_ab_search">検索</string>
+<string name="sr_dates_in_month">月の日付:</string>
+<string name="sr_error_characters_not_allowed">次の文字は使用できません: * \\ / \&quot; \' : ? | &lt; &gt; + [ ]</string>
+<string name="sa_about_version">TIBCO® JasperMobile™ v%1$s</string>
+<string name="ri_report_type">レポート</string>
+<string name="sch_state_complete">完了</string>
+<string name="cast_ready_message">レポートをキャストする準備ができました</string>
+<string name="s_ab_filter_by">フィルタ基準</string>
+<string name="sr_hours">時間(必須):</string>
+<string name="sa_about_latest_updates">最新の更新情報</string>
+<string name="sa_about_more_info">詳細情報</string>
+<string name="error_webview_unsupported_auth_scheme_title">認証スキームのエ​​ラー</string>
+<string name="sdr_rrd_error_characters_not_allowed">次の文字は使用できません: * \\ / \&quot; \' : ? | &lt; &gt; + [ ]</string>
+<string name="error_webview_connect_title">接続</string>
+<string name="sr_repeat_every">繰り返し間隔(必須)</string>
+<string name="rp_administer">変更、削除、管理</string>
+<string name="voice_command_help">音声コマンドを使ってリソースと対話することが可能です。「run」と「find」の2つのコマンドがサポートされています。たとえば、レポートの実行を開始するには、リソース名を指定してから「run」と言ってください。</string>
+<string name="rp_execute_only">実行のみ</string>
+<string name="hint_alias">アカウント名</string>
+<string name="sdr_saving_msg">リソースをダウンロードしています</string>
+<string name="request_was_cancelled_explicitly">キャンセルされました</string>
+<string name="r_cm_cancel_saving">保存をキャンセルする</string>
+<string name="rv_ab_bookmarks">ブックマーク</string>
+<string name="ri_file_format">ファイル形式:</string>
+<string name="error_webview_too_many_requests_title">リクエストが多すぎます</string>
+<string name="ro_run_report_btn">レポートの実行</string>
+<string name="cast_logo_presentation_message">常にオン、簡単にアクセスできます</string>
+<string name="rv_apply_filters_message">レポートを表示するには、入力した値を適用する必要があります。</string>
+<string name="sch_state_paused">一時停止</string>
+<string name="f_title">お気に入り</string>
 
 </resources>

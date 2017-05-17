@@ -86,11 +86,11 @@
     <string name="r_cm_disable">Disable</string>
     <string name="r_cm_edit">Edit</string>
     <string name="r_cm_delete">Delete</string>
-    <string name="r_cm_available_chart_types" translatable="false">Chart Types</string>
+    <string name="r_cm_available_chart_types">Chart Types</string>
 
     <!-- Progress Dialog -->
-    <string name="r_pd_running_report_msg">Running report...</string>
-    <string name="r_pd_initializing_msg">Initializing...</string>
+    <string name="r_pd_running_report_msg">Running report…</string>
+    <string name="r_pd_initializing_msg">Initializing…</string>
 
     <!-- Search Activity -->
     <string name="s_hint">Search resources</string>
@@ -110,7 +110,7 @@
     <string name="fv_opening_message">Opening file…</string>
 
     <!-- Local Web Resource Viewing -->
-    <string name="wr_title" translatable="false">Web Resource</string>
+    <string name="wr_title">Web Resource</string>
 
     <!-- Filter Dialog -->
     <string name="s_fd_option_all">All</string>
@@ -128,13 +128,13 @@
 
     <!-- Settings Activity -->
     <string name="sa_show_about">About</string>
-    <string name="sa_about_version" translatable="false"><![CDATA[TIBCO® JasperMobile™ v%1$s]]></string>
-    <string name="sa_about_hint" translatable="false"><![CDATA[Management tool and report viewer for TIBCO JasperReports® Server 6.0 and greater.]]></string>
-    <string name="sa_about_more_info" translatable="false">More information</string>
-    <string name="sa_about_privacy_policy" translatable="false">Privacy Policy</string>
-    <string name="sa_about_latest_updates" translatable="false">Latest update information</string>
-    <string name="sa_about_eula" translatable="false">End user license agreement</string>
-    <string name="sa_about_copyright" translatable="false"><![CDATA[Copyright © 2005-2016 TIBCO Software, Inc.]]></string>
+    <string name="sa_about_version">TIBCO® JasperMobile™ v%1$s</string>
+    <string name="sa_about_hint">Management tool and report viewer for TIBCO JasperReports® Server 6.0 and greater.</string>
+    <string name="sa_about_more_info">More information</string>
+    <string name="sa_about_privacy_policy">Privacy Policy</string>
+    <string name="sa_about_latest_updates">Latest update information</string>
+    <string name="sa_about_eula">End user license agreement</string>
+    <string name="sa_about_copyright">Copyright © 2005–2016 TIBCO Software, Inc.</string>
     <string name="sa_about_privacy">Privacy Policy</string>
     <string name="sa_show_feedback">Feedback</string>
 
@@ -158,7 +158,7 @@
     <string name="ro_show">Saved values</string>
 
     <!-- Resource Info Activity -->
-    <string name="ri_report_type" translatable="false">Report</string>
+    <string name="ri_report_type">Report</string>
     <string name="ri_schedule">Schedule</string>
     <string name="ri_type_title">Type:</string>
     <string name="ri_label_title">Label:</string>
@@ -214,15 +214,15 @@
     <string name="sch_state">State</string>
     <string name="sch_lass_run">Last run</string>
     <string name="sch_next_run">Next run</string>
-    <string name="sch_disabled" translatable="false">Disabled</string>
+    <string name="sch_disabled">Disabled</string>
 
     <!-- Report Viewer Activity -->
-    <string name="rv_ab_bookmarks" translatable="false">Bookmarks</string>
-    <string name="rv_bookmark_page" translatable="false">Page: %s</string>
-    <string name="rv_ab_chart_types" translatable="false">Chart Types</string>
-    <string name="rv_apply_filters_message" translatable="false">You must apply input values before the report can be displayed.</string>
-    <string name="rv_apply_filters_action" translatable="false">Apply</string>
-    <string name="rv_apply_filters_no_data" translatable="false">You may apply other filters.</string>
+    <string name="rv_ab_bookmarks">Bookmarks</string>
+    <string name="rv_bookmark_page">Page: %s</string>
+    <string name="rv_ab_chart_types">Chart Types</string>
+    <string name="rv_apply_filters_message">You must apply input values before the report can be displayed.</string>
+    <string name="rv_apply_filters_action">Apply</string>
+    <string name="rv_apply_filters_no_data">You may apply other filters.</string>
     <string name="rv_ab_save_report">Save Report</string>
     <string name="rv_ab_show_filters">Show Filters</string>
     <string name="rv_error_empty_report">There is no report data.</string>
@@ -249,7 +249,7 @@
     <string name="share_message">Shared from TIBCO JasperMobile</string>
 
     <!-- Save Report Activity -->
-    <string name="sr_ab_title" translatable="false">Save Resource</string>
+    <string name="sr_ab_title">Save Resource</string>
     <string name="sr_report_name">File Name</string>
     <string name="sr_output_format">Output Format</string>
     <string name="sr_recurrence_type">Recurrence</string>
@@ -268,21 +268,21 @@
     <string name="sr_run_indefinitely">Run indefinitely</string>
     <string name="sr_months">Months</string>
     <string name="sr_hours">Hours (required):</string>
-    <string name="sr_hours_hint" translatable="false">Enter 24&#8211;hour times like 9, 12, 15 or ranges like 9&#8211;12, 1&#8211;17</string>
+    <string name="sr_hours_hint">Enter 24–hour times like 9, 12, 15 or ranges like 9–12, 1–17</string>
     <string name="sr_minutes">Minutes (required):</string>
-    <string name="sr_minutes_hint" translatable="false">Enter 0, 15, 30, 45 to run every &#188; hour</string>
+    <string name="sr_minutes_hint">Enter 0, 15, 30, 45 to run every ¼ hour</string>
     <string name="sr_days">Days</string>
     <string name="sr_select_days">Select days:</string>
     <string name="sr_selected_days">Selected days:</string>
     <string name="sr_dates_in_month">Dates in month:</string>
-    <string name="sr_dates_in_month_hint" translatable="false">Enter dates (9, 12, 15) or date ranges (9&#8211;12, 1&#8211;17)</string>
+    <string name="sr_dates_in_month_hint">Enter dates (9, 12, 15) or date ranges (9–12, 1–17)</string>
     <string name="sr_from">From Page</string>
     <string name="sr_to">To Page</string>
     <string name="sr_failed_to_create_local_repo">Failed to create local file storage.</string>
     <string name="sr_failed_to_execute_report">Failed to execute report</string>
 
     <!-- Toasts -->
-    <string name="sr_t_report_saved" translatable="false">Resource saved to file successfully.</string>
+    <string name="sr_t_report_saved">Resource saved to file successfully.</string>
     <!-- Error messages -->
     <string name="sr_error_field_is_empty">This field is required.</string>
     <string name="sr_error_characters_not_allowed">The following characters are not allowed: * \\ / \" \' : ? | &lt; > + [ ]</string>
@@ -295,11 +295,11 @@
     <!-- Saved Files Activity -->
     <string name="sdr_ab_title">Saved Files</string>
     <string name="sdr_ab_list_msg">No saved files</string>
-    <string name="sdr_saving_multiply_msg" translatable="false">%1$s resources downloading</string>
+    <string name="sdr_saving_multiply_msg">%1$s resources downloading</string>
     <string name="sdr_starting_downloading_msg">Starting downloading…</string>
-    <string name="sdr_saving_msg" translatable="false">Downloading resource</string>
-    <string name="sdr_saving_error_msg" translatable="false">Failed to save resource</string>
-    <string name="sdr_loading_msg" translatable="false">Resource is still downloading…</string>
+    <string name="sdr_saving_msg">Downloading resource</string>
+    <string name="sdr_saving_error_msg">Failed to save resource</string>
+    <string name="sdr_loading_msg">Resource is still downloading…</string>
 
     <!-- Context Menu -->
     <string name="action_mode_title">Selected item</string>
@@ -378,9 +378,9 @@
     <string name="error_saved_values_label_too_long">A Saved Options label is too long. The maximum length is %1$s characters.</string>
     <string name="error_trigger_empty_months">There should be selected at least one month.</string>
     <string name="error_trigger_empty_days">There should be selected at least one day.</string>
-    <string name="error_trigger_calendar_pattern_days_in_month" translatable="false">Wrong format for days in the month for calendar recurrence.</string>
-    <string name="error_trigger_calendar_pattern_hours" translatable="false">Wrong format for hours in day for calendar recurrence.</string>
-    <string name="error_trigger_calendar_pattern_minutes" translatable="false">Wrong format for minutes in hour for calendar recurrence.</string>
+    <string name="error_trigger_calendar_pattern_days_in_month">Wrong format for days in the month for calendar recurrence.</string>
+    <string name="error_trigger_calendar_pattern_hours">Wrong format for hours in day for calendar recurrence.</string>
+    <string name="error_trigger_calendar_pattern_minutes">Wrong format for minutes in hour for calendar recurrence.</string>
 
     <!-- Others -->
     <string name="loading_msg">Loading…</string>
@@ -397,7 +397,7 @@
     <string name="voice_command_undefined">Can not recognize command</string>
     <string name="voice_command_help">You can use voice commands to interact with resources. Two commands are supported: "run" and "find". For instance, you can say "run" with resource name to start report execution.</string>
     <string name="voice_command_not_show_again">Don\'t show again</string>
-    <string name="open_in" translatable="false">Open In</string>
+    <string name="open_in">Open In</string>
 
     <!-- Casting -->
     <string name="cast_logo_presentation_message">Always on and easy to access</string>
@@ -431,7 +431,7 @@
     <!--Dashboard activity-->
     <string name="da_session_expired">Session expired</string>
     <string name="da_session_refresh_failed">Failed to refresh session</string>
-    <string name="da_loading">Loading dashboard...</string>
+    <string name="da_loading">Loading dashboard…</string>
 
     <!-- MultiSelectSpinner -->
     <string name="mss_btn_check_all">Check all</string>

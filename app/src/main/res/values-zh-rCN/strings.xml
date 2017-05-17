@@ -1,507 +1,357 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright © 2016 TIBCO Software,Inc.All rights reserved.
-  ~ http://community.jaspersoft.com/project/jaspermobile-android
-  ~
-  ~ Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
-  ~ the following license terms apply:
-  ~
-  ~ This program is part of TIBCO Jaspersoft Mobile for Android.
-  ~
-  ~ TIBCO Jaspersoft Mobile is free software:you can redistribute it and/or modify
-  ~ it under the terms of the GNU Lesser General Public License as published by
-  ~ the Free Software Foundation,either version 3of the License,or
-  ~ (at your option)any later version.
-  ~
-  ~ TIBCO Jaspersoft Mobile is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY;without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-  ~ GNU Lesser General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU Lesser General Public License
-  ~ along with TIBCO Jaspersoft Mobile for Android.If not,see
-  ~ <http://www.gnu.org/licenses/lgpl>.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 2.6.0.2  LP Refresh (last updated at 2017-05-11) -->
 <resources>
-    <!-- Images content description -->
-    <string name="img_cd_list_item">列表项预览</string>
-    <string name="img_cd_grid_item">网格项预览</string>
-
-    <!-- Home Activity -->
-    <string name="h_repository_label">资料库</string>
-    <string name="h_library_label">库</string>
-
-    <!-- Connection Dialog -->
-
-    <!-- Password Dialog -->
-    <string name="h_ad_label_server_profile">服务器配置文件</string>
-
-    <!-- Action Bar -->
-
-    <!-- Delete Dialog -->
-    <string name="spm_delete_btn">删除</string>
-
-    <!-- Server Profile Activity -->
-    <string name="sp_save_btn">保存</string>
-
-    <!-- Error messages -->
-    <string name="sp_error_field_required">此字段是必填字段。</string>
-    <string name="sp_error_url_not_valid">URL 无效。</string>
-    <string name="sp_error_duplicate_alias">重复别名。</string>
-
-    <!-- Action Bar -->
-    <string name="r_ab_switch">切换视图</string>
-    <string name="r_ab_search">搜索</string>
-    <string name="r_ab_refresh">刷新</string>
-    <!-- Context Menu -->
-    <string name="r_cm_view_details">查看细节</string>
-    <string name="r_cm_add_to_favorites_failed">添加到收藏夹失败</string>
-    <string name="r_cm_add_to_favorites">添加到收藏夹</string>
-    <string name="r_cm_remove_from_favorites">从收藏夹中删除</string>
-    <string name="r_cm_remove_from_favorites_failed">从收藏夹删除失败</string>
-
-    <!-- Progress Dialog -->
-    <string name="r_pd_running_report_msg">运行报告...</string>
-
-    <!-- Error messages -->
-    <string name="r_error_server_not_supported">服务器版本低于 5.5（不支持）或 URL 不正确。</string>
-
-    <!-- Search Activity -->
-    <string name="s_hint">搜索资源</string>
-
-    <!-- Action Bar -->
-    <string name="s_ab_filter_by">过滤条件</string>
-    <string name="s_ab_sort_by">排序条件</string>
-
-    <!-- Filter Dialog -->
-    <string name="s_fd_option_all">全部</string>
-    <string name="s_fd_option_reports">报告</string>
-    <string name="s_fd_option_dashboards">仪表板</string>
-    <string name="s_fd_sort_label">按标签</string>
-    <string name="s_fd_sort_date">按创建日期</string>
-
-    <!-- Settings Activity -->
-    <string name="sa_show_about">关于</string>
-    <string name="sa_about_privacy">隐私政策</string>
-
-    <!-- Report Options Activity -->
-    <string name="ro_run_report_btn">运行报告</string>
-
-    <!-- Report Viewer Activity -->
-    <string name="rv_ab_save_report">保存报告</string>
-    <string name="rv_ab_show_filters">显示过滤器</string>
-    <string name="rv_error_empty_report">不存在报告数据</string>
-    <string name="rv_select_page">选择页面</string>
-    <string name="rv_dialog_reload">重新加载</string>
-
-    <!-- Toasts -->
-    <string name="rv_t_external_storage_not_available">外部存储卡不可用。请安装卡并重试。</string>
-
-    <!-- Save Report Activity -->
-    <string name="sr_output_format">输出格式</string>
-    <!-- Toasts -->
-    <!-- Error messages -->
-
-    <!-- Favorites activity -->
-    <string name="f_title">收藏夹</string>
-
-    <!-- Saved Reports Activity -->
-
-    <!-- Context Menu -->
-    <string name="sdr_cm_rename">重命名</string>
-    <string name="sdr_cm_delete">删除</string>
-
-    <!-- Rename Report Dialog -->
-    <string name="sdr_rrd_msg">输入新名称:</string>
-
-    <!-- Delete Report Dialog -->
-    <string name="sdr_drd_title">删除报告</string>
-    <string name="sdr_drd_msg">确定要删除 \"%1$s\" 吗？</string>
-
-    <!-- Toasts -->
-    <string name="sdr_t_no_app_available">未安装 \"%1$s\" 查看程序。</string>
-    <string name="sdr_t_report_renaming_error">无法重命名报告</string>
-    <string name="sdr_t_report_deletion_error">无法删除报告</string>
-
-    <!-- Settings activity -->
-    <string name="st_title">设置</string>
-    <string name="st_category_connection">连接</string>
-    <string name="st_title_cache_enable">启用缓存</string>
-    <string name="st_title_connect_timeout">连接超时</string>
-    <string name="st_title_read_timeout">数据读取超时</string>
-    <string name="st_send_crashes">发送崩溃报告</string>
-    <string name="st_summary_sec">%1$s 秒</string>
-    <string name="st_summary_h">%1$s 小时</string>
-    <string name="st_invalid_number_format">数字格式无效</string>
-    <string name="st_category_more">更多</string>
-
-    <!-- Error messages -->
-    <string name="error_http_400">请求错误。请求无效。</string>
-    <string name="error_http_401">身份验证凭据丢失或不正确。</string>
-    <string name="error_http_403">权限已被拒绝。已了解请求，但被拒绝。</string>
-    <string name="error_http_404">未找到。请求的 URI 无效，或请求的资源不存在。</string>
-    <string name="error_http_500">内部服务器错误。</string>
-    <string name="error_http_502">网关错误。</string>
-    <string name="error_http_503">服务不可用。</string>
-    <string name="error_http_504">网关超时。</string>
-
-    <!-- Others -->
-    <string name="loading_msg">正在加载...</string>
-    <string name="search_result_format">搜索 \'%1$s\' 的结果</string>
-    <string name="failed_load_data">加载数据失败！</string>
-    <string name="no_network">发生了网络错误。</string>
-    <string name="request_was_cancelled_explicitly">已取消</string>
-
-    <!-- Navigation panel -->
-    <string name="library_card_label">库</string>
-    <string name="repository_card_label">资料库</string>
-    <string name="favorites_card_label">收藏夹</string>
-    <string name="settings_card_label">设置</string>
-
-    <!-- Pagination controll -->
-    <string name="of"><![CDATA[/%d]]></string>
-    <string name="dialog_current_page">设置当前页</string>
-    <string name="rv_error_empty_report_title">报告为空</string>
-    <string name="h_rd_later">稍后提醒我</string>
-    <string name="h_rd_never">不，谢谢</string>
-    <string name="h_rd_rate">给TIBCO® JasperMobile™评分</string>
-
-    <!-- Navigation Drawer -->
-    <string name="nd_drawer_open">打开</string>
-    <string name="nd_drawer_close">关闭</string>
-    <string name="nd_manage_accounts">管理帐户</string>
-    <string name="nd_select_account">选择账户</string>
-
-    <!-- Password Dialog -->
-    <string name="h_ad_title_server_sign_in">服务器登录</string>
-    <string name="h_ad_label_wrong_password">用户名或密码不正确。重新输入。</string>
-
-    <!-- Rate Dialog -->
-    <string name="h_rd_description">如果您喜欢使用TIBCO® JasperMobile™，请花点时间来评价一下。评价过程不会超过一分钟。感谢您的支持！</string>
-
-    <!-- Error messages -->
-    <string name="sp_error_reserved_alias">别名保留。</string>
-
-    <!-- Repository Activity -->
-    <string name="r_search_nothing_to_display">没有项目符合您的搜索。</string>
-
-    <!-- Context Menu -->
-    <string name="r_cm_added_to_favorites">添加到收藏夹。</string>
-    <string name="r_cm_removed_from_favorites">从收藏夹中删除。</string>
-    <string name="r_cm_print">打印</string>
-
-    <!-- Search Activity -->
-    <string name="s_saved_items_hint">搜索已保存文件</string>
-
-    <!-- Filter Favorites Dialog -->
-    <string name="f_fd_option_folders">文件夹</string>
-
-    <!-- Settings Activity -->
-    <string name="sa_show_feedback">反馈</string>
-
-    <!-- Report Viewer Activity -->
-    <string name="rv_out_of_range">请求的页面超出范围。</string>
-    <string name="rv_open_link_chooser">打开链接，使用</string>
-
-
-    <!-- Save Report Activity -->
-    <string name="sr_report_name">文件名</string>
-    <string name="sr_from">从页面</string>
-    <string name="sr_to">至页面</string>
-    <string name="sr_failed_to_create_local_repo">创建本地文件存储失败。</string>
-    <string name="sr_failed_to_execute_report">执行报告失败</string>
-
-    <!-- Error messages -->
-    <string name="sr_error_field_is_empty">此字段必填。</string>
-    <string name="sr_error_characters_not_allowed">不允许使用以下字符：* \\ / \" \' : ? | &lt; &gt; + [ ]</string>
-    <string name="sr_error_report_exists">使用此名称的文件已经存在。</string>
-
-    <!-- Favorites activity -->
-    <string name="f_empty_list_msg">没有收藏条目</string>
-
-    <!-- Saved Files Activity -->
-    <string name="sdr_ab_title">已保存文件</string>
-    <string name="sdr_ab_list_msg">没有已保存文件</string>
-
-    <!-- Context Menu -->
-    <string name="action_mode_title">选中条目</string>
-
-    <!-- Rename File Dialog -->
-    <string name="sdr_rrd_title">重命名文件</string>
-    <string name="sdr_rrd_hint">文件名</string>
-    <string name="sdr_rrd_error_name_is_empty">此字段必填。</string>
-    <string name="sdr_rrd_error_characters_not_allowed">不允许使用以下字符：* \\ / \" \' : ? | &lt; &gt; + [ ]</string>
-    <string name="sdr_rrd_error_report_exists">使用此名称的文件已经存在。</string>
-
-    <!-- Remove Favorites Dialog -->
-    <string name="sdr_dfd_title">从收藏夹中删除</string>
-    <string name="sdr_dfd_msg">您真的要删除“%1$s”吗？</string>
-
-    <!-- Settings activity -->
-    <string name="st_restart_note">注意：更改此设置后，请重新启动应用程序。</string>
-
-    <!-- Error messages -->
-    <string name="r_error_server_not_found">未找到服务器。</string>
-    <string name="r_error_incorrect_credentials">凭据无效。</string>
-
-    <!-- Others -->
-    <string name="authenticator_label">Jasper帐户</string>
-
-    <!-- Accounts activity -->
-    <string name="add_account">添加帐户</string>
-    <string name="try_demo">试用演示版</string>
-    <string name="hint_alias">帐户名称</string>
-    <string name="hint_server_url">服务器URL地址</string>
-    <string name="hint_organization">组织</string>
-    <string name="hint_username">用户名</string>
-    <string name="hint_password">密码</string>
-    <string name="success_add_account">已添加名为%1$s的帐户</string>
-    <string name="failure_add_account">添加帐户失败。原因：%1$s</string>
-    <string name="account_add">正在添加帐户</string>
-
-    <!--Dashboard activity-->
-    <string name="da_session_expired">会话过期</string>
-    <string name="da_session_refresh_failed">刷新会话失败</string>
-    <string name="da_loading">正在加载面板...</string>
-
-    <!-- MultiSelectSpinner -->
-    <string name="mss_btn_check_all">全部选中</string>
-    <string name="mss_btn_uncheck_all">全部取消选中</string>
-
-    <!-- Navigation panel -->
-    <string name="recent_card_label">最近浏览</string>
-    <string name="cancel">取消</string>
-    <string name="ok">确定</string>
-
-    <!-- Repository Activity -->
-    <string name="resources_not_found">未找到资源</string>
-
-    <!-- Progress Dialog -->
-    <string name="r_pd_initializing_msg">初始化...</string>
-
-    <!-- File viewing -->
-    <string name="fv_try_again_btn">再试一次</string>
-    <string name="fv_can_not_show_message">无法显示文件内容</string>
-    <string name="fv_undefined_message">无法打开。资源类型未定义。</string>
-    <string name="fv_opening_message">打开文件...</string>
-
-    <!-- Filter Dialog -->
-    <string name="s_fd_option_saved_values">已保存的值</string>
-    <string name="s_fd_option_files">文件</string>
-    <string name="s_fd_option_others">其他</string>
-
-    <!-- Settings Activity -->
-
-    <!-- Report Options Activity -->
-    <string name="ro_default">默认</string>
-    <string name="ro_page_title">过滤器</string>
-    <string name="ro_save_ro">保存值</string>
-    <string name="ro_save_text">为保存的值的名称</string>
-    <string name="ro_save_same">该报告已经有这个名称下的已保存的值。它们将被覆盖。</string>
-    <string name="ro_default_save_name">选项</string>
-    <string name="ro_delete_ro">删除保存的值</string>
-    <string name="ro_reset_ro">重置值</string>
-    <string name="ro_ms_available">可用：%1$s</string>
-    <string name="ro_ms_selected">已选：%1$s</string>
-    <string name="ro_no_items_selected">未选择项目</string>
-    <string name="ro_select_all">全选</string>
-    <string name="ro_deselect_all">取消选择所有</string>
-    <string name="ro_inverse">逆向</string>
-    <string name="ro_search">搜索列表...</string>
-    <string name="ro_show">已保存的值</string>
-
-    <!-- Resource Info Activity -->
-    <string name="ri_schedule">时间规划表</string>
-    <string name="ri_type_title">类型：</string>
-    <string name="ri_label_title">标签：</string>
-    <string name="ri_description_title">描述：</string>
-    <string name="ri_modified_title">修改日期：</string>
-    <string name="ri_creation_title">创建日期：</string>
-    <string name="ri_file_format">文件格式：</string>
-    <string name="ri_file_size">文件大小：</string>
-    <string name="ri_version_title">版本：</string>
-    <string name="ri_permissions_title">用户访问：</string>
-
-    <!-- Resource permission -->
-    <string name="rp_no_access">禁止访问</string>
-    <string name="rp_administer">修改，删除，管理</string>
-    <string name="rp_read_only">只读</string>
-    <string name="rp_read_write">修改</string>
-    <string name="rp_read_delete">只读，删除</string>
-    <string name="rp_read_write_delete">修改，删除</string>
-    <string name="rp_execute_only">只执行</string>
-
-    <!-- Schedule -->
-    <string name="sch_new">新时间规划表</string>
-    <string name="sch_edit">编辑时间规划表</string>
-    <string name="sch_job_name">已规划的工作名称</string>
-    <string name="sch_file_name">输出文件名</string>
-    <string name="sch_run_immediately">立即运行</string>
-    <string name="sch_start_date">计划开始日期</string>
-    <string name="sch_destination">输出目的地路径</string>
-    <string name="sch_created">工作已规划</string>
-    <string name="sch_updated">工作已更新</string>
-    <string name="sch_deleted">规划已删除</string>
-    <string name="sch_jobs">时间规划表</string>
-    <string name="sch_not_found">未进行任何工作规划</string>
-    <string name="sch_format_paginated">%1$s（分页）</string>
-    <string name="sch_next_run_label">下次运行：%1$s</string>
-    <string name="sch_state_normal">正常</string>
-    <string name="sch_state_complete">完成</string>
-    <string name="sch_state_executing">执行中</string>
-    <string name="sch_state_error">错误</string>
-    <string name="sch_state_paused">已暂停</string>
-    <string name="sch_state_unknown">未知</string>
-    <string name="sdr_delete_title">删除时间规划表</string>
-    <string name="sdr_delete_message">是否确定删除这个时间规划表</string>
-
-    <!-- Report Viewer Activity -->
-    <string name="rv_webview_still_loading">加载时间过长。请稍等后再次重试。</string>
-
-    <!-- Saved Files Activity -->
-    <string name="sdr_starting_downloading_msg">开始下载...</string>
-
-    <string name="sdr_dfd_msg_multi">确定删除选定的项目（%1$s项）？</string>
-
-    <!-- Settings activity -->
-    <string name="st_category_resource_cache">资源缓存</string>
-    <string name="st_title_cache_expiration">缓存过期时间</string>
-    <string name="st_title_clear_cache">清除缓存</string>
-    <string name="st_summary_cache_enable">在指定的时间内缓存资源</string>
-    <string name="st_summary_clear_cache">删除所有缓存的资源</string>
-    <string name="st_screenshot_enable">屏幕捕捉</string>
-    <string name="st_action_clear_cache">缓存已清除</string>
-    <string name="st_action_clear_cache_fail">无法清除缓存</string>
-
-    <!-- Error messages -->
-    <string name="error_report_cancelled">报告执行已取消</string>
-    <string name="error_report_failed">报告执行失败</string>
-    <string name="error_export_failed">报告导出失败</string>
-    <string name="error_export_cancelled">报告导出已取消</string>
-    <string name="error_schedule_duplicate_file_name">重复的输出文件名</string>
-    <string name="error_schedule_start_date_in_the_past">本开始时间已经过去。请输入将来的时间。</string>
-    <string name="error_schedule_special_characters">输出名称包含无效字符。</string>
-    <string name="error_schedule_folder_not_exist">找不到工作输出文件夹。</string>
-    <string name="error_schedule_folder_not_writable">您没有权限，无法保存工作输出到文件夹。</string>
-    <string name="error_schedule_output_filename_too_long">工作输出文件名太长。接受长度：%1$s</string>
-    <string name="error_schedule_label_too_long">工作标签名太长。接受长度：%1$s</string>
-    <string name="error_undefined">发生未定义的错误</string>
-    <string name="error_saved_values_duplicate">本文件夹中另一份报告内，已包含该名称的已保存选项。</string>
-    <string name="error_saved_values_label_too_long">保存的选项标签太长。最大长度为 %1$s 字符。</string>
-
-    <!-- Others -->
-    <string name="wrong_action">不能执行此操作</string>
-    <string name="voice_command_btn">语音命令</string>
-    <string name="voice_command_title">说出一些命令</string>
-    <string name="voice_command_undefined">无法识别的命令</string>
-    <string name="voice_command_help">您可以使用语音命令与资源进行交互。支持两个命令：运行和查找。例如，你可以说与“运行”加资源名称来运行报告。</string>
-    <string name="voice_command_not_show_again">不再显示</string>
-
-    <!-- Casting -->
-    <string name="cast_logo_presentation_message">总是开启，易于访问</string>
-    <string name="cast_ready_message">准备投报告</string>
-    <string name="cast_scroll_message">报告正在演示。按住箭头按钮来上下滚动。</string>
-
-    <!-- WebView errors -->
-    <string name="error_webview_auth_msg">服务器上用户身份验证失败</string>
-    <string name="error_webview_auth_title">验证错误</string>
-    <string name="error_webview_timeout_msg">服务器沟通时间过长。稍后再试。</string>
-    <string name="error_webview_timeout_title">连接超时</string>
-    <string name="error_webview_too_many_requests_msg">这个加载过程中有太多的请求</string>
-    <string name="error_webview_too_many_requests_title">过多的请求</string>
-    <string name="error_webview_generic_msg">一般错误</string>
-    <string name="error_webview_generic_title">未知错误</string>
-    <string name="error_webview_bad_url_msg">请检查输入的URL ..</string>
-    <string name="error_webview_bad_url_title">不正确的网址</string>
-    <string name="error_webview_connect_msg">无法连接到服务器</string>
-    <string name="error_webview_connect_title">连接</string>
-    <string name="error_webview_ssl_handshake_msg">无法执行SSL信号交换</string>
-    <string name="error_webview_ssl_handshake_title">SSL信号交换失败</string>
-    <string name="error_webview_host_lookup_msg">服务器或代理主机名查找失败</string>
-    <string name="error_webview_host_lookup_title">主机查找错误</string>
-    <string name="error_webview_proxy_auth_msg">代理用户身份验证失败</string>
-    <string name="error_webview_proxy_auth_title">代理验证错误</string>
-    <string name="error_webview_redirect_loop_msg">重定向过多</string>
-    <string name="error_webview_redirect_loop_title">重定向循环错误</string>
-    <string name="error_webview_unsupported_auth_scheme_msg">不支持的 方案（而不是基本或摘要）</string>
-    <string name="error_webview_unsupported_auth_scheme_title">验证计划错误</string>
-    <string name="error_webview_unsupported_scheme_msg">不支持的URI方案</string>
-    <string name="error_webview_unsupported_scheme_title">URI方案错误</string>
-    <string name="error_webview_error_file_msg">通用文件错误</string>
-    <string name="error_webview_error_file_title">文件</string>
-    <string name="error_webview_file_not_found_msg">文件未找到</string>
-    <string name="error_webview_file_not_found_title">文件</string>
-    <string name="error_webview_io_msg">服务器无法通信。稍后再试。</string>
-    <string name="error_webview_io_title">IO错误</string>
-
-    <!-- Permissions -->
-    <string name="enable_write_permission">无法保存。没有权限</string>
-
-    <!-- Context Menu -->
-    <string name="r_cm_share">分享</string>
-    <string name="r_cm_info">信息</string>
-    <string name="r_cm_cancel_saving">取消保存</string>
-    <string name="r_cm_enable">启用</string>
-    <string name="r_cm_disable">禁用</string>
-    <string name="r_cm_edit">编辑</string>
-    <string name="r_cm_delete">删除</string>
-
-    <!-- Schedule -->
-    <string name="sch_end_date">安排结束日期</string>
-    <string name="sch_choose_report">选择报告进行安排……</string>
-    <string name="sch_resource_label">报表标签</string>
-    <string name="sch_resource_uri">报告网址</string>
-    <string name="sch_label">名称</string>
-    <string name="sch_description">描述</string>
-    <string name="sch_id">ID</string>
-    <string name="sch_owner">所有者</string>
-    <string name="sch_state">状态</string>
-    <string name="sch_lass_run">上次运行</string>
-    <string name="sch_next_run">下次运行</string>
-
-    <!-- Toasts -->
-    <string name="annotation_title">触摸添加注释……</string>
-    <string name="annotation_pick_color">挑选颜色……</string>
-    <string name="annotation_pick_line_size">挑选线大小……</string>
-    <string name="annotation_pick_font_size">挑选字体大小……</string>
-    <string name="annotation_enable_border">添加文字边框</string>
-    <string name="annotation_add_note">添加备注</string>
-    <string name="annotation_edit_note">编辑备注</string>
-    <string name="annotation_hint">输入值</string>
-    <string name="annotation_done">完成</string>
-    <string name="annotation_reset">重置</string>
-    <string name="share_chooser_title">分享途径</string>
-    <string name="share_message">从TIBCO JasperMobile分享</string>
-
-    <!-- Save Report Activity -->
-    <string name="sr_recurrence_type">循环</string>
-    <string name="sr_recurrence_none">无</string>
-    <string name="sr_recurrence_simple">简单</string>
-    <string name="sr_recurrence_simple_unit_minute">分钟</string>
-    <string name="sr_recurrence_simple_unit_hour">小时</string>
-    <string name="sr_recurrence_simple_unit_day">天</string>
-    <string name="sr_recurrence_simple_unit_week">周</string>
-    <string name="sr_recurrence_calendar">日历</string>
-    <string name="sr_repeat_every">重复间隔（必填）</string>
-    <string name="sr_schedule_end">日程结束</string>
-    <string name="sr_run_number_of_times">运行一定次数</string>
-    <string name="sr_number_of_runs">运行次数</string>
-    <string name="sr_run_until">运行到指定日期</string>
-    <string name="sr_run_indefinitely">无限期运行</string>
-    <string name="sr_months">月</string>
-    <string name="sr_hours">小时（必填）：</string>
-    <string name="sr_minutes">分钟（必填）：</string>
-    <string name="sr_days">天</string>
-    <string name="sr_select_days">选择日期：</string>
-    <string name="sr_selected_days">已选日期：</string>
-    <string name="sr_dates_in_month">月份日期：</string>
-
-    <!-- Error messages -->
-    <string name="error_schedule_end_date_in_the_past">结束日期已过。它应该是未来日期。</string>
-    <string name="error_trigger_empty_months">至少应选择一个月。</string>
-    <string name="error_trigger_empty_days">至少应选择一天。</string>
-
-    <!-- Casting -->
-    <string name="cast_zoom_message">点击放大或缩小来改变报告比例。</string>
+	<string name="sr_recurrence_simple_unit_week">周</string>
+<string name="s_fd_sort_label">标签</string>
+<string name="sp_error_reserved_alias">别名保留。</string>
+<string name="resources_not_found">未找到资源</string>
+<string name="f_empty_list_msg">没有收藏项目</string>
+<string name="error_schedule_special_characters">基础输出名称包含无效字符。您可能错误键入了该名称。</string>
+<string name="sdr_rrd_hint">文件名</string>
+<string name="error_webview_redirect_loop_title">重定向循环错误</string>
+<string name="failure_add_account">无法添加帐户。原因: %1$s</string>
+<string name="hint_password">密码</string>
+<string name="ro_save_ro">保存值</string>
+<string name="sp_error_field_required">此字段是必填字段。</string>
+<string name="sch_updated">工作已更新</string>
+<string name="ro_search">搜索列表…</string>
+<string name="rv_apply_filters_action">应用</string>
+<string name="st_invalid_number_format">数字格式无效</string>
+<string name="f_fd_option_folders">文件夹</string>
+<string name="sch_choose_report">选择报告进行安排…</string>
+<string name="sr_months">月</string>
+<string name="repository_card_label">资料库</string>
+<string name="error_webview_timeout_msg">服务器通信时间过长。稍后再试。</string>
+<string name="sdr_delete_message">是否确定要删除此时间规划表?</string>
+<string name="sa_about_privacy_policy">隐私政策</string>
+<string name="sr_recurrence_none">无</string>
+<string name="action_mode_title">所选项目</string>
+<string name="wr_title">Web资源</string>
+<string name="share_chooser_title">分享途径</string>
+<string name="error_schedule_output_filename_too_long">工作输出文件名太长。接受长度: %1$s</string>
+<string name="r_cm_add_to_favorites_failed">无法添加到收藏夹。</string>
+<string name="ro_reset_ro">重置值</string>
+<string name="ro_default_save_name">选项</string>
+<string name="s_fd_option_files">文件</string>
+<string name="error_webview_unsupported_scheme_title">URI方案错误</string>
+<string name="sr_schedule_end">时间规划表结束</string>
+<string name="sp_save_btn">保存</string>
+<string name="ro_page_title">过滤器</string>
+<string name="error_export_failed">报告导出失败</string>
+<string name="st_title">设置</string>
+<string name="sdr_saving_error_msg">无法保存资源</string>
+<string name="sa_about_copyright">版权所有© 2005–2016 TIBCO Software, Inc.</string>
+<string name="sch_deleted">时间规划表已删除</string>
+<string name="failed_load_data">无法加载数据!</string>
+<string name="error_trigger_calendar_pattern_days_in_month">日历循环的月中的天数格式错误。</string>
+<string name="sch_description">描述</string>
+<string name="nd_select_account">选择帐户</string>
+<string name="sr_recurrence_simple_unit_minute">分钟</string>
+<string name="rv_ab_show_filters">显示过滤器</string>
+<string name="r_cm_added_to_favorites">添加到收藏夹。</string>
+<string name="error_report_cancelled">报告执行已取消</string>
+<string name="cast_scroll_message">报告正在演示。按住箭头按钮可上下滚动。</string>
+<string name="h_ad_label_wrong_password">用户名或密码不正确。请重新输入凭据。</string>
+<string name="error_schedule_end_date_in_the_past">结束日期已过。它应该是未来日期。</string>
+<string name="img_cd_list_item">列表项预览</string>
+<string name="sr_from">起始页面</string>
+<string name="sch_destination">输出目标路径</string>
+<string name="spm_delete_btn">删除</string>
+<string name="sdr_ab_title">已保存文件</string>
+<string name="account_add">正在添加帐户</string>
+<string name="error_trigger_calendar_pattern_minutes">日历循环的小时中的分钟数格式错误。</string>
+<string name="st_summary_sec">%1$s秒</string>
+<string name="error_saved_values_duplicate">本文件夹中另一份报告内，已包含该名称的已保存选项。</string>
+<string name="r_cm_enable">启用</string>
+<string name="sa_about_privacy">隐私政策</string>
+<string name="ri_creation_title">创建日期:</string>
+<string name="st_screenshot_enable">屏幕捕捉</string>
+<string name="sdr_dfd_msg">是否确定要删除\&quot;%1$s\&quot;?</string>
+<string name="ro_inverse">逆向</string>
+<string name="error_webview_generic_title">未知错误</string>
+<string name="annotation_pick_color">挑选颜色…</string>
+<string name="error_webview_auth_title">验证错误</string>
+<string name="r_pd_running_report_msg">运行报告…</string>
+<string name="sr_number_of_runs">运行次数</string>
+<string name="r_pd_initializing_msg">初始化…</string>
+<string name="error_http_504">网关超时。</string>
+<string name="error_http_503">服务不可用。</string>
+<string name="error_http_502">网关错误。</string>
+<string name="sdr_rrd_error_name_is_empty">此字段是必填字段。</string>
+<string name="error_http_500">内部服务器错误。</string>
+<string name="ri_version_title">版本:</string>
+<string name="h_rd_rate">评分</string>
+<string name="ro_save_same">该报告已经使用此名称保存了值。它们将被覆盖。</string>
+<string name="error_schedule_start_date_in_the_past">开始日期已过。它应该是未来日期。</string>
+<string name="error_saved_values_label_too_long">保存的选项标签太长。最大长度为%1$s字符。</string>
+<string name="rv_ab_save_report">保存报告</string>
+<string name="recent_card_label">最近浏览</string>
+<string name="sa_show_feedback">反馈</string>
+<string name="error_webview_error_file_msg">一般文件错误</string>
+<string name="hint_organization">组织</string>
+<string name="sch_id">ID</string>
+<string name="r_cm_add_to_favorites">添加到收藏夹</string>
+<string name="voice_command_title">说出一些命令</string>
+<string name="sdr_t_no_app_available">未安装\&quot;%1$s\&quot;查看程序。</string>
+<string name="s_fd_option_reports">报告</string>
+<string name="error_trigger_empty_days">至少应选择一天。</string>
+<string name="r_cm_view_details">查看详细信息</string>
+<string name="error_webview_io_title">IO错误</string>
+<string name="fv_undefined_message">无法打开。资源类型未定义。</string>
+<string name="da_session_expired">会话过期</string>
+<string name="error_webview_connect_msg">无法连接到服务器</string>
+<string name="rv_t_external_storage_not_available">外部存储卡不可用。请插入存储卡，然后重试。</string>
+<string name="favorites_card_label">收藏夹</string>
+<string name="r_ab_refresh">刷新</string>
+<string name="sdr_starting_downloading_msg">开始下载…</string>
+<string name="ro_no_items_selected">未选择项目</string>
+<string name="rv_dialog_reload">重新加载</string>
+<string name="sp_error_url_not_valid">URL无效。</string>
+<string name="ro_show">已保存的值</string>
+<string name="sch_state_unknown">未知</string>
+<string name="rv_webview_still_loading">加载时间过长。请稍等或稍后重试。</string>
+<string name="ri_schedule">时间规划表</string>
+<string name="hint_server_url">服务器URL</string>
+<string name="h_rd_description">如果您喜欢使用TIBCO® JasperMobile™，请花点时间来评价一下。评价过程不会超过一分钟。感谢您的支持!</string>
+<string name="error_undefined">发生未定义的错误</string>
+<string name="sr_output_format">输出格式</string>
+<string name="r_error_server_not_supported">服务器版本低于5.5(不支持)或URL不正确。</string>
+<string name="r_cm_edit">编辑</string>
+<string name="sr_to">截止页面</string>
+<string name="sdr_saving_multiply_msg">%1$s资源下载</string>
+<string name="sch_next_run">下次运行</string>
+<string name="dialog_current_page">设置当前页</string>
+<string name="error_webview_unsupported_scheme_msg">不支持的URI方案</string>
+<string name="sdr_drd_title">删除文件</string>
+<string name="nd_drawer_close">关闭</string>
+<string name="ri_description_title">描述:</string>
+<string name="h_ad_title_server_sign_in">服务器登录</string>
+<string name="rv_bookmark_page">页: %s</string>
+<string name="annotation_add_note">添加备注</string>
+<string name="voice_command_not_show_again">不再显示</string>
+<string name="sch_resource_label">报告标签</string>
+<string name="sch_end_date">安排结束日期</string>
+<string name="ok">确定</string>
+<string name="s_fd_option_all">全部</string>
+<string name="error_webview_proxy_auth_msg">代理上的用户身份验证失败</string>
+<string name="of">/%d</string>
+<string name="st_restart_note">注意: 更改此设置后，请重新启动应用程序。</string>
+<string name="sdr_delete_title">删除时间规划表</string>
+<string name="sr_run_indefinitely">无限期运行</string>
+<string name="rv_select_page">选择页面</string>
+<string name="r_cm_remove_from_favorites_failed">无法从收藏夹删除。</string>
+<string name="ri_file_size">文件大小:</string>
+<string name="open_in">打开，使用</string>
+<string name="st_category_resource_cache">资源缓存</string>
+<string name="sch_lass_run">上次运行</string>
+<string name="st_summary_clear_cache">删除所有缓存的资源</string>
+<string name="r_cm_disable">禁用</string>
+<string name="mss_btn_uncheck_all">取消全选</string>
+<string name="sa_about_eula">最终用户许可协议</string>
+<string name="st_title_connect_timeout">连接超时</string>
+<string name="ri_modified_title">修改日期:</string>
+<string name="error_webview_io_msg">服务器无法通信。稍后再试。</string>
+<string name="sr_recurrence_simple_unit_hour">小时</string>
+<string name="error_webview_unsupported_auth_scheme_msg">不支持的身份验证方案(非基本或摘要)</string>
+<string name="sr_recurrence_type">循环</string>
+<string name="r_cm_removed_from_favorites">已从收藏夹中删除。</string>
+<string name="sr_error_report_exists">使用此名称的文件已经存在。</string>
+<string name="authenticator_label">Jasper帐户</string>
+<string name="r_ab_switch">切换视图</string>
+<string name="st_send_crashes">发送崩溃报告</string>
+<string name="error_schedule_folder_not_exist">找不到工作输出文件夹。它可能已被删除或移动。</string>
+<string name="da_session_refresh_failed">无法刷新会话</string>
+<string name="wrong_action">不能执行此操作</string>
+<string name="error_http_404">未找到。请求的URI无效，或请求的资源不存在。</string>
+<string name="error_http_403">权限已被拒绝。已了解请求，但被拒绝。</string>
+<string name="nd_drawer_open">打开</string>
+<string name="error_http_401">身份验证凭据丢失或不正确。</string>
+<string name="error_webview_error_file_title">文件</string>
+<string name="error_http_400">请求错误。请求无效。</string>
+<string name="sdr_t_report_renaming_error">无法重命名报告。</string>
+<string name="error_webview_ssl_handshake_msg">无法执行SSL信号交换</string>
+<string name="sch_state_normal">正常</string>
+<string name="sr_run_until">运行到指定日期</string>
+<string name="sdr_drd_msg">是否确定要删除\&quot;%1$s\&quot;?</string>
+<string name="mss_btn_check_all">全部选中</string>
+<string name="ro_deselect_all">全部取消选择</string>
+<string name="r_error_server_not_found">未找到服务器。</string>
+<string name="enable_write_permission">无法保存。没有权限</string>
+<string name="fv_opening_message">打开文件…</string>
+<string name="error_webview_host_lookup_msg">服务器或代理主机名查找失败</string>
+<string name="h_rd_never">不，谢谢</string>
+<string name="library_card_label">库</string>
+<string name="h_rd_later">稍后提醒我</string>
+<string name="st_action_clear_cache_fail">无法清除缓存</string>
+<string name="sch_not_found">未找到任何工作。</string>
+<string name="ri_label_title">标签:</string>
+<string name="sch_next_run_label">下次运行: %1$s</string>
+<string name="rv_error_empty_report_title">报告为空。</string>
+<string name="img_cd_grid_item">网格项预览</string>
+<string name="error_webview_proxy_auth_title">代理验证错误</string>
+<string name="sch_format_paginated">%1$s(分页)</string>
+<string name="r_cm_remove_from_favorites">从收藏夹中删除</string>
+<string name="r_cm_info">信息</string>
+<string name="error_webview_file_not_found_msg">文件未找到</string>
+<string name="h_library_label">库</string>
+<string name="h_repository_label">资料库</string>
+<string name="sch_created">工作已规划</string>
+<string name="ro_default">默认</string>
+<string name="sr_report_name">文件名</string>
+<string name="no_network">发生了网络错误。</string>
+<string name="error_webview_timeout_title">连接超时</string>
+<string name="rp_read_write">修改</string>
+<string name="error_trigger_empty_months">至少应选择一个月。</string>
+<string name="rv_error_empty_report">不存在报告数据。</string>
+<string name="sch_file_name">输出文件名</string>
+<string name="sdr_dfd_title">从收藏夹中删除</string>
+<string name="sch_label">名称</string>
+<string name="search_result_format">\'%1$s\'的搜索结果</string>
+<string name="error_schedule_folder_not_writable">您没有权限将工作输出保存到文件夹。请选择另一个位置保存工作。</string>
+<string name="r_cm_available_chart_types">图表类型</string>
+<string name="sch_edit">编辑时间规划表</string>
+<string name="sch_job_name">已规划的工作名称</string>
+<string name="r_cm_delete">删除</string>
+<string name="rv_apply_filters_no_data">您可以使用其他过滤器。</string>
+<string name="error_webview_bad_url_title">不正确的URL</string>
+<string name="s_fd_option_others">其他</string>
+<string name="sdr_rrd_msg">输入新名称:</string>
+<string name="ri_type_title">类型:</string>
+<string name="sr_dates_in_month_hint">输入日期(9、12、15)或日期范围(9–12、1–17)</string>
+<string name="annotation_done">完成</string>
+<string name="s_fd_option_dashboards">控制面板</string>
+<string name="st_category_connection">连接</string>
+<string name="rp_read_only">只读</string>
+<string name="sch_disabled">已禁用</string>
+<string name="sdr_ab_list_msg">没有已保存文件</string>
+<string name="sr_failed_to_create_local_repo">无法创建本地文件存储。</string>
+<string name="annotation_pick_font_size">挑选字体大小…</string>
+<string name="ro_select_all">全选</string>
+<string name="sdr_dfd_msg_multi">是否确定要删除选定的项目(%1$s项)?</string>
+<string name="error_webview_bad_url_msg">请检查输入的URL..</string>
+<string name="sch_new">新建时间规划表</string>
+<string name="error_export_cancelled">报告导出已取消</string>
+<string name="sdr_rrd_error_report_exists">使用此名称的文件已经存在。</string>
+<string name="success_add_account">已添加名为%1$s的帐户</string>
+<string name="st_title_cache_enable">启用缓存</string>
+<string name="sch_resource_uri">报告URI</string>
+<string name="ro_ms_selected">已选: %1$s</string>
+<string name="sdr_t_report_deletion_error">无法删除报告。</string>
+<string name="error_schedule_label_too_long">工作标签名太长。接受长度: %1$s</string>
+<string name="sch_run_immediately">立即运行</string>
+<string name="error_webview_file_not_found_title">文件</string>
+<string name="cast_zoom_message">点击放大或缩小来改变报告比例。</string>
+<string name="voice_command_undefined">无法识别命令</string>
+<string name="sr_select_days">选择天数:</string>
+<string name="st_summary_cache_enable">在指定的时间内缓存资源</string>
+<string name="nd_manage_accounts">管理帐户</string>
+<string name="sdr_cm_rename">重命名</string>
+<string name="try_demo">试用演示版</string>
+<string name="sr_hours_hint">输入9、12、15等24小时制时间或9–12、1–17等范围</string>
+<string name="s_fd_sort_date">创建日期</string>
+<string name="rp_no_access">禁止访问</string>
+<string name="rv_out_of_range">请求的页面超出范围。</string>
+<string name="hint_username">用户名</string>
+<string name="sp_error_duplicate_alias">重复帐户名。</string>
+<string name="sr_failed_to_execute_report">无法执行报告</string>
+<string name="annotation_enable_border">添加文本边框</string>
+<string name="rp_read_write_delete">修改，删除</string>
+<string name="sr_days">天</string>
+<string name="r_cm_print">打印</string>
+<string name="cancel">取消</string>
+<string name="annotation_pick_line_size">挑选线大小…</string>
+<string name="sch_state_executing">执行中</string>
+<string name="ri_permissions_title">用户访问:</string>
+<string name="sr_error_field_is_empty">此字段是必填字段。</string>
+<string name="da_loading">正在加载控制面板…</string>
+<string name="annotation_hint">输入值</string>
+<string name="fv_can_not_show_message">无法显示文件内容</string>
+<string name="add_account">添加帐户</string>
+<string name="s_hint">搜索资源</string>
+<string name="s_saved_items_hint">搜索已保存文件</string>
+<string name="sr_recurrence_simple">简单</string>
+<string name="error_trigger_calendar_pattern_hours">日历循环的天中的小时数格式错误。</string>
+<string name="sr_selected_days">所选天数:</string>
+<string name="loading_msg">正在加载…</string>
+<string name="st_title_read_timeout">数据读取超时</string>
+<string name="sr_t_report_saved">资源已成功保存至文件。</string>
+<string name="sch_state">状态</string>
+<string name="r_error_incorrect_credentials">凭据无效。</string>
+<string name="sdr_cm_delete">删除</string>
+<string name="st_title_clear_cache">清除缓存</string>
+<string name="r_search_nothing_to_display">没有项目符合您的搜索。</string>
+<string name="error_report_failed">报告执行失败</string>
+<string name="settings_card_label">设置</string>
+<string name="sa_about_hint">TIBCO JasperReports® Server 6.0及更高版本的管理工具和报告查看程序。</string>
+<string name="annotation_edit_note">编辑备注</string>
+<string name="error_webview_generic_msg">一般错误</string>
+<string name="error_schedule_duplicate_file_name">重复的输出文件名</string>
+<string name="voice_command_btn">语音命令</string>
+<string name="sa_show_about">关于</string>
+<string name="rv_open_link_chooser">打开链接，使用</string>
+<string name="rv_ab_chart_types">图表类型</string>
+<string name="sdr_rrd_title">重命名文件</string>
+<string name="st_summary_h">%1$s小时</string>
+<string name="st_action_clear_cache">缓存已清除</string>
+<string name="r_cm_share">分享</string>
+<string name="s_ab_sort_by">排序方式</string>
+<string name="sch_owner">所有者</string>
+<string name="sr_ab_title">保存资源</string>
+<string name="sr_minutes_hint">输入0、15、30、45以便每¼小时运行一次</string>
+<string name="fv_try_again_btn">再试一次</string>
+<string name="s_fd_option_saved_values">已保存的值</string>
+<string name="sr_recurrence_simple_unit_day">天</string>
+<string name="error_webview_too_many_requests_msg">此加载过程中有太多的请求</string>
+<string name="h_ad_label_server_profile">服务器配置文件</string>
+<string name="sr_minutes">分钟(必填):</string>
+<string name="annotation_title">触摸以添加注释…</string>
+<string name="st_title_cache_expiration">缓存过期时间</string>
+<string name="error_webview_host_lookup_title">主机查找错误</string>
+<string name="rp_read_delete">只读，删除</string>
+<string name="sch_start_date">安排开始日期</string>
+<string name="sr_recurrence_calendar">日历</string>
+<string name="sch_state_error">错误</string>
+<string name="share_message">已从TIBCO JasperMobile分享</string>
+<string name="error_webview_auth_msg">服务器上用户身份验证失败</string>
+<string name="annotation_reset">重置</string>
+<string name="st_category_more">更多</string>
+<string name="sr_run_number_of_times">运行一定次数</string>
+<string name="error_webview_ssl_handshake_title">SSL信号交换失败</string>
+<string name="ro_delete_ro">删除保存的值</string>
+<string name="ro_save_text">已保存的值的名称</string>
+<string name="error_webview_redirect_loop_msg">重定向过多</string>
+<string name="ro_ms_available">可用: %1$s</string>
+<string name="sch_jobs">时间规划表</string>
+<string name="sdr_loading_msg">仍在下载资源…</string>
+<string name="r_ab_search">搜索</string>
+<string name="sr_dates_in_month">月份日期:</string>
+<string name="sr_error_characters_not_allowed">不允许使用以下字符: * \\ / \&quot; \' : ? | &lt; &gt; + [ ]</string>
+<string name="sa_about_version">TIBCO® JasperMobile™ v%1$s</string>
+<string name="ri_report_type">报告</string>
+<string name="sch_state_complete">完成</string>
+<string name="cast_ready_message">准备投报告</string>
+<string name="s_ab_filter_by">过滤方式</string>
+<string name="sr_hours">小时(必填):</string>
+<string name="sa_about_latest_updates">最新更新信息</string>
+<string name="sa_about_more_info">更多信息</string>
+<string name="error_webview_unsupported_auth_scheme_title">验证计划错误</string>
+<string name="sdr_rrd_error_characters_not_allowed">不允许使用以下字符: * \\ / \&quot; \' : ? | &lt; &gt; + [ ]</string>
+<string name="error_webview_connect_title">连接</string>
+<string name="sr_repeat_every">重复间隔(必填)</string>
+<string name="rp_administer">修改，删除，管理</string>
+<string name="voice_command_help">您可以使用语音命令与资源进行交互。支持两个命令:“run”和“find”。例如，你可以说“run”加上资源名称来开始执行报告。</string>
+<string name="rp_execute_only">只执行</string>
+<string name="hint_alias">帐户名称</string>
+<string name="sdr_saving_msg">正在下载资源</string>
+<string name="request_was_cancelled_explicitly">已取消</string>
+<string name="r_cm_cancel_saving">取消保存</string>
+<string name="rv_ab_bookmarks">书签</string>
+<string name="ri_file_format">文件格式:</string>
+<string name="error_webview_too_many_requests_title">请求过多</string>
+<string name="ro_run_report_btn">运行报告</string>
+<string name="cast_logo_presentation_message">总是开启，易于访问</string>
+<string name="rv_apply_filters_message">您必须使用输入值才可显示报告。</string>
+<string name="sch_state_paused">已暂停</string>
+<string name="f_title">收藏夹</string>
 
 </resources>

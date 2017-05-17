@@ -1,507 +1,357 @@
-﻿﻿<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright © 2016 TIBCO Software,Inc.All rights reserved.
-  ~ http://community.jaspersoft.com/project/jaspermobile-android
-  ~
-  ~ Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
-  ~ the following license terms apply:
-  ~
-  ~ This program is part of TIBCO Jaspersoft Mobile for Android.
-  ~
-  ~ TIBCO Jaspersoft Mobile is free software:you can redistribute it and/or modify
-  ~ it under the terms of the GNU Lesser General Public License as published by
-  ~ the Free Software Foundation,either version 3of the License,or
-  ~ (at your option)any later version.
-  ~
-  ~ TIBCO Jaspersoft Mobile is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY;without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-  ~ GNU Lesser General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU Lesser General Public License
-  ~ along with TIBCO Jaspersoft Mobile for Android.If not,see
-  ~ <http://www.gnu.org/licenses/lgpl>.
-  -->
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 2.6.0.2  LP Refresh (last updated at 2017-05-11) -->
 <resources>
-    <!-- Images content description -->
-    <string name="img_cd_list_item">Anteprima dell\'elemento lista</string>
-    <string name="img_cd_grid_item">Anteprima dell\'elemento griglia</string>
-
-    <!-- Home Activity -->
-    <string name="h_repository_label">Archivio</string>
-    <string name="h_library_label">Libreria</string>
-
-    <!-- Connection Dialog -->
-
-    <!-- Password Dialog -->
-    <string name="h_ad_label_server_profile">Profilo server</string>
-
-    <!-- Action Bar -->
-
-    <!-- Delete Dialog -->
-    <string name="spm_delete_btn">Elimina</string>
-
-    <!-- Server Profile Activity -->
-    <string name="sp_save_btn">Salva</string>
-
-    <!-- Error messages -->
-    <string name="sp_error_field_required">Questo campo è obbligatorio.</string>
-    <string name="sp_error_url_not_valid">URL non valido.</string>
-    <string name="sp_error_duplicate_alias">Duplica alias.</string>
-
-    <!-- Action Bar -->
-    <string name="r_ab_switch">Commuta visualizzazione</string>
-    <string name="r_ab_search">Cerca</string>
-    <string name="r_ab_refresh">Aggiorna</string>
-    <!-- Context Menu -->
-    <string name="r_cm_view_details">Visualizza dettagli</string>
-    <string name="r_cm_add_to_favorites_failed">Impossibile aggiungere ai preferiti</string>
-    <string name="r_cm_add_to_favorites">Aggiungi ai preferiti</string>
-    <string name="r_cm_remove_from_favorites">Rimuovi dai preferiti</string>
-    <string name="r_cm_remove_from_favorites_failed">Impossibile rimuovere dai preferiti</string>
-
-    <!-- Progress Dialog -->
-    <string name="r_pd_running_report_msg">Esecuzione report in corso...</string>
-
-    <!-- Error messages -->
-    <string name="r_error_server_not_supported">Versione server precedente a 5.5 (non supportata) o URL errato.</string>
-
-    <!-- Search Activity -->
-    <string name="s_hint">Ricerca risorse</string>
-
-    <!-- Action Bar -->
-    <string name="s_ab_filter_by">Filtra per</string>
-    <string name="s_ab_sort_by">Ordina per</string>
-
-    <!-- Filter Dialog -->
-    <string name="s_fd_option_all">Tutti</string>
-    <string name="s_fd_option_reports">Report</string>
-    <string name="s_fd_option_dashboards">Dashboard</string>
-    <string name="s_fd_sort_label">Per etichetta</string>
-    <string name="s_fd_sort_date">Per data di creazione</string>
-
-    <!-- Settings Activity -->
-    <string name="sa_show_about">Informazioni</string>
-    <string name="sa_about_privacy">Normative sulla Privacy</string>
-
-    <!-- Report Options Activity -->
-    <string name="ro_run_report_btn">Esegui report</string>
-
-    <!-- Report Viewer Activity -->
-    <string name="rv_ab_save_report">Salva report</string>
-    <string name="rv_ab_show_filters">Mostra filtri</string>
-    <string name="rv_error_empty_report">Nessun dati report presenti</string>
-    <string name="rv_select_page">Selezionare la pagina</string>
-    <string name="rv_dialog_reload">Ricaricare</string>
-
-    <!-- Toasts -->
-    <string name="rv_t_external_storage_not_available">Scheda di memoria esterna non disponibile. Montare la scheda e riprovare.</string>
-
-    <!-- Save Report Activity -->
-    <string name="sr_output_format">Formato dell\'output</string>
-    <!-- Toasts -->
-    <!-- Error messages -->
-
-    <!-- Favorites activity -->
-    <string name="f_title">Preferiti</string>
-
-    <!-- Saved Reports Activity -->
-
-    <!-- Context Menu -->
-    <string name="sdr_cm_rename">Rinomina</string>
-    <string name="sdr_cm_delete">Elimina</string>
-
-    <!-- Rename Report Dialog -->
-    <string name="sdr_rrd_msg">Immetti nuovo nome:</string>
-
-    <!-- Delete Report Dialog -->
-    <string name="sdr_drd_title">Elimina report</string>
-    <string name="sdr_drd_msg">Eliminare \"%1$s\"?</string>
-
-    <!-- Toasts -->
-    <string name="sdr_t_no_app_available">Nessun visualizzatore \"%1$s\" installato.</string>
-    <string name="sdr_t_report_renaming_error">Impossibile rinominare il report</string>
-    <string name="sdr_t_report_deletion_error">Impossibile eliminare il report</string>
-
-    <!-- Settings activity -->
-    <string name="st_title">Impostazioni</string>
-    <string name="st_category_connection">Connessione</string>
-    <string name="st_title_cache_enable">Abilita cache</string>
-    <string name="st_title_connect_timeout">Timeout connessione</string>
-    <string name="st_title_read_timeout">Timeout lettura dati</string>
-    <string name="st_send_crashes">Invia report di arresto anomalo</string>
-    <string name="st_summary_sec">%1$s sec</string>
-    <string name="st_summary_h">%1$s h</string>
-    <string name="st_invalid_number_format">Formato numero non valido</string>
-    <string name="st_category_more">Altro</string>
-
-    <!-- Error messages -->
-    <string name="error_http_400">Richiesta non valida. La richiesta non è valida.</string>
-    <string name="error_http_401">Credenziali di autenticazione mancanti o errate.</string>
-    <string name="error_http_403">Autorizzazione negata. La richiesta è stata compresa ma è stata respinta.</string>
-    <string name="error_http_404">Non trovato. L\'URI richiesto non è valido o la risorsa richiesta non esiste.</string>
-    <string name="error_http_500">Errore server interno.</string>
-    <string name="error_http_502">Gateway non valido.</string>
-    <string name="error_http_503">Servizio non disponibile.</string>
-    <string name="error_http_504">Timeout del gateway.</string>
-
-    <!-- Others -->
-    <string name="loading_msg">Caricamento in corso...</string>
-    <string name="search_result_format">Cerca risultato per \'%1$s\'</string>
-    <string name="failed_load_data">Impossibile caricare i dati.</string>
-    <string name="request_was_cancelled_explicitly">Annullato</string>
-
-    <!-- Navigation panel -->
-    <string name="library_card_label">Libreria</string>
-    <string name="repository_card_label">Archivio</string>
-    <string name="favorites_card_label">Preferiti</string>
-    <string name="settings_card_label">Impostazioni</string>
-
-    <!-- Pagination controll -->
-    <string name="of"><![CDATA[di %d]]></string>
-    <string name="dialog_current_page">Imposta pagina corrente</string>
-    <string name="rv_error_empty_report_title">Report è vuoto</string>
-
-    <!-- Rate Dialog -->
-    <string name="h_rd_later">Ricordamelo più tardi</string>
-    <string name="h_rd_never">No, grazie</string>
-    <string name="h_rd_rate">Valuta TIBCO® JasperMobile™</string>
-
-    <!-- Navigation Drawer -->
-    <string name="nd_drawer_open">apri</string>
-    <string name="nd_drawer_close">chiudi</string>
-    <string name="nd_manage_accounts">Gestione account</string>
-    <string name="nd_select_account">Seleziona Account</string>
-
-    <!-- Password Dialog -->
-    <string name="h_ad_title_server_sign_in">Registrazione al server</string>
-    <string name="h_ad_label_wrong_password">Nome utente o password non corretti. Immettere di nuovo le credenziali.</string>
-
-    <!-- Rate Dialog -->
-    <string name="h_rd_description">Se apprezzi l\'utilizzo di TIBCO® JasperMobile™, ti preghiamo di farci sapere la tua opinione. Non richiederà più di un minuto. Grazie per il tuo sostegno!</string>
-
-    <!-- Error messages -->
-    <string name="sp_error_reserved_alias">Alias ​​riservati.</string>
-
-    <!-- Repository Activity -->
-    <string name="r_search_nothing_to_display">Nessun elemento corrisponde ai criteri di ricerca.</string>
-
-    <!-- Context Menu -->
-    <string name="r_cm_added_to_favorites">Aggiunto ai Preferiti.</string>
-    <string name="r_cm_removed_from_favorites">Rimosso dai Preferiti.</string>
-    <string name="r_cm_print">Stampa</string>
-
-    <!-- Search Activity -->
-    <string name="s_saved_items_hint">Cerca file salvati</string>
-
-    <!-- Filter Favorites Dialog -->
-    <string name="f_fd_option_folders">Cartelle</string>
-
-    <!-- Settings Activity -->
-    <string name="sa_show_feedback">Commento</string>
-
-    <!-- Report Viewer Activity -->
-    <string name="rv_out_of_range">La pagina richiesta non è compresa nell\'intervallo.</string>
-    <string name="rv_open_link_chooser">Apri il collegamento su</string>
-
-
-    <!-- Save Report Activity -->
-    <string name="sr_report_name">Nome del file</string>
-    <string name="sr_from">Da pagina</string>
-    <string name="sr_to">a pagina</string>
-    <string name="sr_failed_to_create_local_repo">Impossibile creare la memorizzazione del file locale.</string>
-    <string name="sr_failed_to_execute_report">Impossibile eseguire il rapporto</string>
-
-    <!-- Error messages -->
-    <string name="sr_error_field_is_empty">Questo campo è obbligatorio.</string>
-    <string name="sr_error_characters_not_allowed">I caratteri seguenti non sono consentiti: * \\ / \"\': |? &lt;&gt; + []</string>
-    <string name="sr_error_report_exists">Esiste già un file con questo nome.</string>
-
-    <!-- Favorites activity -->
-    <string name="f_empty_list_msg">Nessun oggetto favorito</string>
-
-    <!-- Saved Files Activity -->
-    <string name="sdr_ab_title">File salvati</string>
-    <string name="sdr_ab_list_msg">Nessun file salvato</string>
-
-    <!-- Context Menu -->
-    <string name="action_mode_title">Elemento selezionato</string>
-
-    <!-- Rename File Dialog -->
-    <string name="sdr_rrd_title">Rinomina file</string>
-    <string name="sdr_rrd_hint">Nome del file</string>
-    <string name="sdr_rrd_error_name_is_empty">Questo campo è obbligatorio.</string>
-    <string name="sdr_rrd_error_characters_not_allowed">I caratteri seguenti non sono consentiti: * \\ / \"\': |? &lt;&gt; + []</string>
-    <string name="sdr_rrd_error_report_exists">Esiste già un file con questo nome.</string>
-
-    <!-- Remove Favorites Dialog -->
-    <string name="sdr_dfd_title">Rimuovi dai Preferiti</string>
-    <string name="sdr_dfd_msg">Rimuovere davvero \"%1$s\"?</string>
-
-    <!-- Settings activity -->
-    <string name="st_restart_note">NOTA: Riavviare l\'applicazione dopo aver modificato questa impostazione.</string>
-
-    <!-- Error messages -->
-    <string name="r_error_server_not_found">Server non trovato.</string>
-    <string name="r_error_incorrect_credentials">Credenziali non valide.</string>
-
-    <!-- Others -->
-    <string name="authenticator_label">Account Jasper</string>
-    <string name="no_network">Si è verificato un errore di rete.</string>
-
-    <!-- Accounts activity -->
-    <string name="add_account">Aggiungi account</string>
-    <string name="try_demo">Prova versione demo</string>
-    <string name="hint_alias">Nome dell\'account</string>
-    <string name="hint_server_url">URL del server</string>
-    <string name="hint_organization">Organizzazione</string>
-    <string name="hint_username">Nome utente</string>
-    <string name="hint_password">Password</string>
-    <string name="success_add_account">È stato aggiunto l\'account con nome %1$s</string>
-    <string name="failure_add_account">Impossibile aggiungere account. Motivo: %1$s</string>
-    <string name="account_add">Aggiunta dell\'account in corso...</string>
-
-    <!--Dashboard activity-->
-    <string name="da_session_expired">Sessione scaduta</string>
-    <string name="da_session_refresh_failed">Impossibile aggiornare la sessione</string>
-    <string name="da_loading">Caricamento del dashboard in corso...</string>
-
-    <!-- MultiSelectSpinner -->
-    <string name="mss_btn_check_all">Seleziona tutto</string>
-    <string name="mss_btn_uncheck_all">Deseleziona tutto</string>
-
-    <!-- Navigation panel -->
-    <string name="recent_card_label">Visualizzato recentemente</string>
-    <string name="cancel">Annulla</string>
-    <string name="ok">OK</string>
-
-    <!-- Repository Activity -->
-    <string name="resources_not_found">Nessuna risorsa trovata</string>
-
-    <!-- Progress Dialog -->
-    <string name="r_pd_initializing_msg">Inizializzazione in corso...</string>
-
-    <!-- File viewing -->
-    <string name="fv_try_again_btn">Riprova</string>
-    <string name="fv_can_not_show_message">Impossibile visualizzare il contenuto dei file</string>
-    <string name="fv_undefined_message">Impossible aprire il file. Tipo risorsa non definita</string>
-    <string name="fv_opening_message">Apertura file in corso...</string>
-
-    <!-- Filter Dialog -->
-    <string name="s_fd_option_saved_values">Valori salvati</string>
-    <string name="s_fd_option_files">File</string>
-    <string name="s_fd_option_others">Altri</string>
-
-    <!-- Report Options Activity -->
-    <string name="ro_default">Predefinito</string>
-    <string name="ro_page_title">Filtri</string>
-    <string name="ro_save_ro">Salva valori</string>
-    <string name="ro_save_text">Il nome per i valori salvati</string>
-    <string name="ro_save_same">Questo rapporto ha già salvato i valori con questo nome. I valori salvati saranno sovrascritti.</string>
-    <string name="ro_default_save_name">Opzioni</string>
-    <string name="ro_delete_ro">limina valori salvati</string>
-    <string name="ro_reset_ro">Ripristino valori</string>
-    <string name="ro_ms_available">Disponibili: %1$s</string>
-    <string name="ro_ms_selected">Selezionati: %1$s</string>
-    <string name="ro_no_items_selected">Nessun elemento selezionato</string>
-    <string name="ro_select_all">Seleziona tutto</string>
-    <string name="ro_deselect_all">Deseleziona tutto</string>
-    <string name="ro_inverse">Inverso</string>
-    <string name="ro_search">Ricerca elenco in corso...</string>
-    <string name="ro_show">Valori salvati</string>
-
-    <!-- Resource Info Activity -->
-    <string name="ri_schedule">Pianificazione</string>
-    <string name="ri_type_title">Digitare:</string>
-    <string name="ri_label_title">Etichetta:</string>
-    <string name="ri_description_title">Descrizione:</string>
-    <string name="ri_modified_title">Data modificata:</string>
-    <string name="ri_creation_title">Data di creazione:</string>
-    <string name="ri_file_format">Formato del file:</string>
-    <string name="ri_file_size">Dimensione del file:</string>
-    <string name="ri_version_title">Versione:</string>
-    <string name="ri_permissions_title">Accesso utenti:</string>
-
-    <!-- Resource permission -->
-    <string name="rp_no_access">Nessun accesso</string>
-    <string name="rp_administer">Modifica, Elimina, Gestisci</string>
-    <string name="rp_read_only">Sola lettura</string>
-    <string name="rp_read_write">Modifica</string>
-    <string name="rp_read_delete">Sola lettura, Elimina</string>
-    <string name="rp_read_write_delete">Modifica, Elimina</string>
-    <string name="rp_execute_only">Esegui solo</string>
-
-    <!-- Schedule -->
-    <string name="sch_new">Nuova pianificazione</string>
-    <string name="sch_edit">Modifica pianificazione</string>
-    <string name="sch_job_name">Nome lavoro pianificato</string>
-    <string name="sch_file_name">Nome del file di stampa</string>
-    <string name="sch_run_immediately">Esegui subito</string>
-    <string name="sch_start_date">Pianifica data di inizio</string>
-    <string name="sch_destination">Percorso di destinazione di stampa</string>
-    <string name="sch_created">Lavoro pianificato</string>
-    <string name="sch_updated">Lavoro aggiornato</string>
-    <string name="sch_deleted">Pianificazione eliminata</string>
-    <string name="sch_jobs">Pianificazioni</string>
-    <string name="sch_not_found">Nessun lavoro pianificato.</string>
-    <string name="sch_format_paginated">%1$s (Impaginato)</string>
-    <string name="sch_state_normal">Normale</string>
-    <string name="sch_state_complete">Completa</string>
-    <string name="sch_state_executing">Esecuzione</string>
-    <string name="sch_state_error">Errore</string>
-    <string name="sch_state_paused">In pausa</string>
-    <string name="sch_state_unknown">Sconosciuto</string>
-    <string name="sdr_delete_title">Elimina pianificazione</string>
-    <string name="sdr_delete_message">Vuoi davvero eliminare questa pianificazione?</string>
-
-    <!-- Report Viewer Activity -->
-    <string name="rv_webview_still_loading">Tempo di caricamento eccessivamente lungo. Attendere o riprovare più tardi.</string>
-
-    <!-- Saved Files Activity -->
-    <string name="sdr_starting_downloading_msg">Inizio download in corso...</string>
-
-    <string name="sdr_dfd_msg_multi">Rimuovere gli elementi selezionati (%1$s elementi)?</string>
-
-    <!-- Settings activity -->
-    <string name="st_category_resource_cache">Risorse cache</string>
-    <string name="st_title_cache_expiration">Periodo di scadenza della cache</string>
-    <string name="st_title_clear_cache">Cancella cache</string>
-    <string name="st_summary_cache_enable">Risorse cache per il periodo di tempo specificato</string>
-    <string name="st_summary_clear_cache">Rimuovere tutte le risorse memorizzate nella cache</string>
-    <string name="st_screenshot_enable">Cattura dello schermo in corso...</string>
-    <string name="st_action_clear_cache">Cache cancellata</string>
-    <string name="st_action_clear_cache_fail">La cache non può essere cancellato</string>
-
-    <!-- Error messages -->
-    <string name="error_report_cancelled">Esecuzione del rapporto annullata</string>
-    <string name="error_report_failed">Esecuzione del rapporto non riuscita</string>
-    <string name="error_export_failed">Esportazione del rapporto non riuscita</string>
-    <string name="error_export_cancelled">Esportazione del rapporto annullata</string>
-    <string name="error_schedule_duplicate_file_name">Nome del file di stampa duplicato</string>
-    <string name="error_schedule_start_date_in_the_past">La data di inizio è nel passato. Dovrebbe essere in futuro.</string>
-    <string name="error_schedule_special_characters">Il nome di stampa di base contiene caratteri non validi.</string>
-    <string name="error_schedule_folder_not_exist">La cartella di stampa del lavoro non può essere trovata.</string>
-    <string name="error_schedule_folder_not_writable">Non si possiedono le autorizzazioni per salvare la stampa del lavoro nella cartella.</string>
-    <string name="error_schedule_output_filename_too_long">Il nome del file di stampa del lavoro è troppo lungo. Lunghezza consentita: %1$s</string>
-    <string name="error_schedule_label_too_long">Il nome del\'etichetta del lavoro è troppo lungo. Lunghezza consentita: %1$s</string>
-    <string name="error_undefined">Si è verificato un errore non definito</string>
-    <string name="error_saved_values_duplicate">Le Opzioni salvate con questo nome esistono già in questa cartella, sotto un altro rapporto.</string>
-    <string name="error_saved_values_label_too_long">L\'etichetta delle Opzioni salvate è troppo lunga. La lunghezza massima è %1$s caratteri.</string>
-
-    <!-- Others -->
-    <string name="wrong_action">Non è possibile eseguire questa azione</string>
-    <string name="voice_command_btn">Comando vocale</string>
-    <string name="voice_command_title">Pronunciare qualche comando</string>
-    <string name="voice_command_undefined">Impossibile riconoscere il comando</string>
-    <string name="voice_command_help">È possibile utilizzare i comandi vocali per interagire con le risorse. Sono supportati due comandi: \"esegui\" e \"trova\". Ad esempio, è possibile pronunciare \"esegui\" seguito dal nome della risorsa per avviare l\'esecuzione del rapporto.</string>
-    <string name="voice_command_not_show_again">Non mostrare più</string>
-
-    <!-- Casting -->
-    <string name="cast_logo_presentation_message">Sempre attivo e facile da accedere</string>
-    <string name="cast_ready_message">Pronto a lanciare il rapporto</string>
-    <string name="cast_scroll_message">Rapporto in fase di presentazione. Tenere premuti i tasti freccia per scorrere verso l\'alto o verso il basso.</string>
-
-    <!-- WebView errors -->
-    <string name="error_webview_auth_msg">Autenticazione dell\'utente sul server non riuscita</string>
-    <string name="error_webview_auth_title">Errore di autenticazione</string>
-    <string name="error_webview_timeout_msg">Tempo di comunicazione del server eccessivamente lungo. Riprovare più tardi.</string>
-    <string name="error_webview_timeout_title">Connessione non riuscita</string>
-    <string name="error_webview_too_many_requests_msg">Numero eccessivo di richieste durante questo caricamento</string>
-    <string name="error_webview_too_many_requests_title">Numero eccessivo di richieste</string>
-    <string name="error_webview_generic_msg">Errore generico</string>
-    <string name="error_webview_generic_title">Errore sconosciuto</string>
-    <string name="error_webview_bad_url_msg">Controllo dell\'URL inserito in corso...</string>
-    <string name="error_webview_bad_url_title">URL non valido</string>
-    <string name="error_webview_connect_msg">Impossibile connettersi al server</string>
-    <string name="error_webview_connect_title">Connessione</string>
-    <string name="error_webview_ssl_handshake_msg">Impossibile eseguire la sincronizzazione SSL</string>
-    <string name="error_webview_ssl_handshake_title">Sincronizzazione SSL non riuscita</string>
-    <string name="error_webview_host_lookup_msg">Ricerca del nome host del server o del proxy non riuscita</string>
-    <string name="error_webview_host_lookup_title">Errore durante la ricerca dell\'host</string>
-    <string name="error_webview_proxy_auth_msg">Autenticazione dell\'utente tramite proxy non riuscita</string>
-    <string name="error_webview_proxy_auth_title">Errore autenticazione proxy</string>
-    <string name="error_webview_redirect_loop_msg">Numero eccessivo di reindirizzamenti</string>
-    <string name="error_webview_redirect_loop_title">Errore loop di reindirizzamento</string>
-    <string name="error_webview_unsupported_auth_scheme_msg">Schema di autenticazione non supportato (non di base o digest)</string>
-    <string name="error_webview_unsupported_auth_scheme_title">Errore scherma autenticazione</string>
-    <string name="error_webview_unsupported_scheme_msg">Schema URI non supportato</string>
-    <string name="error_webview_unsupported_scheme_title">Errore schema URI</string>
-    <string name="error_webview_error_file_msg">Errore generico con i file</string>
-    <string name="error_webview_error_file_title">File</string>
-    <string name="error_webview_file_not_found_msg">File non trovato</string>
-    <string name="error_webview_file_not_found_title">File</string>
-    <string name="error_webview_io_msg">Comunicazione con il server non riuscita. Riprovare più tardi.</string>
-    <string name="error_webview_io_title">Errore IO</string>
-
-    <!-- Permissions -->
-    <string name="enable_write_permission">Impossibile salvare. Autorizzazione negata</string>
-
-    <!-- Context Menu -->
-    <string name="r_cm_share">Condividi</string>
-    <string name="r_cm_info">Informazioni</string>
-    <string name="r_cm_cancel_saving">Annulla salvataggio</string>
-    <string name="r_cm_enable">Abilita</string>
-    <string name="r_cm_disable">Disabilita</string>
-    <string name="r_cm_edit">Modifica</string>
-    <string name="r_cm_delete">Elimina</string>
-
-    <!-- Schedule -->
-    <string name="sch_end_date">Pianifica data fine</string>
-    <string name="sch_next_run_label">Esegui successivo: %1s</string>
-    <string name="sch_choose_report">Scegli il rapporto da pianificare...</string>
-    <string name="sch_resource_label">Etichetta del rapporto</string>
-    <string name="sch_resource_uri">Rapporto uri</string>
-    <string name="sch_label">Nome</string>
-    <string name="sch_description">Descrizione</string>
-    <string name="sch_id">ID</string>
-    <string name="sch_owner">Proprietario</string>
-    <string name="sch_state">Stato</string>
-    <string name="sch_lass_run">Ultima esecuzione</string>
-    <string name="sch_next_run">Prossima esecuzione</string>
-
-    <!-- Toasts -->
-    <string name="annotation_title">Tocca per annotare...</string>
-    <string name="annotation_pick_color">Scegli un colore...</string>
-    <string name="annotation_pick_line_size">Scegli la dimensione della linea...</string>
-    <string name="annotation_pick_font_size">Scegli lo stile del font...</string>
-    <string name="annotation_enable_border">Aggiungi bordo al testo</string>
-    <string name="annotation_add_note">Aggiungi una nota</string>
-    <string name="annotation_edit_note">Modifica nota</string>
-    <string name="annotation_hint">Immetti un valore</string>
-    <string name="annotation_done">Fatto</string>
-    <string name="annotation_reset">Resetta</string>
-    <string name="share_chooser_title">Condividi tramite</string>
-    <string name="share_message">Condiviso tramite TIBCO JasperMobile</string>
-
-    <!-- Save Report Activity -->
-    <string name="sr_recurrence_type">Ricorrenza</string>
-    <string name="sr_recurrence_none">Nessuna</string>
-    <string name="sr_recurrence_simple">Semplice</string>
-    <string name="sr_recurrence_simple_unit_minute">Minuti</string>
-    <string name="sr_recurrence_simple_unit_hour">Ore</string>
-    <string name="sr_recurrence_simple_unit_day">Giorni</string>
-    <string name="sr_recurrence_simple_unit_week">Settimane</string>
-    <string name="sr_recurrence_calendar">Calendario</string>
-    <string name="sr_repeat_every">Ripeti ogni (richiesto)</string>
-    <string name="sr_schedule_end">Fine pianificazione</string>
-    <string name="sr_run_number_of_times">Esegui un numero di volte specifico</string>
-    <string name="sr_number_of_runs">Numero di esecuzioni</string>
-    <string name="sr_run_until">Esegui fino ad una data specifica</string>
-    <string name="sr_run_indefinitely">Esegui indefinitivamente</string>
-    <string name="sr_months">Mesi</string>
-    <string name="sr_hours">Ore (richiesto):</string>
-    <string name="sr_minutes">Minuti (richiesto):</string>
-    <string name="sr_days">Giorni</string>
-    <string name="sr_select_days">Seleziona giorni:</string>
-    <string name="sr_selected_days">Giorni selezionati:</string>
-    <string name="sr_dates_in_month">Date in mese:</string>
-
-    <!-- Error messages -->
-    <string name="error_schedule_end_date_in_the_past">La data di fine è nel passato. Dovrebbe essere nel futuro.</string>
-    <string name="error_trigger_empty_months">È necessario selezionare al meno un mese.</string>
-    <string name="error_trigger_empty_days">È necessario selezionare al meno un giorno.</string>
-
-    <!-- Casting -->
-    <string name="cast_zoom_message">Cliccare zoom avanti o zoom indietro per modificare le dimensioni del rapporto.</string>
+	<string name="sr_recurrence_simple_unit_week">Settimane</string>
+<string name="s_fd_sort_label">Etichetta</string>
+<string name="sp_error_reserved_alias">Alias ​​riservato.</string>
+<string name="resources_not_found">Nessuna risorsa trovata</string>
+<string name="f_empty_list_msg">Nessun elemento salvato tra i Preferiti</string>
+<string name="error_schedule_special_characters">Il nome di output di base contiene caratteri non validi. Potrebbe esserci un errore di ortografia.</string>
+<string name="sdr_rrd_hint">Nome del file</string>
+<string name="error_webview_redirect_loop_title">Errore loop di reindirizzamento</string>
+<string name="failure_add_account">Impossibile aggiungere l’account. Motivo: %1$s</string>
+<string name="hint_password">Password</string>
+<string name="ro_save_ro">Salva valori</string>
+<string name="sp_error_field_required">Questo campo è obbligatorio.</string>
+<string name="sch_updated">Lavoro aggiornato</string>
+<string name="ro_search">Ricerca elenco…</string>
+<string name="rv_apply_filters_action">Applica</string>
+<string name="st_invalid_number_format">Formato numero non valido</string>
+<string name="f_fd_option_folders">Cartelle</string>
+<string name="sch_choose_report">Scegliere il report da pianificare…</string>
+<string name="sr_months">Mesi</string>
+<string name="repository_card_label">Repository</string>
+<string name="error_webview_timeout_msg">Tempo di comunicazione del server eccessivamente lungo. Riprovare più tardi.</string>
+<string name="sdr_delete_message">Eliminare questa pianificazione?</string>
+<string name="sa_about_privacy_policy">Informativa sulla privacy</string>
+<string name="sr_recurrence_none">Nessuno</string>
+<string name="action_mode_title">Elemento selezionato</string>
+<string name="wr_title">Risorsa Web</string>
+<string name="share_chooser_title">Condividi tramite</string>
+<string name="error_schedule_output_filename_too_long">Il nome del file di output del lavoro è troppo lungo. Lunghezza consentita: %1$s</string>
+<string name="r_cm_add_to_favorites_failed">Impossibile aggiungere ai preferiti.</string>
+<string name="ro_reset_ro">Reimposta valori</string>
+<string name="ro_default_save_name">Opzioni</string>
+<string name="s_fd_option_files">File</string>
+<string name="error_webview_unsupported_scheme_title">Errore schema URI</string>
+<string name="sr_schedule_end">Fine pianificazione</string>
+<string name="sp_save_btn">Salva</string>
+<string name="ro_page_title">Filtri</string>
+<string name="error_export_failed">Esportazione del report non riuscita</string>
+<string name="st_title">Impostazioni</string>
+<string name="sdr_saving_error_msg">Impossibile salvare la risorsa</string>
+<string name="sa_about_copyright">Copyright © 2005–2016 TIBCO Software, Inc.</string>
+<string name="sch_deleted">Pianificazione eliminata</string>
+<string name="failed_load_data">Impossibile caricare i dati.</string>
+<string name="error_trigger_calendar_pattern_days_in_month">Formato errato nell’indicazione dei giorni del mese per la ricorrenza del calendario.</string>
+<string name="sch_description">Descrizione</string>
+<string name="nd_select_account">Seleziona account</string>
+<string name="sr_recurrence_simple_unit_minute">Minuti</string>
+<string name="rv_ab_show_filters">Mostra filtri</string>
+<string name="r_cm_added_to_favorites">Aggiunto ai preferiti.</string>
+<string name="error_report_cancelled">Esecuzione del report annullata</string>
+<string name="cast_scroll_message">Report in fase di presentazione. Tenere premuti i tasti freccia per scorrere verso l’alto o il basso.</string>
+<string name="h_ad_label_wrong_password">Nome utente o password non corretti. Immettere di nuovo le credenziali.</string>
+<string name="error_schedule_end_date_in_the_past">La data di fine è già trascorsa. Dovrebbe essere una data futura.</string>
+<string name="img_cd_list_item">Anteprima elemento elenco</string>
+<string name="sr_from">Da pagina</string>
+<string name="sch_destination">Percorso di destinazione di output</string>
+<string name="spm_delete_btn">Elimina</string>
+<string name="sdr_ab_title">File salvati</string>
+<string name="account_add">Aggiunta dell’account in corso</string>
+<string name="error_trigger_calendar_pattern_minutes">Formato errato nell’indicazione dei minuti nell’ora per la ricorrenza del calendario.</string>
+<string name="st_summary_sec">%1$s sec</string>
+<string name="error_saved_values_duplicate">Le Opzioni salvate con questo nome esistono già in questa cartella, in un altro report.</string>
+<string name="r_cm_enable">Abilita</string>
+<string name="sa_about_privacy">Informativa sulla privacy</string>
+<string name="ri_creation_title">Data di creazione:</string>
+<string name="st_screenshot_enable">Acquisizione schermo in corso</string>
+<string name="sdr_dfd_msg">Rimuovere \&quot;%1$s\&quot;?</string>
+<string name="ro_inverse">Inverso</string>
+<string name="error_webview_generic_title">Errore sconosciuto</string>
+<string name="annotation_pick_color">Scegliere un colore…</string>
+<string name="error_webview_auth_title">Errore di autenticazione</string>
+<string name="r_pd_running_report_msg">Esecuzione report in corso…</string>
+<string name="sr_number_of_runs">Numero di esecuzioni</string>
+<string name="r_pd_initializing_msg">Inizializzazione in corso…</string>
+<string name="error_http_504">Timeout del gateway.</string>
+<string name="error_http_503">Servizio non disponibile.</string>
+<string name="error_http_502">Gateway non valido.</string>
+<string name="sdr_rrd_error_name_is_empty">Questo campo è obbligatorio.</string>
+<string name="error_http_500">Errore server interno.</string>
+<string name="ri_version_title">Versione:</string>
+<string name="h_rd_rate">Valuta</string>
+<string name="ro_save_same">Questo report ha già salvato i valori con questo nome. Saranno sovrascritti.</string>
+<string name="error_schedule_start_date_in_the_past">La data di inizio è già trascorsa. Dovrebbe essere una data futura.</string>
+<string name="error_saved_values_label_too_long">L’etichetta delle Opzioni salvate è troppo lunga. La lunghezza massima è di %1$s caratteri.</string>
+<string name="rv_ab_save_report">Salva report</string>
+<string name="recent_card_label">Visualizzato di recente</string>
+<string name="sa_show_feedback">Commento</string>
+<string name="error_webview_error_file_msg">Errore generico del file</string>
+<string name="hint_organization">Organizzazione</string>
+<string name="sch_id">ID</string>
+<string name="r_cm_add_to_favorites">Aggiungi ai preferiti</string>
+<string name="voice_command_title">Pronunciare qualche comando</string>
+<string name="sdr_t_no_app_available">Nessun visualizzatore \&quot;%1$s\&quot; installato.</string>
+<string name="s_fd_option_reports">Report</string>
+<string name="error_trigger_empty_days">È necessario selezionare almeno un giorno.</string>
+<string name="r_cm_view_details">Visualizza dettagli</string>
+<string name="error_webview_io_title">Errore IO</string>
+<string name="fv_undefined_message">Impossibile aprire. Tipo di risorsa non definito.</string>
+<string name="da_session_expired">Sessione scaduta</string>
+<string name="error_webview_connect_msg">Impossibile connettersi al server</string>
+<string name="rv_t_external_storage_not_available">Scheda di memoria esterna non disponibile. Inserire la scheda e riprovare.</string>
+<string name="favorites_card_label">Preferiti</string>
+<string name="r_ab_refresh">Aggiorna</string>
+<string name="sdr_starting_downloading_msg">Inizio del download in corso…</string>
+<string name="ro_no_items_selected">Nessun elemento selezionato</string>
+<string name="rv_dialog_reload">Ricarica</string>
+<string name="sp_error_url_not_valid">URL non valido.</string>
+<string name="ro_show">Valori salvati</string>
+<string name="sch_state_unknown">Sconosciuto</string>
+<string name="rv_webview_still_loading">Tempo di caricamento eccessivamente lungo. Attendere o riprovare più tardi.</string>
+<string name="ri_schedule">Pianificazione</string>
+<string name="hint_server_url">URL del server</string>
+<string name="h_rd_description">Ci interessa conoscere l’opinione dei clienti che utilizzano TIBCO® JasperMobile™. Non richiederà più di un minuto. Grazie per il sostegno.</string>
+<string name="error_undefined">Si è verificato un errore non definito</string>
+<string name="sr_output_format">Formato di output</string>
+<string name="r_error_server_not_supported">Versione del server precedente a 5.5 (non supportata) o URL errato.</string>
+<string name="r_cm_edit">Modifica</string>
+<string name="sr_to">A pagina</string>
+<string name="sdr_saving_multiply_msg">Download di %1$s risorse in corso</string>
+<string name="sch_next_run">Prossima esecuzione</string>
+<string name="dialog_current_page">Imposta pagina corrente</string>
+<string name="error_webview_unsupported_scheme_msg">Schema URI non supportato</string>
+<string name="sdr_drd_title">Elimina file</string>
+<string name="nd_drawer_close">chiudi</string>
+<string name="ri_description_title">Descrizione:</string>
+<string name="h_ad_title_server_sign_in">Accesso al server</string>
+<string name="rv_bookmark_page">Pagina: %s</string>
+<string name="annotation_add_note">Aggiungi nota</string>
+<string name="voice_command_not_show_again">Non mostrare più</string>
+<string name="sch_resource_label">Etichetta del report</string>
+<string name="sch_end_date">Data fine pianificazione</string>
+<string name="ok">OK</string>
+<string name="s_fd_option_all">Tutto</string>
+<string name="error_webview_proxy_auth_msg">Autenticazione dell’utente non riuscita nel proxy</string>
+<string name="of">di %d</string>
+<string name="st_restart_note">NOTA: riavviare l’app dopo aver modificato questa impostazione.</string>
+<string name="sdr_delete_title">Elimina pianificazione</string>
+<string name="sr_run_indefinitely">Esegui illimitatamente</string>
+<string name="rv_select_page">Seleziona pagina</string>
+<string name="r_cm_remove_from_favorites_failed">Impossibile rimuovere dai preferiti.</string>
+<string name="ri_file_size">Dimensione del file:</string>
+<string name="open_in">Apri in</string>
+<string name="st_category_resource_cache">Cache risorse</string>
+<string name="sch_lass_run">Ultima esecuzione</string>
+<string name="st_summary_clear_cache">Rimuovi tutte le risorse nella cache</string>
+<string name="r_cm_disable">Disabilita</string>
+<string name="mss_btn_uncheck_all">Deseleziona tutto</string>
+<string name="sa_about_eula">Contratto di licenza per l’utente</string>
+<string name="st_title_connect_timeout">Timeout della connessione</string>
+<string name="ri_modified_title">Data modifica:</string>
+<string name="error_webview_io_msg">Comunicazione con il server non riuscita. Riprovare più tardi.</string>
+<string name="sr_recurrence_simple_unit_hour">Ore</string>
+<string name="error_webview_unsupported_auth_scheme_msg">Schema di autenticazione non supportato (non di base o digest)</string>
+<string name="sr_recurrence_type">Ricorrenza</string>
+<string name="r_cm_removed_from_favorites">Rimosso dai preferiti.</string>
+<string name="sr_error_report_exists">Esiste già un file con questo nome.</string>
+<string name="authenticator_label">Account Jasper</string>
+<string name="r_ab_switch">Cambia visualizzazione</string>
+<string name="st_send_crashes">Invia report di arresto anomalo</string>
+<string name="error_schedule_folder_not_exist">Impossibile trovare la cartella di output del lavoro. Potrebbe essere stata eliminata o spostata.</string>
+<string name="da_session_refresh_failed">Impossibile aggiornare la sessione</string>
+<string name="wrong_action">Impossibile eseguire questa azione</string>
+<string name="error_http_404">Non trovato. L’URI richiesto non è valido o la risorsa richiesta non esiste.</string>
+<string name="error_http_403">Autorizzazione negata. La richiesta è stata compresa ma è stata respinta.</string>
+<string name="nd_drawer_open">apri</string>
+<string name="error_http_401">Credenziali di autenticazione assenti o errate.</string>
+<string name="error_webview_error_file_title">File</string>
+<string name="error_http_400">Richiesta non valida. La richiesta non è valida.</string>
+<string name="sdr_t_report_renaming_error">Impossibile rinominare il report.</string>
+<string name="error_webview_ssl_handshake_msg">Impossibile eseguire la sincronizzazione SSL</string>
+<string name="sch_state_normal">Normale</string>
+<string name="sr_run_until">Esegui fino ad una data specifica</string>
+<string name="sdr_drd_msg">Eliminare \&quot;%1$s\&quot;?</string>
+<string name="mss_btn_check_all">Seleziona tutto</string>
+<string name="ro_deselect_all">Deseleziona tutto</string>
+<string name="r_error_server_not_found">Server non trovato.</string>
+<string name="enable_write_permission">Impossibile salvare. Autorizzazione negata.</string>
+<string name="fv_opening_message">Apertura del file in corso…</string>
+<string name="error_webview_host_lookup_msg">Ricerca del nome host del server o del proxy non riuscita</string>
+<string name="h_rd_never">No, grazie</string>
+<string name="library_card_label">Libreria</string>
+<string name="h_rd_later">Ricorda più tardi</string>
+<string name="st_action_clear_cache_fail">Impossibile cancellare la cache</string>
+<string name="sch_not_found">Nessun lavoro trovato.</string>
+<string name="ri_label_title">Etichetta:</string>
+<string name="sch_next_run_label">Prossima esecuzione: %1$s</string>
+<string name="rv_error_empty_report_title">Il report è vuoto.</string>
+<string name="img_cd_grid_item">Anteprima elemento griglia</string>
+<string name="error_webview_proxy_auth_title">Errore autenticazione proxy</string>
+<string name="sch_format_paginated">%1$s (impaginato)</string>
+<string name="r_cm_remove_from_favorites">Rimuovi dai preferiti</string>
+<string name="r_cm_info">Informazioni</string>
+<string name="error_webview_file_not_found_msg">File non trovato</string>
+<string name="h_library_label">Libreria</string>
+<string name="h_repository_label">Repository</string>
+<string name="sch_created">Lavoro pianificato</string>
+<string name="ro_default">Predefinito</string>
+<string name="sr_report_name">Nome del file</string>
+<string name="no_network">Si è verificato un errore di rete.</string>
+<string name="error_webview_timeout_title">Timeout della connessione</string>
+<string name="rp_read_write">Modifica</string>
+<string name="error_trigger_empty_months">È necessario selezionare almeno un mese.</string>
+<string name="rv_error_empty_report">Nessun dato di report presente</string>
+<string name="sch_file_name">Nome del file di output</string>
+<string name="sdr_dfd_title">Rimuovi dai preferiti</string>
+<string name="sch_label">Nome</string>
+<string name="search_result_format">Cerca risultati per \'%1$s\'</string>
+<string name="error_schedule_folder_not_writable">Non si possiedono le autorizzazioni per salvare l’output del lavoro nella cartella. Selezionare un’altra posizione per salvare il lavoro.</string>
+<string name="r_cm_available_chart_types">Tipi di grafici</string>
+<string name="sch_edit">Modifica pianificazione</string>
+<string name="sch_job_name">Nome lavoro pianificato</string>
+<string name="r_cm_delete">Elimina</string>
+<string name="rv_apply_filters_no_data">È possibile applicare altri filtri.</string>
+<string name="error_webview_bad_url_title">URL non valido</string>
+<string name="s_fd_option_others">Altri</string>
+<string name="sdr_rrd_msg">Immettere il nuovo nome:</string>
+<string name="ri_type_title">Digitare:</string>
+<string name="sr_dates_in_month_hint">Immettere date (9, 12, 15) o intervalli di date (9–12, 1–17)</string>
+<string name="annotation_done">Fatto</string>
+<string name="s_fd_option_dashboards">Dashboard</string>
+<string name="st_category_connection">Connessione</string>
+<string name="rp_read_only">Sola lettura</string>
+<string name="sch_disabled">Disabilitato</string>
+<string name="sdr_ab_list_msg">Nessun file salvato</string>
+<string name="sr_failed_to_create_local_repo">Impossibile creare l’archiviazione del file locale.</string>
+<string name="annotation_pick_font_size">Scegliere lo stile del font…</string>
+<string name="ro_select_all">Seleziona tutto</string>
+<string name="sdr_dfd_msg_multi">Rimuovere gli elementi selezionati (%1$s elementi)?</string>
+<string name="error_webview_bad_url_msg">Controllo dell’URL immesso in corso…</string>
+<string name="sch_new">Nuova pianificazione</string>
+<string name="error_export_cancelled">Esportazione del report annullata</string>
+<string name="sdr_rrd_error_report_exists">Esiste già un file con questo nome.</string>
+<string name="success_add_account">È stato aggiunto l’account con nome %1$s</string>
+<string name="st_title_cache_enable">Abilita cache</string>
+<string name="sch_resource_uri">URI report</string>
+<string name="ro_ms_selected">Selezionati: %1$s</string>
+<string name="sdr_t_report_deletion_error">Impossibile eliminare il report.</string>
+<string name="error_schedule_label_too_long">Il nome dell’etichetta del lavoro è troppo lungo. Lunghezza consentita: %1$s</string>
+<string name="sch_run_immediately">Esegui subito</string>
+<string name="error_webview_file_not_found_title">File</string>
+<string name="cast_zoom_message">Fare clic sullo zoom avanti o sullo zoom indietro per modificare le dimensioni del report.</string>
+<string name="voice_command_undefined">Impossibile riconoscere il comando</string>
+<string name="sr_select_days">Seleziona giorni:</string>
+<string name="st_summary_cache_enable">Risorse cache per il periodo di tempo specificato</string>
+<string name="nd_manage_accounts">Gestione account</string>
+<string name="sdr_cm_rename">Rinomina</string>
+<string name="try_demo">Prova demo</string>
+<string name="sr_hours_hint">Immettere orari nel formato 24 ore (ad esempio 9, 12, 15) oppure intervalli di ore (nella forma 9–12, 1–17)</string>
+<string name="s_fd_sort_date">Data di creazione</string>
+<string name="rp_no_access">Nessun accesso</string>
+<string name="rv_out_of_range">La pagina richiesta non è compresa nell’intervallo.</string>
+<string name="hint_username">Nome utente</string>
+<string name="sp_error_duplicate_alias">Duplicare il nome dell’account.</string>
+<string name="sr_failed_to_execute_report">Impossibile eseguire il report</string>
+<string name="annotation_enable_border">Aggiungi bordo testo</string>
+<string name="rp_read_write_delete">Modifica, elimina</string>
+<string name="sr_days">Giorni</string>
+<string name="r_cm_print">Stampa</string>
+<string name="cancel">Annulla</string>
+<string name="annotation_pick_line_size">Scegliere la dimensione della linea…</string>
+<string name="sch_state_executing">Esecuzione</string>
+<string name="ri_permissions_title">Accesso utente:</string>
+<string name="sr_error_field_is_empty">Questo campo è obbligatorio.</string>
+<string name="da_loading">Caricamento del dashboard in corso…</string>
+<string name="annotation_hint">Immettere il valore</string>
+<string name="fv_can_not_show_message">Impossibile visualizzare il contenuto del file</string>
+<string name="add_account">Aggiungi account</string>
+<string name="s_hint">Ricerca risorse</string>
+<string name="s_saved_items_hint">Cerca file salvati</string>
+<string name="sr_recurrence_simple">Semplice</string>
+<string name="error_trigger_calendar_pattern_hours">Formato errato nell’indicazione delle ore del giorno per la ricorrenza del calendario.</string>
+<string name="sr_selected_days">Giorni selezionati:</string>
+<string name="loading_msg">Caricamento in corso…</string>
+<string name="st_title_read_timeout">Timeout della lettura dati</string>
+<string name="sr_t_report_saved">La risorsa è stata salvata nel file.</string>
+<string name="sch_state">Stato</string>
+<string name="r_error_incorrect_credentials">Credenziali non valide.</string>
+<string name="sdr_cm_delete">Elimina</string>
+<string name="st_title_clear_cache">Cancella cache</string>
+<string name="r_search_nothing_to_display">Nessun elemento corrisponde ai criteri di ricerca.</string>
+<string name="error_report_failed">Esecuzione del report non riuscita</string>
+<string name="settings_card_label">Impostazioni</string>
+<string name="sa_about_hint">Strumento di gestione e visualizzatore di report per server TIBCO JasperReports® 6.0 e versioni successive.</string>
+<string name="annotation_edit_note">Modifica nota</string>
+<string name="error_webview_generic_msg">Errore generico</string>
+<string name="error_schedule_duplicate_file_name">Duplica nome file di output</string>
+<string name="voice_command_btn">Comando vocale</string>
+<string name="sa_show_about">Informazioni su</string>
+<string name="rv_open_link_chooser">Apri il collegamento su</string>
+<string name="rv_ab_chart_types">Tipi di grafici</string>
+<string name="sdr_rrd_title">Rinomina file</string>
+<string name="st_summary_h">%1$s h</string>
+<string name="st_action_clear_cache">Cache cancellata</string>
+<string name="r_cm_share">Condividi</string>
+<string name="s_ab_sort_by">Ordina per</string>
+<string name="sch_owner">Proprietario</string>
+<string name="sr_ab_title">Salva risorsa</string>
+<string name="sr_minutes_hint">Immettere 0, 15, 30, 45 per eseguire ogni quarto d’ora</string>
+<string name="fv_try_again_btn">Riprovare</string>
+<string name="s_fd_option_saved_values">Valori salvati</string>
+<string name="sr_recurrence_simple_unit_day">Giorni</string>
+<string name="error_webview_too_many_requests_msg">Numero eccessivo di richieste durante questo caricamento</string>
+<string name="h_ad_label_server_profile">Profilo server</string>
+<string name="sr_minutes">Minuti (richiesto):</string>
+<string name="annotation_title">Toccare per annotare…</string>
+<string name="st_title_cache_expiration">Periodo di scadenza della cache</string>
+<string name="error_webview_host_lookup_title">Errore di ricerca dell’host</string>
+<string name="rp_read_delete">Sola lettura, elimina</string>
+<string name="sch_start_date">Data inizio pianificazione</string>
+<string name="sr_recurrence_calendar">Calendario</string>
+<string name="sch_state_error">Errore</string>
+<string name="share_message">Condiviso tramite TIBCO JasperMobile</string>
+<string name="error_webview_auth_msg">Autenticazione dell’utente non riuscita sul server</string>
+<string name="annotation_reset">Reimposta</string>
+<string name="st_category_more">Altro</string>
+<string name="sr_run_number_of_times">Esegui un numero specifico di volte</string>
+<string name="error_webview_ssl_handshake_title">Sincronizzazione SSL non riuscita</string>
+<string name="ro_delete_ro">Elimina valori salvati</string>
+<string name="ro_save_text">Il nome per i valori salvati</string>
+<string name="error_webview_redirect_loop_msg">Numero eccessivo di reindirizzamenti</string>
+<string name="ro_ms_available">Disponibile: %1$s</string>
+<string name="sch_jobs">Pianificazioni</string>
+<string name="sdr_loading_msg">Download della risorsa ancora in corso…</string>
+<string name="r_ab_search">Cerca</string>
+<string name="sr_dates_in_month">Date in mese:</string>
+<string name="sr_error_characters_not_allowed">I caratteri seguenti non sono consentiti: * \\ / \&quot; \' : ? | &lt; &gt; + [ ]</string>
+<string name="sa_about_version">TIBCO® JasperMobile™ v%1$s</string>
+<string name="ri_report_type">Report</string>
+<string name="sch_state_complete">Completa</string>
+<string name="cast_ready_message">Pronto a trasmettere il report</string>
+<string name="s_ab_filter_by">Filtra per</string>
+<string name="sr_hours">Ore (richiesto):</string>
+<string name="sa_about_latest_updates">Informazioni ultimo aggiornamento</string>
+<string name="sa_about_more_info">Ulteriori informazioni</string>
+<string name="error_webview_unsupported_auth_scheme_title">Errore schema autenticazione</string>
+<string name="sdr_rrd_error_characters_not_allowed">I caratteri seguenti non sono consentiti: * \\ / \&quot; \' : ? | &lt; &gt; + [ ]</string>
+<string name="error_webview_connect_title">Connessione</string>
+<string name="sr_repeat_every">Ripeti ogni (richiesto)</string>
+<string name="rp_administer">Modifica, elimina, gestisci</string>
+<string name="voice_command_help">È possibile utilizzare i comandi vocali per interagire con le risorse. Sono supportati due comandi: &quot;run&quot; e &quot;find&quot;. Ad esempio, è possibile pronunciare &quot;run&quot; seguito dal nome della risorsa per avviare l’esecuzione del report.</string>
+<string name="rp_execute_only">Esegui solo</string>
+<string name="hint_alias">Nome dell’account</string>
+<string name="sdr_saving_msg">Download della risorsa in corso</string>
+<string name="request_was_cancelled_explicitly">Annullato</string>
+<string name="r_cm_cancel_saving">Annulla salvataggio</string>
+<string name="rv_ab_bookmarks">Segnalibri</string>
+<string name="ri_file_format">Formato del file:</string>
+<string name="error_webview_too_many_requests_title">Numero eccessivo di richieste</string>
+<string name="ro_run_report_btn">Esegui report</string>
+<string name="cast_logo_presentation_message">Sempre attivo e facile da accedere</string>
+<string name="rv_apply_filters_message">È necessario applicare valori di input prima di poter visualizzare il report.</string>
+<string name="sch_state_paused">In pausa</string>
+<string name="f_title">Preferiti</string>
 
 </resources>
