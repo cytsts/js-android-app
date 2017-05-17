@@ -27,6 +27,7 @@ package com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -245,6 +246,7 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
 
     @Override
     public void onPageStarted(String newUrl) {
+        onPageStarted();
     }
 
     @Override
@@ -281,12 +283,14 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
     }
 
     protected void showLoading() {
+        Log.d("BaseDashboardActivity", "showLoading");
         ProgressDialogFragment.builder(getSupportFragmentManager())
                 .setLoadingMessage(R.string.da_loading)
                 .show();
     }
 
     protected void hideLoading() {
+        Log.d("BaseDashboardActivity", "hideLoading");
         ProgressDialogFragment.dismiss(getSupportFragmentManager());
     }
 
@@ -300,6 +304,7 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
 
     public abstract void onWebViewConfigured(WebView webView);
 
+    public abstract void onPageStarted();
     public abstract void onPageFinished();
 
     @OptionsItem(R.id.refreshAction)
@@ -351,19 +356,32 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
     }
 
     protected final class GenericSubscriber<R> extends ErrorSubscriber<R> {
+        boolean needShowLoading;
+        protected GenericSubscriber(SimpleSubscriber<R> delegate, boolean needShowLoading) {
+            super(delegate);
+            this.needShowLoading = needShowLoading;
+        }
+
         protected GenericSubscriber(SimpleSubscriber<R> delegate) {
             super(delegate);
+            this.needShowLoading = false;
         }
 
         @Override
         public void onStart() {
-            showLoading();
+            Log.d("BaseDashboardActivity", "onStart");
+            if (needShowLoading) {
+                showLoading();
+            }
             super.onStart();
         }
 
         @Override
         public void onCompleted() {
-            hideLoading();
+            Log.d("BaseDashboardActivity", "onCompleted");
+            if (needShowLoading) {
+                hideLoading();
+            }
             super.onCompleted();
         }
 

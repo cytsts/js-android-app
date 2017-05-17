@@ -134,28 +134,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         return this.dashboard.refresh().done(this._refreshSuccess).fail(this._processErrors);
       };
 
-      DashboardController.prototype.minimizeDashlet = function() {
-        var component, dashboardId;
-        this._showDashlets();
-        $('.show_chartTypeSelector_wrapper').hide();
-        dashboardId = this.v.dashboard.componentIdDomAttribute;
-        component = this.maximizedComponent;
-        $(this.dashboard.container()).find("[" + dashboardId + "='" + component.id + "']").removeClass('originalDashletInScaledCanvas');
-        this.callback.onMinimizeStart();
-        return this.dashboard.updateComponent(component.id, {
-          maximized: false,
-          interactive: false
-        }, (function(_this) {
-          return function() {
-            return _this.callback.onMinimizeEnd();
-          };
-        })(this), (function(_this) {
-          return function(error) {
-            return _this.callback.onMinimizeFailed(error);
-          };
-        })(this));
-      };
-
       DashboardController.prototype.applyParams = function(parameters) {
         return this.dashboard.params(parameters).run().done(function() {}).fail(function() {});
       };
@@ -202,9 +180,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         this.components = this.data.components;
         this.container = dashboard.container();
         this._configureComponents();
-        this._defineComponentsClickEvent();
-        this._setupFiltersApperance();
-        this._overrideApplyButton();
         return this.callback.onLoadDone();
       };
 
@@ -235,61 +210,14 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         js_mobile.log("Iterate components");
         return this.components.forEach((function(_this) {
           return function(component) {
-            if (component.type !== 'inputControl' && component.type !== 'image' && component.type !== 'text') {
+            if (component.type !== 'inputControl') {
               _this.dashboard.updateComponent(component.id, {
-                interactive: false,
-                toolbar: false
+                interactive: true,
+                toolbar: true
               });
             }
           };
         })(this));
-      };
-
-      DashboardController.prototype._defineComponentsClickEvent = function() {
-        var dashboardId, self;
-        js_mobile.log("Apply click events");
-        dashboardId = this.v.dashboard.componentIdDomAttribute;
-        self = this;
-        var activeDashlets = this._getDashlets(dashboardId).filter(function(index, dashlet) {
-            var id = dashlet.attributes[0].value;
-            var component = self._getComponentById(id);
-            if (component.type === "text") {
-                return false;
-            } else {
-                return true;
-            }
-        });
-        return activeDashlets.on('click', function(event) {
-          var component, dashlet, id, targetClass;
-          targetClass = jQuery(event.target).attr('class');
-          if (targetClass !== 'overlay') {
-            return;
-          }
-          $('.show_chartTypeSelector_wrapper').show();
-          dashlet = $(this);
-          id = dashlet.attr(dashboardId);
-          component = self._getComponentById(id);
-          self._hideDashlets(dashboardId, dashlet);
-          if (component && !component.maximized) {
-            $(self.container).find("[" + dashboardId + "='" + id + "']").addClass('originalDashletInScaledCanvas');
-            self.callback.onMaximizeStart(component.name);
-            self.dashboard.updateComponent(id, {
-              maximized: true,
-              interactive: true
-            }, function() {
-              self.maximizedComponent = component;
-              return self.callback.onMaximizeEnd(component.name);
-            }, function(error) {
-              return self.callback.onMaximizeFailed(error);
-            });
-          }
-        });
-      };
-
-      DashboardController.prototype._getComponentById = function(id) {
-        return this.dashboard.data().components.filter(function(c) {
-          return c.id === id;
-        })[0];
       };
 
       DashboardController.prototype._processLinkClicks = function(event, link, defaultHandler) {
@@ -321,46 +249,12 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       DashboardController.prototype._startReportExecution = function(link) {
         var data;
         js_mobile.log("_startReportExecution");
-
-        var runOptions = link.parameters;
-        if (!runOptions) {
-          // TODO: come up with better solution - something like 'empty' hyperlink structure
-          return this.callback.onReportExecution({});
-        }
-
-        var reportParams = filterReportParams(link.parameters);
-        var hyperlink = {
-          reportUri: runOptions._report,
-          parameters: reportParams
+        js_mobile.log("resource: " + link.parameters._report);
+        data = {
+            resource: link.parameters._report,
+            params: this._collectReportParams(link)
         };
-        if (runOptions._page || runOptions._anchor) {
-          hyperlink.destination = {
-            page: runOptions._page,
-            anchor: runOptions._anchor
-          }
-        };
-        if (runOptions._output) {
-          hyperlink.reportFormat = runOptions._output;
-        }
-
-        return this.callback.onReportExecution(hyperlink);
-      };
-
-      filterReportParams = function (params) {
-        var filters = [];
-        var blackList = ["_report", "_page", "_anchor", "_output"];
-        for (var key in params) {
-          var value = params[key];
-          var isFilter = (blackList.indexOf(key) < 0);
-          if (isFilter) {
-            var filter = {
-              name: key,
-              value: [value]
-            }
-            filters.splice(filters.length, 1, filter)
-          }
-        }
-        return filters;
+        return this.callback.onReportExecutionClick(data);
       };
 
       DashboardController.prototype._collectReportParams = function(link) {
@@ -407,55 +301,12 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         return defaultHandler.call(this);
       };
 
-      DashboardController.prototype._getDashlets = function(dashboardId) {
-        var components;
-        if (dashboardId != null) {
-          components = $(this.container).find("[" + dashboardId + "] > .dashlet").parent();
-        } else {
-          components = $(this.container).find(".dashlet").parent();
-        }
-        return components;
-      };
-
-      DashboardController.prototype._hideDashlets = function(dashboardId, dashlet) {
-        return this._getDashlets(dashboardId).not(dashlet).css("opacity", 0);
-      };
-
-      DashboardController.prototype._showDashlets = function() {
-        document.activeElement.blur();
-        return this._getDashlets().css("opacity", 1);
-      };
-
       DashboardController.prototype._setGlobalErrorListener = function() {
         return window.onerror = (function(_this) {
           return function(errorMsg, url, lineNumber) {
             return _this.callback.onWindowError(errorMsg);
           };
         })(this);
-      };
-
-      DashboardController.prototype._setupFiltersApperance = function() {
-        var timeout;
-        js_mobile.log("setup filters appearence");
-        timeout = window.setTimeout((function(_this) {
-          return function() {
-            var divHeight;
-            divHeight = jQuery(".msPlaceholder > div").css("height");
-            if (divHeight !== 'undefined') {
-              window.clearInterval(timeout);
-              return jQuery(".msPlaceholder > div").css("height", "");
-            }
-          };
-        })(this), 500);
-        jQuery(".filterRow > div > div").css("height", "");
-      };
-
-      DashboardController.prototype._overrideApplyButton = function() {
-        return jQuery(".applyButton").click((function(_this) {
-          return function() {
-            return _this.minimizeDashlet();
-          };
-        })(this));
       };
 
       return DashboardController;
@@ -631,10 +482,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         return this._controller.destroyDashboard();
       };
 
-      MobileDashboard.prototype._minimizeDashlet = function() {
-        return this._controller.minimizeDashlet();
-      };
-
       MobileDashboard.prototype._applyParams = function(params) {
         return this._controller.applyParams(params);
       };
@@ -741,58 +588,15 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         this.onAuthError = bind(this.onAuthError, this);
         this.onWindowResizeEnd = bind(this.onWindowResizeEnd, this);
         this.onWindowResizeStart = bind(this.onWindowResizeStart, this);
-        this.onReportExecution = bind(this.onReportExecution, this);
+        this.onReportExecutionClick = bind(this.onReportExecutionClick, this);
         this.onLoadError = bind(this.onLoadError, this);
         this.onLoadDone = bind(this.onLoadDone, this);
         this.onLoadStart = bind(this.onLoadStart, this);
         this.onScriptLoaded = bind(this.onScriptLoaded, this);
-        this.onMinimizeFailed = bind(this.onMinimizeFailed, this);
-        this.onMinimizeEnd = bind(this.onMinimizeEnd, this);
-        this.onMinimizeStart = bind(this.onMinimizeStart, this);
-        this.onMaximizeFailed = bind(this.onMaximizeFailed, this);
-        this.onMaximizeEnd = bind(this.onMaximizeEnd, this);
-        this.onMaximizeStart = bind(this.onMaximizeStart, this);
-        this.onReferenceClick = bind(this.onReferenceClick, this);
         this.onRemotePageClick = bind(this.onRemotePageClick, this);
         this.onRemoteAnchorClick = bind(this.onRemoteAnchorClick, this);
         return AndroidCallback.__super__.constructor.apply(this, arguments);
       }
-
-      AndroidCallback.prototype.onMaximizeStart = function(title) {
-        this.dispatch(function() {
-          return Android.onMaximizeStart(title);
-        });
-      };
-
-      AndroidCallback.prototype.onMaximizeEnd = function(title) {
-        this.dispatch(function() {
-          return Android.onMaximizeEnd(title);
-        });
-      };
-
-      AndroidCallback.prototype.onMaximizeFailed = function(error) {
-        this.dispatch(function() {
-          return Android.onMaximizeFailed(error);
-        });
-      };
-
-      AndroidCallback.prototype.onMinimizeStart = function() {
-        this.dispatch(function() {
-          return Android.onMinimizeStart();
-        });
-      };
-
-      AndroidCallback.prototype.onMinimizeEnd = function() {
-        this.dispatch(function() {
-          return Android.onMinimizeEnd();
-        });
-      };
-
-      AndroidCallback.prototype.onMinimizeFailed = function(error) {
-        this.dispatch(function() {
-          return Android.onMinimizeFailed(error);
-        });
-      };
 
       AndroidCallback.prototype.onScriptLoaded = function() {
         this.dispatch(function() {
@@ -818,11 +622,11 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         });
       };
 
-      AndroidCallback.prototype.onReportExecution = function(data) {
+      AndroidCallback.prototype.onReportExecutionClick = function(data) {
         var dataString;
         dataString = JSON.stringify(data, null, 4);
         this.dispatch(function() {
-          return Android.onReportExecution(dataString);
+          return Android.onReportExecutionClick(dataString);
         });
       };
 
@@ -884,7 +688,9 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       ScaleStyleDashboard.prototype.applyFor = function(factor) {
         var originalDashletInScaledCanvasCss, scaledCanvasCss;
         jQuery("#scale_style").remove();
-        $('meta[name=viewport]').attr("content", "initial-scale=" + factor + ", width=device-width, height=device-height, user-scalable=yes, minimum-scale=0.1, maximum-scale=3");
+        scaledCanvasCss = ".scaledCanvas { transform-origin: 0 0 0; -ms-transform-origin: 0 0 0; -webkit-transform-origin: 0 0 0; transform: scale( " + factor + " ); -ms-transform: scale( " + factor + " ); -webkit-transform: scale( " + factor + " ); width: " + (100 / factor) + "% !important; height: " + (100 / factor) + "% !important; }";
+        originalDashletInScaledCanvasCss = ".dashboardCanvas > .content > .body div.canvasOverlay.originalDashletInScaledCanvas { transform-origin: 0 0 0; -ms-transform-origin: 0 0 0; -webkit-transform-origin: 0 0 0; transform: scale( " + (1 / factor) + " ); -ms-transform: scale( " + (1 / factor) + " ); -webkit-transform: scale( " + (1 / factor) + " ); width: " + (100 * factor) + "% !important; height: " + (100 * factor) + "% !important; }";
+        jQuery('<style id="scale_style"></style>').text(scaledCanvasCss + originalDashletInScaledCanvasCss).appendTo('head');
       };
 
       return ScaleStyleDashboard;

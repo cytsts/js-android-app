@@ -58,6 +58,11 @@ public class LegacyDashboardViewerActivity extends BaseDashboardActivity {
     }
 
     @Override
+    public void onPageStarted() {
+
+    }
+
+    @Override
     public void onPageFinished() {
         webView.loadUrl(mScriptTagFactory.getTagCreator(resource).createTag());
         webView.setVisibility(View.VISIBLE);

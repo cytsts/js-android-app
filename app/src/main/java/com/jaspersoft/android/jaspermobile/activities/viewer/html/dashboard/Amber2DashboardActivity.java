@@ -32,6 +32,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -91,9 +92,6 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
 
     private static final int REQUEST_DASHBOARDS_PARAMETERS = 200;
 
-    @InstanceState
-    protected boolean mMaximized;
-
     @Inject
     GetResourceDetailsByTypeCase getResourceDetailsByTypeCase;
     @Inject
@@ -139,18 +137,24 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
 
         resourceOpener = ResourceOpener_.getInstance_(this);
 
-        mGetDashboardControlsCase.execute(resource.getUri(), new GenericSubscriber<>(new SimpleSubscriber<Boolean>() {
-            @Override
-            public void onError(Throwable e) {
-                mFiltersVisible = false;
-            }
+        mGetDashboardControlsCase.execute(
+                resource.getUri(),
+                new GenericSubscriber<>(
+                        new SimpleSubscriber<Boolean>() {
+                            @Override
+                            public void onError(Throwable e) {
+                                mFiltersVisible = false;
+                            }
 
-            @Override
-            public void onNext(Boolean hasControls) {
-                mFiltersVisible = hasControls;
-                invalidateOptionsMenu();
-            }
-        }));
+                            @Override
+                            public void onNext(Boolean hasControls) {
+                                mFiltersVisible = hasControls;
+                                invalidateOptionsMenu();
+                            }
+                        },
+                        false
+                )
+        );
         showMenuItems();
     }
 
@@ -228,12 +232,22 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
         return getString(R.string.ja_dvs_v);
     }
 
+    @Override
+    public void finish() {
+        mGetDashboardControlsCase.unsubscribe();
+        mGetDashboardVisualizeParamsCase.unsubscribe();
+        mGetReportMetadataCase.unsubscribe();
+        mFlushInputControlsCase.execute(resource.getUri());
+        super.finish();
+    }
+
     //---------------------------------------------------------------------
     // Abstract methods implementations
     //---------------------------------------------------------------------
 
     @Override
     public void onWebViewConfigured(WebView webView) {
+        Log.d("Adhoc2DashboardActivity", "onWebViewConfigured");
         mDashboardTrigger = JsDashboardTrigger.with(webView);
         mDashboardExecutor = AmberTwoDashboardExecutor.newInstance(webView, mServer, resource);
         mWebInterface = DashboardWebInterface.from(this, this);
@@ -242,64 +256,55 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
         loadFlow();
     }
 
-    @UiThread
     @Override
-    public void onMaximizeStart(String title) {
-        hideMenuItems();
+    public void onPageStarted() {
+        Log.d("Adhoc2DashboardActivity", "onPageStarted");
         showLoading();
     }
 
-    @UiThread
     @Override
-    public void onMaximizeEnd(String title) {
-        hideLoading();
-        resetZoom();
-        mMaximized = true;
-        scrollableTitleHelper.injectTitle(title);
-    }
-
-    @UiThread
-    @Override
-    public void onMaximizeFailed(String error) {
+    public void onPageFinished() {
+        Log.d("Adhoc2DashboardActivity", "onPageFinished");
         hideLoading();
     }
 
-    @UiThread
     @Override
-    public void onMinimizeStart() {
-        showMenuItems();
-        showLoading();
+    public void onRefresh() {
+        mDashboardTrigger.refreshDashboard();
     }
 
-    @UiThread
     @Override
-    public void onMinimizeEnd() {
-        hideLoading();
-        resetZoom();
-        mMaximized = false;
-        scrollableTitleHelper.injectTitle(resource.getLabel());
+    public void onHomeAsUpCalled() {
+        super.onBackPressed();
     }
 
-    @UiThread
     @Override
-    public void onMinimizeFailed(String error) {
+    public void onSessionRefreshed() {
+        loadFlow();
     }
+
+    //---------------------------------------------------------------------
+    // DashboardCallback
+    //---------------------------------------------------------------------
 
     @UiThread
     @Override
     public void onScriptLoaded() {
+        Log.d("Adhoc2DashboardActivity", "onScriptLoaded");
+        showLoading();
         runDashboard();
     }
 
     @UiThread
     @Override
     public void onLoadStart() {
-        showLoading();
+        Log.d("Adhoc2DashboardActivity", "onLoadStart");
     }
 
     @UiThread
     @Override
     public void onLoadDone() {
+        Log.d("Adhoc2DashboardActivity", "onLoadDone");
         showWebView(true);
         hideLoading();
     }
@@ -307,14 +312,17 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     @UiThread
     @Override
     public void onLoadError(String error) {
+        Log.d("Adhoc2DashboardActivity", "onLoadError");
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
         hideLoading();
     }
 
+    @UiThread
     @Override
     public void onWindowResizeStart() {
     }
 
+    @UiThread
     @Override
     public void onWindowResizeEnd() {
     }
@@ -341,43 +349,6 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
         startActivity(i);
     }
 
-    @Override
-    public void onPageFinished() {
-    }
-
-    @Override
-    public void onRefresh() {
-        if (mMaximized) {
-            mDashboardTrigger.refreshDashlet();
-        } else {
-            mDashboardTrigger.refreshDashboard();
-        }
-    }
-
-    @Override
-    public void onHomeAsUpCalled() {
-        if (mMaximized && webView != null) {
-            mDashboardTrigger.minimizeDashlet();
-            scrollableTitleHelper.injectTitle(resource.getLabel());
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public void onSessionRefreshed() {
-        loadFlow();
-    }
-
-    @Override
-    public void finish() {
-        mGetDashboardControlsCase.unsubscribe();
-        mGetDashboardVisualizeParamsCase.unsubscribe();
-        mGetReportMetadataCase.unsubscribe();
-        mFlushInputControlsCase.execute(resource.getUri());
-        super.finish();
-    }
-
     //---------------------------------------------------------------------
     // Hyperlinks
     //---------------------------------------------------------------------
@@ -385,7 +356,12 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     @UiThread
     @Override
     public void onReportExecutionClick(String data) {
-
+        mGetReportMetadataCase.execute(data, new GenericSubscriber<>(new SimpleSubscriber<ResourceLookup>() {
+            @Override
+            public void onNext(ResourceLookup lookup) {
+                resourceOpener.runReport(lookup, null);
+            }
+        }));
     }
 
     @UiThread

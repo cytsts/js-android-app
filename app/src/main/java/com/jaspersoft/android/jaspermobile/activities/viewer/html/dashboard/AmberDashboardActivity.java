@@ -37,7 +37,6 @@ import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity;
-import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.webview.WebInterface;
 import com.jaspersoft.android.jaspermobile.webview.WebViewEnvironment;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.bridge.AmberDashboardExecutor;
@@ -147,6 +146,11 @@ public class AmberDashboardActivity extends BaseDashboardActivity implements Das
     }
 
     @Override
+    public void onPageStarted() {
+
+    }
+
+    @Override
     public void onPageFinished() {
         webView.loadUrl(mScriptTagFactory.getTagCreator(resource).createTag());
     }
@@ -175,49 +179,6 @@ public class AmberDashboardActivity extends BaseDashboardActivity implements Das
     //---------------------------------------------------------------------
     // DashboardCallback implementations
     //---------------------------------------------------------------------
-
-    @UiThread
-    @Override
-    public void onMaximizeStart(String title) {
-        resetZoom();
-        hideMenuItems();
-        showLoading();
-    }
-
-    @UiThread
-    @Override
-    public void onMaximizeEnd(String title) {
-        ProgressDialogFragment.dismiss(getSupportFragmentManager());
-        mMaximized = true;
-        scrollableTitleHelper.injectTitle(title);
-    }
-
-    @UiThread
-    @Override
-    public void onMaximizeFailed(String error) {
-        hideLoading();
-    }
-
-    @UiThread
-    @Override
-    public void onMinimizeStart() {
-        resetZoom();
-        showMenuItems();
-        showLoading();
-    }
-
-    @UiThread
-    @Override
-    public void onMinimizeEnd() {
-        hideLoading();
-        mMaximized = false;
-    }
-
-    @UiThread
-    @Override
-    public void onMinimizeFailed(String error) {
-        hideLoading();
-    }
 
     @UiThread
     @Override

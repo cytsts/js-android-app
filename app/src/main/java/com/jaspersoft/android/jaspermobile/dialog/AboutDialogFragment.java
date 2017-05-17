@@ -81,7 +81,7 @@ public class AboutDialogFragment extends SimpleDialogFragment implements View.On
                 actionIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://community.jaspersoft.com/project/tibco-jaspermobile-android"));
                 break;
             case R.id.privacyPolicy:
-                actionIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tibco.com/company/privacy-cma"));
+                actionIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tibco.com/company/privacy"));
                 break;
             case R.id.latestUpdates:
                 actionIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Jaspersoft/js-android-app/wiki/What's-new"));
