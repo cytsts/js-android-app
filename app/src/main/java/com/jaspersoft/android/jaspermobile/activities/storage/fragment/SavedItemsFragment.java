@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -181,10 +182,13 @@ public class SavedItemsFragment extends BaseFragment
         } else {
             // run external viewer according to the file format
             String contentType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-            Uri reportOutputPath = Uri.fromFile(reportOutputFile);
+            Uri reportOutputPath = FileProvider.getUriForFile(
+                    getContext(),
+                    getContext().getApplicationContext().getPackageName() + ".fileprovider", reportOutputFile);
             Intent externalViewer = new Intent(Intent.ACTION_VIEW);
             externalViewer.setDataAndType(reportOutputPath, contentType);
             externalViewer.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            externalViewer.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             try {
                 startActivity(externalViewer);
             } catch (ActivityNotFoundException e) {

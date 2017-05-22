@@ -25,4 +25,7 @@
 
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <cache-path name="shared_report" path="shared_cache"/>
+
+    <!-- Use "external-files-path" when Support library 24.2.0+ -->
+    <external-path name="saved_resources" path="."/>
 </paths>

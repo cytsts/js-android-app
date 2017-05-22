@@ -27,6 +27,7 @@ package com.jaspersoft.android.jaspermobile.activities.report;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.jaspersoft.android.jaspermobile.R;
@@ -120,6 +121,9 @@ public class ReportCastActivity extends BaseReportActivity implements ResourcePr
             controlsContainer.setVisibility(isAvailable ? View.VISIBLE : View.GONE);
             resourcePresentationService.onReportRenderStateUpdated();
         }
+
+        // Hack to render webview changes after page change
+        ((ViewGroup) reportWidget.getView()).getChildAt(0).scrollBy(0, 1);
     }
 
     @Override

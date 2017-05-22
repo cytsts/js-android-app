@@ -404,7 +404,7 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
 
         @Override
         public void onNext(SearchResult result) {
-            if (mSearchCriteria.getSortBy().equals(SortOrder.ACCESS_TIME.getValue())) {
+            if (mSearchCriteria.getSortBy() != null && mSearchCriteria.getSortBy().equals(SortOrder.ACCESS_TIME.getValue())) {
                 mHasNextPage = false;
                 addData(result.getLookups().subList(0, Math.min(9, result.getLookups().size())));
             } else {
