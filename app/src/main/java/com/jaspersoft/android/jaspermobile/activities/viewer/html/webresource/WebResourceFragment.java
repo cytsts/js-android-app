@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,19 +19,34 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.jaspersoft.android.jaspermobile.GraphObject;
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.domain.JasperServer;
+import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
+import com.jaspersoft.android.jaspermobile.domain.interactor.profile.AuthorizeSessionUseCase;
+import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
+import com.jaspersoft.android.jaspermobile.webview.DefaultUrlPolicy;
+import com.jaspersoft.android.jaspermobile.webview.UrlPolicy;
+
+import javax.inject.Inject;
 
 /**
  * Created by aleksandrdakhno on 2/2/17.
  */
 
-public class WebResourceFragment extends Fragment {
+public class WebResourceFragment extends Fragment implements DefaultUrlPolicy.SessionListener{
 
     private static final String ARG_URI = "photo_page_url";
 
     private Uri mUri;
     private WebView mWebView;
     private ProgressBar mProgressBar;
+    private UrlPolicy defaultPolicy;
+
+    @Inject
+    AuthorizeSessionUseCase mAuthorizeSessionUseCase;
+    @Inject
+    JasperServer mServer;
 
     public static WebResourceFragment newInstance(Uri uri) {
         Bundle args = new Bundle();
@@ -47,6 +61,9 @@ public class WebResourceFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mUri = getArguments().getParcelable(ARG_URI);
+        GraphObject.Factory.from(getContext())
+                .getProfileComponent()
+                .inject(this);
     }
 
     @Nullable
@@ -58,11 +75,10 @@ public class WebResourceFragment extends Fragment {
         mWebView = (WebView) v.findViewById(R.id.fragment_web_resource_web_view);
         setupWebView();
 
-        String resourceUrl = mUri.toString();
-        if (isResourceViewerUrl(resourceUrl)) {
-            resourceUrl = constructUrlForResourceViewer(resourceUrl);
-        }
-        mWebView.loadUrl(resourceUrl);
+        defaultPolicy = new DefaultUrlPolicy(mServer.getBaseUrl())
+                .withSessionListener(this);
+        showResource();
+
         return v;
     }
 
@@ -92,8 +108,7 @@ public class WebResourceFragment extends Fragment {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-                Log.d("WebResourceFragment", "shouldOverrideUrlLoading: " + url);
-                return false;
+                return defaultPolicy.shouldOverrideUrlLoading(webView, url);
             }
         });
         mWebView.setWebChromeClient(new WebChromeClient() {
@@ -121,6 +136,14 @@ public class WebResourceFragment extends Fragment {
         mWebView.getSettings().setUseWideViewPort(true);
     }
 
+    private void showResource(){
+        String resourceUrl = mUri.toString();
+        if (isResourceViewerUrl(resourceUrl)) {
+            resourceUrl = constructUrlForResourceViewer(resourceUrl);
+        }
+        mWebView.loadUrl(resourceUrl);
+    }
+
     private boolean isResourceViewerUrl(String url) {
         return url.contains("viewer.html");
     }
@@ -143,5 +166,24 @@ public class WebResourceFragment extends Fragment {
                 .encodedFragment(fragment);
         String newUrl = builder.build().toString();
         return newUrl;
+    }
+
+    //---------------------------------------------------------------------
+    // DefaultUrlPolicy.SessionListener callback
+    //---------------------------------------------------------------------
+
+    @Override
+    public void onSessionExpired() {
+        mAuthorizeSessionUseCase.execute(new SimpleSubscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                showResource();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                RequestExceptionHandler.showAuthErrorIfExists(getContext(), e);
+            }
+        });
     }
 }

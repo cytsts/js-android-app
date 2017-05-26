@@ -26,22 +26,19 @@ package com.jaspersoft.android.jaspermobile.activities.file;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
 
 import org.androidannotations.annotations.EFragment;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * @author Andrew Tivodar
@@ -92,9 +89,15 @@ public class ExternalOpenFragment extends FileLoadFragment {
     private void openFile(File file) {
         String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileType.name());
 
+
+        Uri outputPath = FileProvider.getUriForFile(
+                                    getContext(),
+                                    getContext().getApplicationContext().getPackageName() + ".fileprovider", file);
+
         Intent openIntent = new Intent(Intent.ACTION_VIEW);
-        openIntent.setDataAndType(Uri.fromFile(file), mimeType);
+        openIntent.setDataAndType(outputPath, mimeType);
         openIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         try {
             getActivity().startActivity(openIntent);
             getActivity().finish();

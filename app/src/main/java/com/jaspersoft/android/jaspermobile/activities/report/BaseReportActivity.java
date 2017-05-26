@@ -407,6 +407,10 @@ public abstract class BaseReportActivity extends CastActivity implements Toolbar
                 showErrorMessage(getString(R.string.sr_failed_to_execute_report), ReportErrorActionView.RELOAD_ACTION);
                 Toast.makeText(this, exception.getMessage(), Toast.LENGTH_LONG).show();
                 break;
+            case StatusCodes.REPORT_UPDATE_CHART_TYPE_FAILED:
+                Toast.makeText(this, exception.getMessage(), Toast.LENGTH_LONG).show();
+                runReport(resourceLookup.getUri());
+                break;
             default:
                 String errorMessage = requestExceptionHandler.extractMessage(exception);
                 showErrorMessage(errorMessage, ReportErrorActionView.RELOAD_ACTION);

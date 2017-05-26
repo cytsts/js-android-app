@@ -662,13 +662,13 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 
       AndroidCallback.prototype.onRemotePageClick = function(href, page) {
         this.dispatch(function() {
-          return Android.onRemotePageClick(href, page);
+          return Android.onRemotePageClick(href);
         });
       };
 
       AndroidCallback.prototype.onRemoteAnchorClick = function(href, anchor) {
         this.dispatch(function() {
-          return Android.onRemoteAnchorClick(href, anchor);
+          return Android.onRemoteAnchorClick(href);
         });
       };
 

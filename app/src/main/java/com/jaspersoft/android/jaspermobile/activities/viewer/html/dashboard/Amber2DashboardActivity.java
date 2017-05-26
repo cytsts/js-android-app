@@ -38,11 +38,13 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity_;
 import com.jaspersoft.android.jaspermobile.activities.save.SaveDashboardActivity_;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceActivity;
+import com.jaspersoft.android.jaspermobile.data.entity.ReportData;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.DestinationMapper;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.ReportParamsMapper;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
@@ -73,12 +75,13 @@ import com.jaspersoft.android.sdk.util.FileUtils;
 import com.jaspersoft.android.sdk.widget.report.renderer.RunOptions;
 
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -355,11 +358,11 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
 
     @UiThread
     @Override
-    public void onReportExecutionClick(String data) {
+    public void onReportExecutionClick(final String data) {
         mGetReportMetadataCase.execute(data, new GenericSubscriber<>(new SimpleSubscriber<ResourceLookup>() {
             @Override
             public void onNext(ResourceLookup lookup) {
-                resourceOpener.runReport(lookup, null);
+                resourceOpener.runReport(lookup, fetchReportDestination(data));
             }
         }));
     }
@@ -367,15 +370,13 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     @UiThread
     @Override
     public void onRemotePageClick(String location) {
-        String url = mServer.getBaseUrl() + location;
-        showExternalLink(this, url);
+        resourceOpener.showFile(location);
     }
 
     @UiThread
     @Override
     public void onRemoteAnchorClick(String location) {
-        String url = mServer.getBaseUrl() + location;
-        showExternalLink(this, url);
+        resourceOpener.showFile(location);
     }
 
     //---------------------------------------------------------------------
@@ -430,6 +431,29 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     private void hideMenuItems() {
         mFavoriteItemVisible = mInfoItemVisible = false;
         supportInvalidateOptionsMenu();
+    }
+
+    private ReportDestination fetchReportDestination(String data) {
+        ReportData reportData = new Gson().fromJson(data, ReportData.class);
+        Map<String, Set<String>> params = reportData.getParams();
+        if (params != null && params.isEmpty() || params == null) {
+            return null;
+        }
+
+        Integer page = null;
+        Set<String> pages = params.get("_page");
+        if (pages != null && !pages.isEmpty()) {
+            page = Integer.valueOf(pages.iterator().next());
+            return new ReportDestination(null, page);
+        }
+        String anchor = null;
+        Set<String> anchors = params.get("_anchor");
+        if (anchors != null && !anchors.isEmpty()) {
+            anchor = anchors.iterator().next();
+            return new ReportDestination(anchor, 0);
+        }
+
+        return null;
     }
 
     /*

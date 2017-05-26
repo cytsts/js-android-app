@@ -26,6 +26,7 @@ package com.jaspersoft.android.jaspermobile.internal.di.components;
 
 import com.jaspersoft.android.jaspermobile.activities.save.ResourceDownloadManager;
 import com.jaspersoft.android.jaspermobile.activities.save.SaveResourceService;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.webresource.WebResourceFragment;
 import com.jaspersoft.android.jaspermobile.domain.Profile;
 import com.jaspersoft.android.jaspermobile.internal.di.PerProfile;
 import com.jaspersoft.android.jaspermobile.internal.di.components.screen.ChooseReportScreenComponent;
@@ -85,4 +86,5 @@ public interface ProfileComponent {
     void inject(SaveResourceService saveReportService);
     void inject(ResourcePresentationService resourcePresentationService);
     void inject(ResourceDownloadManager resourceDownloadManager);
+    void inject(WebResourceFragment webResourceFragment);
 }

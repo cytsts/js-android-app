@@ -40,7 +40,6 @@ import android.widget.Toast;
 import com.jaspersoft.android.jaspermobile.Analytics;
 import com.jaspersoft.android.jaspermobile.GraphObject;
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity_;
 import com.jaspersoft.android.jaspermobile.activities.share.AnnotationActivity_;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.SimpleDialogFragment;
@@ -106,6 +105,8 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
     protected ProgressBar progressBar;
 
     private JasperChromeClientListenerImpl chromeClientListener;
+    private boolean preparedSignal;
+    private boolean paused;
 
     @OptionsMenuItem(R.id.favoriteAction)
     protected MenuItem favoriteActionButton;
@@ -158,6 +159,22 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         favoritesHelper.updateFavoriteIconState(favoriteActionButton, resource.getUri());
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        paused = true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        paused = false;
+        if (preparedSignal) {
+            onPageFinished();
+            preparedSignal = false;
+        }
     }
 
     @Override
@@ -255,7 +272,11 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
 
     @Override
     public void onPageFinishedLoading(String url) {
-        onPageFinished();
+        if (paused) {
+            preparedSignal = true;
+        } else {
+            onPageFinished();
+        }
     }
 
     //---------------------------------------------------------------------
