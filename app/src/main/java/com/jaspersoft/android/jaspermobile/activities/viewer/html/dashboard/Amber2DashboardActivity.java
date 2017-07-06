@@ -48,6 +48,7 @@ import com.jaspersoft.android.jaspermobile.data.entity.ReportData;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.DestinationMapper;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.ReportParamsMapper;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
+import com.jaspersoft.android.jaspermobile.domain.JasperServer;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.interactor.dashboard.GetDashboardControlsCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.dashboard.GetDashboardVisualizeParamsCase;
@@ -71,12 +72,14 @@ import com.jaspersoft.android.jaspermobile.webview.hyperlinks.HyperlinksCallback
 import com.jaspersoft.android.sdk.client.oxm.report.ReportDestination;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 import com.jaspersoft.android.sdk.network.entity.report.ReportParameter;
+import com.jaspersoft.android.sdk.service.data.server.ServerVersion;
 import com.jaspersoft.android.sdk.util.FileUtils;
 import com.jaspersoft.android.sdk.widget.report.renderer.RunOptions;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.UiThread;
 
 import java.util.List;
@@ -116,6 +119,11 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
     GetReportMetadataCase mGetReportMetadataCase;
     @Inject
     RequestExceptionHandler mExceptionHandler;
+    @Inject
+    JasperServer jasperServer;
+
+    @OptionsMenuItem(R.id.saveAction)
+    MenuItem saveAction;
 
     private boolean mFavoriteItemVisible, mInfoItemVisible, mFiltersVisible;
     private MenuItem favoriteAction, aboutAction, filerAction;
@@ -176,6 +184,9 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
         favoriteAction.setVisible(mFavoriteItemVisible);
         aboutAction.setVisible(mInfoItemVisible);
         filerAction.setVisible(mFiltersVisible);
+
+        ServerVersion serverVersion = ServerVersion.valueOf(jasperServer.getVersion());
+        saveAction.setVisible(serverVersion.greaterThan(ServerVersion.v6_2_1));
 
         return result;
     }

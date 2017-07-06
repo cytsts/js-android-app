@@ -40,7 +40,7 @@
 <string name="error_export_failed">报告导出失败</string>
 <string name="st_title">设置</string>
 <string name="sdr_saving_error_msg">无法保存资源</string>
-<string name="sa_about_copyright">版权所有© 2005–2016 TIBCO Software, Inc.</string>
+<string name="sa_about_copyright">版权所有© 2005–2017 TIBCO Software, Inc.</string>
 <string name="sch_deleted">时间规划表已删除</string>
 <string name="failed_load_data">无法加载数据!</string>
 <string name="error_trigger_calendar_pattern_days_in_month">日历循环的月中的天数格式错误。</string>
@@ -282,7 +282,7 @@
 <string name="r_search_nothing_to_display">没有项目符合您的搜索。</string>
 <string name="error_report_failed">报告执行失败</string>
 <string name="settings_card_label">设置</string>
-<string name="sa_about_hint">TIBCO JasperReports® Server 6.0及更高版本的管理工具和报告查看程序。</string>
+<string name="sa_about_hint">TIBCO JasperReports® Server 6.1及更高版本的管理工具和报告查看程序。</string>
 <string name="annotation_edit_note">编辑备注</string>
 <string name="error_webview_generic_msg">一般错误</string>
 <string name="error_schedule_duplicate_file_name">重复的输出文件名</string>

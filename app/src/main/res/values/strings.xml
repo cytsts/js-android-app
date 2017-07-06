@@ -129,12 +129,12 @@
     <!-- Settings Activity -->
     <string name="sa_show_about">About</string>
     <string name="sa_about_version">TIBCO® JasperMobile™ v%1$s</string>
-    <string name="sa_about_hint">Management tool and report viewer for TIBCO JasperReports® Server 6.0 and greater.</string>
+    <string name="sa_about_hint">Management tool and report viewer for TIBCO JasperReports® Server 6.1 and greater.</string>
     <string name="sa_about_more_info">More information</string>
     <string name="sa_about_privacy_policy">Privacy Policy</string>
     <string name="sa_about_latest_updates">Latest update information</string>
     <string name="sa_about_eula">End user license agreement</string>
-    <string name="sa_about_copyright">Copyright © 2005–2016 TIBCO Software, Inc.</string>
+    <string name="sa_about_copyright">Copyright © 2005–2017 TIBCO Software, Inc.</string>
     <string name="sa_about_privacy">Privacy Policy</string>
     <string name="sa_show_feedback">Feedback</string>
 

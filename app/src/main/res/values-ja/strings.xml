@@ -40,7 +40,7 @@
 <string name="error_export_failed">レポートの書き出しに失敗しました</string>
 <string name="st_title">設定</string>
 <string name="sdr_saving_error_msg">リソースの保存に失敗しました</string>
-<string name="sa_about_copyright">Copyright © 2005–2016 TIBCO Software, Inc.</string>
+<string name="sa_about_copyright">Copyright © 2005–2017 TIBCO Software, Inc.</string>
 <string name="sch_deleted">スケジュールが削除されました</string>
 <string name="failed_load_data">データの読み込みが失敗しました。</string>
 <string name="error_trigger_calendar_pattern_days_in_month">定期スケジュールのカレンダーの月日の形式が不正です。</string>
@@ -282,7 +282,7 @@
 <string name="r_search_nothing_to_display">検索条件に一致するアイテムはありません。</string>
 <string name="error_report_failed">レポートの実行に失敗しました</string>
 <string name="settings_card_label">設定</string>
-<string name="sa_about_hint">TIBCO JasperReports® Server 6.0以降向けの管理ツール/レポート ビューア。</string>
+<string name="sa_about_hint">TIBCO JasperReports® Server 6.1以降向けの管理ツール/レポート ビューア。</string>
 <string name="annotation_edit_note">メモを編集</string>
 <string name="error_webview_generic_msg">一般的なエラー</string>
 <string name="error_schedule_duplicate_file_name">出力ファイル名が重複しています</string>

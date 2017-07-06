@@ -80,6 +80,7 @@ public final class AmberTwoDashboardExecutor extends AbstractDashboardExecutor {
 
             VisualizeEndpoint endpoint = VisualizeEndpoint.forBaseUrl(server.getBaseUrl())
                     .optimized()
+                    .showControls()
                     .build();
 
             Map<String, String> data = new HashMap<String, String>();

@@ -123,7 +123,9 @@ public class ReportCastActivity extends BaseReportActivity implements ResourcePr
         }
 
         // Hack to render webview changes after page change
-        ((ViewGroup) reportWidget.getView()).getChildAt(0).scrollBy(0, 1);
+        if (reportWidget != null) {
+            ((ViewGroup) reportWidget.getView()).getChildAt(0).scrollBy(0, 1);
+        }
     }
 
     @Override

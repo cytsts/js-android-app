@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.save.SaveDashboardActivity_;
+import com.jaspersoft.android.sdk.service.data.server.ServerVersion;
 import com.jaspersoft.android.sdk.util.FileUtils;
 
 import org.androidannotations.annotations.EFragment;
@@ -52,7 +53,8 @@ public class DashboardInfoFragment extends ResourceInfoFragment{
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        saveOptions.setVisible(mResourceLookup != null);
+        ServerVersion serverVersion = ServerVersion.valueOf(mJasperServer.getVersion());
+        saveOptions.setVisible(serverVersion.greaterThan(ServerVersion.v6_2_1) && mResourceLookup != null);
     }
 
     @OptionsItem(R.id.saveAction)

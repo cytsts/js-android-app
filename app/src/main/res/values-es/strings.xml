@@ -40,7 +40,7 @@
 <string name="error_export_failed">Error al exportar el informe</string>
 <string name="st_title">Configuración</string>
 <string name="sdr_saving_error_msg">Error al guardar el recurso</string>
-<string name="sa_about_copyright">Copyright © 2005–2016 TIBCO Software, Inc.</string>
+<string name="sa_about_copyright">Copyright © 2005–2017 TIBCO Software, Inc.</string>
 <string name="sch_deleted">Programación eliminada</string>
 <string name="failed_load_data">Error al cargar los datos.</string>
 <string name="error_trigger_calendar_pattern_days_in_month">Formato de días incorrecto en el mes para la periodicidad de calendario.</string>
@@ -282,7 +282,7 @@
 <string name="r_search_nothing_to_display">Ningún elemento coincide con la búsqueda.</string>
 <string name="error_report_failed">Error al ejecutar el informe</string>
 <string name="settings_card_label">Configuración</string>
-<string name="sa_about_hint">Herramienta de administración y visor de informes para TIBCO JasperReports® Server 6.0 y versiones posteriores.</string>
+<string name="sa_about_hint">Herramienta de administración y visor de informes para TIBCO JasperReports® Server 6.1 y versiones posteriores.</string>
 <string name="annotation_edit_note">Editar nota</string>
 <string name="error_webview_generic_msg">Error genérico</string>
 <string name="error_schedule_duplicate_file_name">Nombre de archivo de salida duplicado</string>
