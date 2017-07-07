@@ -31,12 +31,19 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
 
     private boolean isPrepared = false;
 
+    private ResourceLookup resourceLookup;
+
+    public ResourceLookup getResourceLookup() {
+        return resourceLookup;
+    }
+
     private interface Completion {
         void execute(Object data);
     }
 
     public AdhocDataViewModelImpl(VisualizeWebEnvironment webEnvironment, ResourceLookup resourceLookup) {
         this.webEnvironment = webEnvironment;
+        this.resourceLookup = resourceLookup;
         executor = new AdhocDataViewVisualizeExecutor(webEnvironment, resourceLookup.getUri());
         notifier = new Notifier();
         canvasTypesStore = new CanvasTypesStore();
@@ -155,6 +162,11 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
     @Override
     public void destroy() {
         executor.destroy();
+    }
+
+    @Override
+    public void applyFilters() {
+        executor.applyFilters();
     }
 
     /*

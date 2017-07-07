@@ -102,6 +102,18 @@ public final class InMemoryControlsRepository implements ControlsRepository {
     }
 
     @NonNull
+    @Override
+    public Observable<List<com.jaspersoft.android.sdk.client.oxm.control.InputControl>> listAdhocDataViewFilters(@NonNull final String resourceUri) {
+        Observable<List<InputControl>> listObservable = mRestClient.filtersService().flatMap(new Func1<RxFiltersService, Observable<List<InputControl>>>() {
+            @Override
+            public Observable<List<InputControl>> call(RxFiltersService service) {
+                return service.listAdhocDataViewFilters(resourceUri);
+            }
+        });
+        return createListControls(resourceUri, listObservable);
+    }
+
+    @NonNull
     private Observable<List<com.jaspersoft.android.sdk.client.oxm.control.InputControl>> createListControls(final String reportUri, final Observable<List<InputControl>> networkCall) {
         Observable<List<com.jaspersoft.android.sdk.client.oxm.control.InputControl>> memorySource = Observable.defer(
                 new Func0<Observable<List<com.jaspersoft.android.sdk.client.oxm.control.InputControl>>>() {

@@ -15,4 +15,5 @@ public interface AdhocDataViewExecutorApi {
     void askAvailableCanvasTypes(Completion completion);
     void changeCanvasType(String canvasType, Completion completion);
     void destroy();
+    void applyFilters();
 }

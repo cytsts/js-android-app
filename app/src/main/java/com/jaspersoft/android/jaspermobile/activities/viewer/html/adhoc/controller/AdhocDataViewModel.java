@@ -62,6 +62,7 @@ public interface AdhocDataViewModel {
     void run();
     void refresh();
     void destroy();
+    void applyFilters();
 
     // Canvas operations
     void askAvailableChartTypes();

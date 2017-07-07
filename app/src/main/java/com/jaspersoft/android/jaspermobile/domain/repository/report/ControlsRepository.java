@@ -46,6 +46,9 @@ public interface ControlsRepository {
     Observable<List<InputControl>> listDashboardControls(@NonNull String reportUri);
 
     @NonNull
+    Observable<List<InputControl>> listAdhocDataViewFilters(@NonNull String resourceUri);
+
+    @NonNull
     Observable<List<InputControlState>> validateReportControls(@NonNull String reportUri);
 
     @NonNull

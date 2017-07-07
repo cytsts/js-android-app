@@ -163,6 +163,8 @@
             android:name=".activities.viewer.html.adhoc.controller.AdhocDataViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
+        <activity android:name=".activities.viewer.html.adhoc.filters.FiltersActivity"/>
+
         <activity
             android:name=".activities.share.AnnotationActivity_"
             android:configChanges="keyboard|keyboardHidden|screenSize|orientation|locale"/>

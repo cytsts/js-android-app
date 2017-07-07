@@ -437,6 +437,9 @@
     <string name="adv_preparing">Preparing Environment…</string>
     <string name="adv_executing">Executing AdHoc Data View…</string>
 
+    <!--Filters activity-->
+    <string name="f_s_label">Filters</string>
+
     <!-- MultiSelectSpinner -->
     <string name="mss_btn_check_all">Check all</string>
     <string name="mss_btn_uncheck_all">Uncheck all</string>

@@ -19,6 +19,8 @@ import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.report.chartTypes.ChartTypesActivity;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModel.Event;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.controller.AdhocDataViewModel.Operation;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.filters.FiltersActivity;
+import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.filters.FiltersFragment;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.AdhocDataViewModelImpl;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.VisualizeWebEnvironment;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
@@ -46,6 +48,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
     static final String ARG_RESOURCE_LOOKUP = "resource_lookup";
     private static final int SELECTED_CANVAS_TYPE_CODE = 102;
+    private static final int REQUEST_ADHOC_PARAMETERS = 103;
 
     private AdhocDataViewModelImpl model;
     VisualizeWebEnvironment webEnvironment;
@@ -122,6 +125,12 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
                 throw new RuntimeException("Selected chartType should be provided");
             }
             model.changeCanvasType(chartType);
+        } else if (requestCode == REQUEST_ADHOC_PARAMETERS) {
+            // apply params
+            Boolean isParamsChanged = !data.getExtras().getBoolean(FiltersFragment.RESULT_SAME_PARAMS);
+            if (isParamsChanged) {
+                model.applyFilters();
+            }
         }
     }
 
@@ -237,6 +246,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
      */
 
     public void showFilters() {
-
+        Intent i = FiltersActivity.newIntent(getActivity(), model.getResourceLookup().getUri());
+        startActivityForResult(i, REQUEST_ADHOC_PARAMETERS);
     }
 }

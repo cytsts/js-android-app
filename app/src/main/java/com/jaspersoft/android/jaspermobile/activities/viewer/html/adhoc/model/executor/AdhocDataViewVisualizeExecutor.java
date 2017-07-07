@@ -71,6 +71,11 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
         super.destroy();
     }
 
+    @Override
+    public void applyFilters() {
+
+    }
+
     /*
      * Private
      */
