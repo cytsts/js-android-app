@@ -14,4 +14,10 @@
         android:title="@string/r_cm_available_canvas_types"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/filtersAction"
+        android:icon="@drawable/ic_menu_filter"
+        android:title="@string/rv_ab_show_filters"
+        app:showAsAction="never"/>
+
 </menu>

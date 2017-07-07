@@ -103,6 +103,10 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
                 model.askAvailableChartTypes();
                 return true;
             }
+            case R.id.filtersAction: {
+                showFilters();
+                return true;
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -226,5 +230,13 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
         Toast.makeText(getContext(), error, Toast.LENGTH_LONG)
                 .show();
         hideLoading();
+    }
+
+    /*
+     * Work with filters
+     */
+
+    public void showFilters() {
+
     }
 }
