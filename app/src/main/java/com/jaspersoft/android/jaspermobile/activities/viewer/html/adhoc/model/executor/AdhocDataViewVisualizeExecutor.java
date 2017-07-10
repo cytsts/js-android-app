@@ -1,6 +1,9 @@
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor;
 
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.VisualizeWebEnvironment;
+import com.jaspersoft.android.sdk.client.oxm.report.ReportParameter;
+
+import java.util.List;
 
 /**
  * Created by aleksandrdakhno on 4/29/17.
@@ -72,8 +75,10 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
     }
 
     @Override
-    public void applyFilters() {
-
+    public void applyFilters(List<ReportParameter> filterParams, Completion completion) {
+        completions.put("applyFilters", completion);
+        completion.before();
+        executeJavascriptCode(javascriptCodeForApplyFilters(configFiltersString(filterParams)));
     }
 
     /*
@@ -81,37 +86,48 @@ public class AdhocDataViewVisualizeExecutor extends VisualizeExecutor implements
      */
 
     private String javascriptCodeForAskIsReady() {
-        String executeScript = String.format("javascript:JasperMobile.Environment.askIsReady()");
-        return executeScript;
+        return "javascript:JasperMobile.Environment.askIsReady()";
     }
 
     private String javascriptCodeForSetScale(float scale) {
-        String executeScript = String.format("javascript:Environment.setScale('%.2f')", scale);
-        return executeScript;
+        return String.format("javascript:Environment.setScale('%.2f')", scale);
     }
 
     private String javascriptCodeForRun() {
-        String executeScript = String.format("javascript:JasperMobile.AdhocDataView.API.run('%s')", resourceUri);
-        return executeScript;
+        return String.format("javascript:JasperMobile.AdhocDataView.API.run('%s')", resourceUri);
     }
 
     private String javascriptCodeForRefresh() {
-        String executeScript = String.format("javascript:JasperMobile.AdhocDataView.API.refresh()");
-        return executeScript;
+        return "javascript:JasperMobile.AdhocDataView.API.refresh()";
     }
 
     private String javascriptCodeForAvailableChartTypes() {
-        String executeScript = String.format("javascript:JasperMobile.AdhocDataView.API.availableTypes()");
-        return executeScript;
+        return "javascript:JasperMobile.AdhocDataView.API.availableTypes()";
     }
 
     private String javascriptCodeForChangeCanvasType(String canvasType) {
-        String executeScript = String.format("javascript:JasperMobile.AdhocDataView.API.changeCanvasType('%s')", canvasType);
-        return executeScript;
+        return String.format("javascript:JasperMobile.AdhocDataView.API.changeCanvasType('%s')", canvasType);
     }
 
     private String javascriptCodeForDestroy() {
-        String executeScript = String.format("javascript:JasperMobile.AdhocDataView.API.destroy()");
-        return executeScript;
+        return "javascript:JasperMobile.AdhocDataView.API.destroy()";
+    }
+
+    private String javascriptCodeForApplyFilters(String params) {
+        return String.format("javascript:JasperMobile.AdhocDataView.API.applyFilters(%s)", params);
+    }
+
+    /*
+     * Work with filters
+     */
+
+    private String configFiltersString(List<ReportParameter> filterParams) {
+        StringBuilder paramsBuilder = new StringBuilder("");
+        paramsBuilder.append("{");
+        for (ReportParameter parameter : filterParams) {
+            paramsBuilder.append(String.format("%s : %s, ", parameter.getName(), parameter.getValues()));
+        }
+        paramsBuilder.append("}");
+        return paramsBuilder.toString();
     }
 }

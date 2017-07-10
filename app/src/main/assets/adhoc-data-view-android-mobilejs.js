@@ -259,6 +259,20 @@ JasperMobile.AdhocDataView = {
         if (dialogs.length == 1) {
             document.body.removeChild(dialogs[0]);
         }
+    },
+    applyFiltersFn: function(params) {
+        this.instance.params(params).run()
+        .done(
+            function(data) {
+                JasperMobile.Logger.log("applyFiltersFn done with data: " + data);
+                JasperMobile.AdhocDataView.Callback.success("applyFilters", null);
+            }
+        )
+        .fail(
+            function(error) {
+                JasperMobile.AdhocDataView.Callback.fail("applyFilters");
+            }
+        );
     }
 };
 
@@ -308,5 +322,8 @@ JasperMobile.AdhocDataView.API = {
     },
     destroy: function() {
         JasperMobile.AdhocDataView.destroyFn();
+    },
+    applyFilters: function(params) {
+        JasperMobile.AdhocDataView.applyFiltersFn(params);
     }
 };

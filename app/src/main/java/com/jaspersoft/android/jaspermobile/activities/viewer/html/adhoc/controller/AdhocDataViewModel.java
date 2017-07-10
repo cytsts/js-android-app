@@ -14,7 +14,8 @@ public interface AdhocDataViewModel {
         RUN,
         REFRESH,
         ASK_AVAILABLE_CANVAS_TYPES,
-        CHANGE_CANVAS_TYPE
+        CHANGE_CANVAS_TYPE,
+        APPLY_FILTERS
     }
 
     interface OperationListener {

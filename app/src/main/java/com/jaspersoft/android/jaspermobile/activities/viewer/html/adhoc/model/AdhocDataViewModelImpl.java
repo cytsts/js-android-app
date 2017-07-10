@@ -9,6 +9,8 @@ import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.ex
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.AdhocDataViewVisualizeExecutor;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.model.executor.VisualizeExecutor;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvironment.VisualizeWebEnvironment;
+import com.jaspersoft.android.jaspermobile.util.ReportParamsStorage;
+import com.jaspersoft.android.sdk.client.oxm.report.ReportParameter;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 import com.jaspersoft.android.sdk.widget.report.renderer.ChartType;
 
@@ -25,6 +27,7 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
     private VisualizeWebEnvironment webEnvironment;
     private Notifier notifier;
     private CanvasTypesStore canvasTypesStore;
+    private ReportParamsStorage filtersStorage;
 
     private OperationListener operationListener;
     private EventListener eventListener;
@@ -41,9 +44,10 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
         void execute(Object data);
     }
 
-    public AdhocDataViewModelImpl(VisualizeWebEnvironment webEnvironment, ResourceLookup resourceLookup) {
+    public AdhocDataViewModelImpl(VisualizeWebEnvironment webEnvironment, ResourceLookup resourceLookup, ReportParamsStorage filtersStorage) {
         this.webEnvironment = webEnvironment;
         this.resourceLookup = resourceLookup;
+        this.filtersStorage = filtersStorage;
         executor = new AdhocDataViewVisualizeExecutor(webEnvironment, resourceLookup.getUri());
         notifier = new Notifier();
         canvasTypesStore = new CanvasTypesStore();
@@ -162,11 +166,16 @@ public class AdhocDataViewModelImpl implements AdhocDataViewModel {
     @Override
     public void destroy() {
         executor.destroy();
+        filtersStorage.clearInputControlHolder(resourceLookup.getUri());
     }
 
     @Override
     public void applyFilters() {
-        executor.applyFilters();
+        List<ReportParameter> filterParams = filtersStorage.getInputControlHolder(resourceLookup.getUri()).getReportParams();
+        executor.applyFilters(
+                filterParams,
+                completionForOperation(Operation.APPLY_FILTERS, null)
+        );
     }
 
     /*

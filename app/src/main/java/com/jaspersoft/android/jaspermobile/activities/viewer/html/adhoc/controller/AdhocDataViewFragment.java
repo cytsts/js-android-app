@@ -26,6 +26,7 @@ import com.jaspersoft.android.jaspermobile.activities.viewer.html.adhoc.webenvir
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.JasperServer;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AdhocDataViewFragmentComponent;
+import com.jaspersoft.android.jaspermobile.util.ReportParamsStorage;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 import com.jaspersoft.android.sdk.widget.report.renderer.ChartType;
 
@@ -45,6 +46,8 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
     @Inject
     JasperServer mServer;
+    @Inject
+    protected ReportParamsStorage filtersStorage; // TODO: move to model by injecting
 
     static final String ARG_RESOURCE_LOOKUP = "resource_lookup";
     private static final int SELECTED_CANVAS_TYPE_CODE = 102;
@@ -75,7 +78,7 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
         ResourceLookup resourceLookup = getArguments().getParcelable(ARG_RESOURCE_LOOKUP);
         assert resourceLookup != null;
-        model = new AdhocDataViewModelImpl(webEnvironment, resourceLookup);
+        model = new AdhocDataViewModelImpl(webEnvironment, resourceLookup, filtersStorage);
 
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_adhoc_data_view, container, false);
         v.addView(webEnvironment.getWebView(), 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -126,7 +129,9 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
             }
             model.changeCanvasType(chartType);
         } else if (requestCode == REQUEST_ADHOC_PARAMETERS) {
-            // apply params
+            // TODO: come up with better solution, the event occurs before 'onStart'
+            model.subscribeOperationListener(this);
+
             Boolean isParamsChanged = !data.getExtras().getBoolean(FiltersFragment.RESULT_SAME_PARAMS);
             if (isParamsChanged) {
                 model.applyFilters();
@@ -150,8 +155,8 @@ public class AdhocDataViewFragment extends Fragment implements AdhocDataViewMode
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         model.destroy();
+        super.onDestroy();
     }
 
     private AdhocDataViewFragmentComponent getComponent() {
