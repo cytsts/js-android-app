@@ -45,6 +45,7 @@
     <string name="ja_ms_ic_s" translatable="false">Multi select IC screen</string>
     <string name="ja_rvs_v" translatable="false">Report viewer screen (visualize)</string>
     <string name="ja_rvs_r" translatable="false">Report viewer screen (REST)</string>
+    <string name="ja_rvs_f" translatable="false">Report file viewer screen</string>
     <string name="ja_s_hf_s" translatable="false">Saved html files screen</string>
     <string name="ja_l_wr_s" translatable="false">Local web resources screen</string>
     <string name="ja_dvs_v" translatable="false">Dashboard viewer screen (visualize)</string>

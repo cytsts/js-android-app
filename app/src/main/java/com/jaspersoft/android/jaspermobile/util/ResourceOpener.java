@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.file.FileViewerActivity;
 import com.jaspersoft.android.jaspermobile.activities.report.BaseReportActivity;
+import com.jaspersoft.android.jaspermobile.activities.report.ReportFileActivity;
 import com.jaspersoft.android.jaspermobile.activities.report.ReportViewActivity;
 import com.jaspersoft.android.jaspermobile.activities.report.ReportCastActivity;
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositoryControllerFragment;
@@ -135,6 +136,13 @@ public class ResourceOpener {
     public void showFile(String resourceUri){
         Intent fileViewerIntent = new Intent(activity, FileViewerActivity.class);
         fileViewerIntent.putExtra(FileViewerActivity.RESOURCE_URI_ARG, resourceUri);
+        activity.startActivity(fileViewerIntent);
+    }
+
+    public void showReportFile(String reportUri, String fileFormat){
+        Intent fileViewerIntent = new Intent(activity, ReportFileActivity.class);
+        fileViewerIntent.putExtra(ReportFileActivity.REPORT_URI_ARG, reportUri);
+        fileViewerIntent.putExtra(ReportFileActivity.FILE_FORMAT_ARG, fileFormat);
         activity.startActivity(fileViewerIntent);
     }
 

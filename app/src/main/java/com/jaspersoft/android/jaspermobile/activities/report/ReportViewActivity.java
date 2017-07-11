@@ -29,7 +29,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -123,7 +122,7 @@ public class ReportViewActivity extends BaseReportActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-         if (isFinishing()) {
+        if (isFinishing()) {
             getResourceDetailsByTypeCase.unsubscribe();
             getReportShowControlsPropertyCase.unsubscribe();
             saveScreenCaptureCase.unsubscribe();
@@ -142,8 +141,14 @@ public class ReportViewActivity extends BaseReportActivity {
         } else if (hyperlink instanceof ReportExecutionHyperlink) {
             String resourceType = ResourceLookup.ResourceType.reportUnit.name();
             String reportUri = ((ReportExecutionHyperlink) hyperlink).getRunOptions().getReportUri();
-            ResourceDetailsRequest resource = new ResourceDetailsRequest(reportUri, resourceType);
-            getResourceDetailsByTypeCase.execute(resource, new GetResourceDetailListener(((ReportExecutionHyperlink) hyperlink).getRunOptions()));
+
+            String reportFormat = ((ReportExecutionHyperlink) hyperlink).getReportFormat();
+            if (reportFormat != null && !reportFormat.equals("HTML")) {
+                resourceOpener.showReportFile(reportUri, reportFormat);
+            } else {
+                ResourceDetailsRequest resource = new ResourceDetailsRequest(reportUri, resourceType);
+                getResourceDetailsByTypeCase.execute(resource, new GetResourceDetailListener(((ReportExecutionHyperlink) hyperlink).getRunOptions()));
+            }
         }
     }
 

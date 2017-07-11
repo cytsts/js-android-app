@@ -33,6 +33,7 @@ import com.jaspersoft.android.jaspermobile.activities.info.fragments.ResourceInf
 import com.jaspersoft.android.jaspermobile.activities.info.fragments.SimpleInfoFragment;
 import com.jaspersoft.android.jaspermobile.activities.library.LibraryPageFragment;
 import com.jaspersoft.android.jaspermobile.activities.library.fragment.LibraryFragment;
+import com.jaspersoft.android.jaspermobile.activities.report.ReportFileActivity;
 import com.jaspersoft.android.jaspermobile.activities.repository.RepositoryPageFragment;
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositoryFragment;
 import com.jaspersoft.android.jaspermobile.activities.save.fragment.SaveItemFragment;
@@ -111,4 +112,5 @@ public interface BaseActivityComponent {
     void inject(DraggableViewsContainer draggableViewsContainer);
     void inject(AnnotationView annotationView);
     void inject(ReportResourceBinder reportResourceBinder);
+    void inject(ReportFileActivity reportFileActivity);
 }

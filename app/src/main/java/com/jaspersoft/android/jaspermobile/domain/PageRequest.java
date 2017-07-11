@@ -114,6 +114,11 @@ public final class PageRequest {
             return this;
         }
 
+        public Builder setFormat(String format) {
+            mFormat = format;
+            return this;
+        }
+
         public PageRequest build() {
             if (mFormat == null) {
                 mFormat = "HTML";

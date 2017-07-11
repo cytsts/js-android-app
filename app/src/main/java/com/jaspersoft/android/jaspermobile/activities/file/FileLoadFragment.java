@@ -80,6 +80,10 @@ public abstract class FileLoadFragment extends BaseFragment {
     @FragmentArg
     protected String fileUri;
 
+    @InstanceState
+    @FragmentArg
+    protected String file;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +101,11 @@ public abstract class FileLoadFragment extends BaseFragment {
     protected abstract void showErrorMessage();
 
     protected void loadFile() {
+        if (file != null) {
+            onFileReady(new File(file));
+            return;
+        }
+
         File resourceFile = getResourceFile(fileUri);
 
         if (resourceFile == null) {
@@ -106,7 +115,7 @@ public abstract class FileLoadFragment extends BaseFragment {
         }
     }
 
-    protected File getResourceFile(String resourceUri) {
+    private File getResourceFile(String resourceUri) {
         boolean cacheEnabled = isCachingEnabled();
         if (cacheEnabled) {
             return getCacheFile(resourceUri);
