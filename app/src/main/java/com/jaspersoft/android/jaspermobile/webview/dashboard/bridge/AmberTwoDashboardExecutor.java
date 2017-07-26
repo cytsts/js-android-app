@@ -108,4 +108,5 @@ public final class AmberTwoDashboardExecutor extends AbstractDashboardExecutor {
         String executeScript = String.format(builder.toString(), screenUtil.getDiagonal(), uri);
         webView.loadUrl(executeScript);
     }
+
 }
