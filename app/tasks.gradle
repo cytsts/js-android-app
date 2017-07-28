@@ -48,7 +48,33 @@ task jacocoUnitTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) 
     ])
 }
 
-task jacocoOverallTestReport(type: JacocoReport, dependsOn: ['jacocoUnitTestReport', 'connectedAndroidTest']) {
+task jacocoAndroidTestReport(type: JacocoReport, dependsOn: ['connectedAndroidTest']) {
+    group = "verification"
+    description = "Generates merged Jacoco coverage reports for instrumentation tests"
+
+    reports {
+        xml{
+            enabled = true
+            destination "${buildDir}/reports/overallCoverage/report.xml"
+        }
+        html{
+            enabled true
+            destination "${buildDir}/reports/overallCoverage/html"
+        }
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: "$buildDir", includes: [
+            "outputs/code-coverage/connected/*coverage.ec"
+    ])
+}
+
+task jacocoOverallTestReport(type: JacocoReport, dependsOn: ['jacocoUnitTestReport', 'jacocoAndroidTestReport']) {
     group = "verification"
     description = "Generates merged Jacoco coverage reports for unit and instrumentation tests"
 
