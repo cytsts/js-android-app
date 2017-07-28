@@ -91,15 +91,15 @@ public abstract class ActionBarCastActivity extends ComponentCacheActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         mMediaRouter.removeCallback(mMediaRouterCallback);
-        super.onStop();
+        super.onPause();
     }
 
     //---------------------------------------------------------------------
