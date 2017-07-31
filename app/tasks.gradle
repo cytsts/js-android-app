@@ -50,16 +50,16 @@ task jacocoUnitTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) 
 
 task jacocoAndroidTestReport(type: JacocoReport, dependsOn: ['connectedAndroidTest']) {
     group = "verification"
-    description = "Generates merged Jacoco coverage reports for instrumentation tests"
+    description = "Generates Jacoco coverage reports for Android Tests"
 
     reports {
         xml{
             enabled = true
-            destination "${buildDir}/reports/overallCoverage/report.xml"
+            destination "${buildDir}/reports/androidTestCoverage/report.xml"
         }
         html{
             enabled true
-            destination "${buildDir}/reports/overallCoverage/html"
+            destination "${buildDir}/reports/androidTestCoverage/html"
         }
     }
 
