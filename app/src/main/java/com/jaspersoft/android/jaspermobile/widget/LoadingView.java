@@ -29,6 +29,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.jaspersoft.android.jaspermobile.R;
@@ -61,5 +62,15 @@ public class LoadingView extends FrameLayout {
 
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_loading, this);
+    }
+
+    public void show() {
+        // TODO: may be add some hiding/showing this view?
+        this.setVisibility(View.VISIBLE);
+    }
+
+    public void hide() {
+        // TODO: may be add some hiding/showing this view?
+        this.setVisibility(View.GONE);
     }
 }

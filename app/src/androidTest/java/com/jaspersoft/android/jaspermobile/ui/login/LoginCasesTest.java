@@ -40,6 +40,7 @@ import com.jaspersoft.android.jaspermobile.ui.view.activity.NavigationActivity_;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -122,6 +123,7 @@ public class LoginCasesTest {
     }
 
     @Test
+    @Ignore
     public void loginWithAlreadyExisted() {
         loginPageObject.typeAlias("accountUnderTest");
         loginPageObject.typeUserName("superuser");

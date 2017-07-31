@@ -16,6 +16,7 @@ import junit.framework.AssertionFailedError;
 
 import org.junit.Before;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,6 +75,7 @@ public class LeftPanelAccountTest {
     }
 
     @Test
+    @Ignore
     public void addAccount() {
         leftPanelPageObject.swipeToOpenMenu();
         leftPanelPageObject.clickAccountsButton();
@@ -82,6 +84,7 @@ public class LeftPanelAccountTest {
     }
 
     @Test
+    @Ignore
     public void listAccounts() {
         leftPanelPageObject.swipeToOpenMenu();
         leftPanelPageObject.clickAccountsButton();
@@ -89,6 +92,7 @@ public class LeftPanelAccountTest {
     }
 
     @Test
+    @Ignore
     public void switchAccount() {
         leftPanelPageObject.swipeToOpenMenu();
         leftPanelPageObject.clickAccountsButton();
@@ -105,6 +109,7 @@ public class LeftPanelAccountTest {
     }
 
     @Test
+    @Ignore
     public void testAccountSelected() {
         leftPanelPageObject.clickBurgerButton();
         leftPanelPageObject.clickAccountsButton();
