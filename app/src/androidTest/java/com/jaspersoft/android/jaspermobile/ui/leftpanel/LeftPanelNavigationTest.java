@@ -35,6 +35,7 @@ import com.jaspersoft.android.jaspermobile.ui.view.activity.NavigationActivity_;
 
 import org.junit.Before;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -90,6 +91,7 @@ public class LeftPanelNavigationTest {
     }
 
     @Test
+    @Ignore
     public void goToRepository() {
         leftPanelPageObject.goToRepository();
         leftPanelPageObject.waitForLeftPanelMatches(not(isDisplayed()));
